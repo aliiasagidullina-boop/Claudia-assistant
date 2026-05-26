@@ -12,439 +12,145 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#00b4ff;--blue-dim:rgba(0,180,255,0.12);--blue-faint:rgba(0,180,255,0.06);
+  --blue-glow:rgba(0,180,255,0.35);--green:#00ff88;--red:#ff6b6b;--amber:#ffc83d;
+  --text:#e8f4ff;--text-mid:#a0c4d8;--text-dim:rgba(0,180,255,0.4);
+  --bg:#080c14;--bg2:#0d1520;--border:rgba(0,180,255,0.12);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden}
+body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.app{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;max-width:480px;margin:0 auto;width:100%;padding:0 0 env(safe-area-inset-bottom)}
 
-  :root {
-    --blue: #00b4ff;
-    --blue-dim: rgba(0,180,255,0.12);
-    --blue-faint: rgba(0,180,255,0.06);
-    --blue-glow: rgba(0,180,255,0.35);
-    --green: #00ff88;
-    --red: #ff6b6b;
-    --amber: #ffc83d;
-    --text: #e8f4ff;
-    --text-mid: #a0c4d8;
-    --text-dim: rgba(0,180,255,0.4);
-    --bg: #080c14;
-    --bg2: #0d1520;
-    --border: rgba(0,180,255,0.12);
-  }
+/* SETUP SCREEN */
+#setup-screen{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px}
+.setup-card{background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.2);border-radius:16px;padding:32px 28px;width:100%;max-width:400px}
+.setup-logo{font-size:22px;font-weight:600;letter-spacing:4px;color:var(--text);text-transform:uppercase;margin-bottom:4px}
+.setup-sub{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:28px}
+.setup-label{font-size:12px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px}
+.setup-input{width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:12px 16px;font-family:'Share Tech Mono',monospace;font-size:13px;color:#c8dff0;outline:none;letter-spacing:1px;-webkit-appearance:none}
+.setup-input::placeholder{color:rgba(0,180,255,0.2)}
+.setup-input:focus{border-color:rgba(0,180,255,0.5)}
+.setup-note{font-size:12px;color:rgba(0,180,255,0.35);margin-top:8px;line-height:1.5;font-family:'Share Tech Mono',monospace}
+.setup-btn{width:100%;margin-top:24px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;padding:14px;color:#7fd4ff;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;cursor:pointer;transition:all 0.2s}
+.setup-btn:active{background:rgba(0,180,255,0.18)}
+.setup-error{font-size:12px;color:#ff7070;margin-top:10px;font-family:'Share Tech Mono',monospace;display:none}
 
-  html, body {
-    height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    overflow-x: hidden;
-  }
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(8,12,20,0.92);backdrop-filter:blur(12px);z-index:10}
+.id-block{display:flex;align-items:center;gap:12px}
+.avatar-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--blue-glow);display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.avatar-ring::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:0.5px solid rgba(0,180,255,0.15)}
+.avatar-dot{width:30px;height:30px;border-radius:50%;background:#0a2a45;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:11px;color:#7fd4ff;letter-spacing:1px}
+.name-block .name{font-size:18px;font-weight:600;color:var(--text);letter-spacing:3px;text-transform:uppercase;line-height:1}
+.name-block .sub{font-size:10px;color:var(--text-dim);letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-top:2px}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
+#clock{font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--text-dim);letter-spacing:1px}
+.status-row{display:flex;align-items:center;gap:6px}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink-dot 2.5s infinite}
+@keyframes blink-dot{0%,100%{opacity:1}50%{opacity:0.3}}
+.status-txt{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(0,255,136,0.55);letter-spacing:1.5px}
 
-  body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-height: 100dvh;
-  }
+/* SCROLL */
+.scroll-area{flex:1;overflow-y:auto;padding:20px 20px 0;display:flex;flex-direction:column;gap:16px}
 
-  /* grid background */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,180,255,0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,180,255,0.025) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
+/* GREETING */
+.greeting-card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:18px 20px;position:relative;overflow:hidden}
+.greeting-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--blue),transparent)}
+.card-label{font-size:10px;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-bottom:8px}
+.greeting-text{font-size:19px;font-weight:500;color:var(--text);line-height:1.35;min-height:28px}
+.cursor{display:inline-block;width:2px;height:16px;background:var(--blue);margin-left:2px;vertical-align:middle;animation:blink-cur 1s infinite}
+@keyframes blink-cur{0%,100%{opacity:1}50%{opacity:0}}
 
-  .app {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    max-width: 480px;
-    margin: 0 auto;
-    width: 100%;
-    padding: 0 0 env(safe-area-inset-bottom);
-  }
+/* CARDS */
+.section-card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:16px 18px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.section-title{font-size:10px;letter-spacing:2.5px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;text-transform:uppercase}
 
-  /* HEADER */
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 20px 16px;
-    border-bottom: 0.5px solid var(--border);
-    position: sticky;
-    top: 0;
-    background: rgba(8,12,20,0.92);
-    backdrop-filter: blur(12px);
-    z-index: 10;
-  }
+/* ROUTINE */
+.routine-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);cursor:pointer;transition:padding-left 0.2s;-webkit-tap-highlight-color:transparent}
+.routine-item:last-child{border-bottom:none}
+.routine-item:active{padding-left:4px}
+.rcheck{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,180,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;font-size:11px;color:transparent}
+.routine-item.done .rcheck{background:rgba(0,255,136,0.12);border-color:var(--green);color:var(--green)}
+.routine-info{flex:1}
+.routine-name{font-size:15px;color:#c8dff0;font-weight:500;line-height:1.2}
+.routine-item.done .routine-name{color:rgba(200,223,240,0.3);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.25)}
+.routine-dur{font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:1px}
 
-  .id-block { display: flex; align-items: center; gap: 12px; }
+/* TASKS */
+.task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)}
+.task-item:last-child{border-bottom:none}
+.badge{font-size:9px;letter-spacing:1px;padding:2px 7px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.badge-asap{background:rgba(255,80,80,0.1);color:#ff7070;border:0.5px solid rgba(255,80,80,0.2)}
+.badge-morning{background:rgba(255,200,50,0.08);color:var(--amber);border:0.5px solid rgba(255,200,50,0.18)}
+.badge-afternoon{background:rgba(0,180,255,0.08);color:#7fd4ff;border:0.5px solid rgba(0,180,255,0.18)}
+.badge-new{background:rgba(0,255,136,0.08);color:rgba(0,255,136,0.7);border:0.5px solid rgba(0,255,136,0.18)}
+.task-text{font-size:14px;color:var(--text-mid);line-height:1.4;flex:1}
+.add-row{display:flex;gap:8px;margin-top:12px}
+.task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:10px 14px;font-family:'Rajdhani',sans-serif;font-size:15px;color:#c8dff0;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.task-input::placeholder{color:rgba(0,180,255,0.22)}
+.task-input:focus{border-color:rgba(0,180,255,0.45)}
+.add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:10px 14px;color:rgba(0,180,255,0.7);font-family:'Share Tech Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.add-btn:active{background:rgba(0,180,255,0.16)}
 
-  .avatar-ring {
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    border: 1.5px solid var(--blue-glow);
-    display: flex; align-items: center; justify-content: center;
-    position: relative;
-    flex-shrink: 0;
-  }
-  .avatar-ring::after {
-    content: '';
-    position: absolute;
-    inset: -5px;
-    border-radius: 50%;
-    border: 0.5px solid rgba(0,180,255,0.15);
-  }
-  .avatar-dot {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: #0a2a45;
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: #7fd4ff;
-    letter-spacing: 1px;
-  }
+/* LANG */
+.lang-toggle{display:flex;gap:5px}
+.lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.lang-btn.active{background:rgba(0,180,255,0.1);border-color:rgba(0,180,255,0.45);color:#7fd4ff}
 
-  .name-block .name {
-    font-size: 18px; font-weight: 600;
-    color: var(--text);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    line-height: 1;
-  }
-  .name-block .sub {
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 2px;
-    font-family: 'Share Tech Mono', monospace;
-    margin-top: 2px;
-  }
+/* VOICE */
+.voice-section{padding:24px 20px 28px;display:flex;flex-direction:column;align-items:center;gap:16px}
+#response-box{width:100%;background:var(--blue-faint);border:0.5px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;color:var(--text-mid);line-height:1.6;display:none;min-height:52px;white-space:pre-wrap}
+.voice-btn{width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(0,180,255,0.4);background:rgba(8,20,36,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;outline:none;-webkit-tap-highlight-color:transparent;font-size:28px;color:rgba(0,180,255,0.65)}
+.voice-btn:active{transform:scale(0.94)}
+.voice-btn.listening{border-color:var(--red);color:var(--red);animation:pulse-red 1.4s infinite}
+.voice-btn.speaking{border-color:var(--green);color:var(--green);animation:pulse-green 1.4s infinite}
+.voice-btn.thinking{border-color:var(--amber);color:var(--amber);animation:pulse-amber 1.4s infinite}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.35)}50%{box-shadow:0 0 0 14px rgba(255,107,107,0)}}
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.3)}50%{box-shadow:0 0 0 14px rgba(0,255,136,0)}}
+@keyframes pulse-amber{0%,100%{box-shadow:0 0 0 0 rgba(255,200,50,0.3)}50%{box-shadow:0 0 0 14px rgba(255,200,50,0)}}
+.voice-hint{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:2px;text-align:center}
+.reset-btn{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,107,107,0.3);letter-spacing:1px;background:none;border:none;cursor:pointer;margin-top:4px;-webkit-tap-highlight-color:transparent}
+.reset-btn:active{color:rgba(255,107,107,0.6)}
 
-  .header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
-
-  #clock {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
-    color: var(--text-dim);
-    letter-spacing: 1px;
-  }
-
-  .status-row { display: flex; align-items: center; gap: 6px; }
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green);
-    animation: blink-dot 2.5s infinite;
-  }
-  @keyframes blink-dot { 0%,100%{opacity:1} 50%{opacity:0.3} }
-  .status-txt {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    color: rgba(0,255,136,0.55);
-    letter-spacing: 1.5px;
-  }
-
-  /* SCROLLABLE CONTENT */
-  .scroll-area {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px 20px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  /* GREETING */
-  .greeting-card {
-    background: var(--blue-faint);
-    border: 0.5px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  .greeting-card::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, transparent, var(--blue), transparent);
-  }
-  .card-label {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: var(--text-dim);
-    font-family: 'Share Tech Mono', monospace;
-    margin-bottom: 8px;
-  }
-  .greeting-text {
-    font-size: 19px;
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.35;
-    min-height: 28px;
-  }
-  .cursor {
-    display: inline-block;
-    width: 2px; height: 16px;
-    background: var(--blue);
-    margin-left: 2px;
-    vertical-align: middle;
-    animation: blink-cur 1s infinite;
-  }
-  @keyframes blink-cur { 0%,100%{opacity:1} 50%{opacity:0} }
-
-  /* SECTION CARDS */
-  .section-card {
-    background: var(--blue-faint);
-    border: 0.5px solid var(--border);
-    border-radius: 12px;
-    padding: 16px 18px;
-  }
-  .section-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .section-title {
-    font-size: 10px;
-    letter-spacing: 2.5px;
-    color: var(--text-dim);
-    font-family: 'Share Tech Mono', monospace;
-    text-transform: uppercase;
-  }
-
-  /* ROUTINE */
-  .routine-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 9px 0;
-    border-bottom: 0.5px solid rgba(0,180,255,0.06);
-    cursor: pointer;
-    transition: padding-left 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .routine-item:last-child { border-bottom: none; }
-  .routine-item:active { padding-left: 4px; }
-
-  .rcheck {
-    width: 20px; height: 20px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,180,255,0.3);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    transition: all 0.2s;
-    font-size: 11px;
-    color: transparent;
-  }
-  .routine-item.done .rcheck {
-    background: rgba(0,255,136,0.12);
-    border-color: var(--green);
-    color: var(--green);
-  }
-  .routine-info { flex: 1; }
-  .routine-name { font-size: 15px; color: #c8dff0; font-weight: 500; line-height: 1.2; }
-  .routine-item.done .routine-name {
-    color: rgba(200,223,240,0.3);
-    text-decoration: line-through;
-    text-decoration-color: rgba(0,255,136,0.25);
-  }
-  .routine-dur {
-    font-size: 11px;
-    color: var(--text-dim);
-    font-family: 'Share Tech Mono', monospace;
-    margin-top: 1px;
-  }
-
-  /* TASKS */
-  .task-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 0.5px solid rgba(0,180,255,0.06);
-  }
-  .task-item:last-child { border-bottom: none; }
-
-  .badge {
-    font-size: 9px;
-    letter-spacing: 1px;
-    padding: 2px 7px;
-    border-radius: 3px;
-    font-family: 'Share Tech Mono', monospace;
-    flex-shrink: 0;
-    margin-top: 2px;
-    white-space: nowrap;
-  }
-  .badge-asap { background: rgba(255,80,80,0.1); color: #ff7070; border: 0.5px solid rgba(255,80,80,0.2); }
-  .badge-morning { background: rgba(255,200,50,0.08); color: var(--amber); border: 0.5px solid rgba(255,200,50,0.18); }
-  .badge-afternoon { background: rgba(0,180,255,0.08); color: #7fd4ff; border: 0.5px solid rgba(0,180,255,0.18); }
-  .badge-new { background: rgba(0,255,136,0.08); color: rgba(0,255,136,0.7); border: 0.5px solid rgba(0,255,136,0.18); }
-
-  .task-text { font-size: 14px; color: var(--text-mid); line-height: 1.4; flex: 1; }
-
-  .add-row {
-    display: flex;
-    gap: 8px;
-    margin-top: 12px;
-  }
-  .task-input {
-    flex: 1;
-    background: rgba(0,180,255,0.04);
-    border: 0.5px solid rgba(0,180,255,0.18);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 15px;
-    color: #c8dff0;
-    outline: none;
-    transition: border-color 0.2s;
-    -webkit-appearance: none;
-  }
-  .task-input::placeholder { color: rgba(0,180,255,0.22); }
-  .task-input:focus { border-color: rgba(0,180,255,0.45); }
-
-  .add-btn {
-    background: rgba(0,180,255,0.08);
-    border: 0.5px solid rgba(0,180,255,0.25);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: rgba(0,180,255,0.7);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    -webkit-tap-highlight-color: transparent;
-    white-space: nowrap;
-  }
-  .add-btn:active { background: rgba(0,180,255,0.16); }
-
-  /* LANG TOGGLE */
-  .lang-toggle { display: flex; gap: 5px; }
-  .lang-btn {
-    background: transparent;
-    border: 0.5px solid rgba(0,180,255,0.15);
-    border-radius: 4px;
-    padding: 3px 9px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 1px;
-    color: rgba(0,180,255,0.35);
-    cursor: pointer;
-    transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .lang-btn.active {
-    background: rgba(0,180,255,0.1);
-    border-color: rgba(0,180,255,0.45);
-    color: #7fd4ff;
-  }
-
-  /* VOICE SECTION */
-  .voice-section {
-    padding: 24px 20px 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  #response-box {
-    width: 100%;
-    background: var(--blue-faint);
-    border: 0.5px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 18px;
-    font-size: 15px;
-    color: var(--text-mid);
-    line-height: 1.6;
-    display: none;
-    min-height: 52px;
-  }
-
-  .voice-btn {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    border: 1.5px solid rgba(0,180,255,0.4);
-    background: rgba(8,20,36,0.9);
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
-    transition: all 0.25s;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
-    font-size: 28px;
-    color: rgba(0,180,255,0.65);
-    position: relative;
-  }
-  .voice-btn:active { transform: scale(0.94); }
-  .voice-btn.listening {
-    border-color: var(--red);
-    color: var(--red);
-    animation: pulse-red 1.4s infinite;
-  }
-  .voice-btn.speaking {
-    border-color: var(--green);
-    color: var(--green);
-    animation: pulse-green 1.4s infinite;
-  }
-  @keyframes pulse-red {
-    0%,100% { box-shadow: 0 0 0 0 rgba(255,107,107,0.35); }
-    50% { box-shadow: 0 0 0 14px rgba(255,107,107,0); }
-  }
-  @keyframes pulse-green {
-    0%,100% { box-shadow: 0 0 0 0 rgba(0,255,136,0.3); }
-    50% { box-shadow: 0 0 0 14px rgba(0,255,136,0); }
-  }
-
-  .voice-hint {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 2px;
-    text-align: center;
-  }
-
-  /* CORNER ACCENTS */
-  .ca {
-    position: fixed;
-    width: 50px; height: 50px;
-    pointer-events: none;
-    opacity: 0.3;
-    z-index: 0;
-  }
-  .ca-tl { top: 10px; left: 10px; border-top: 1px solid var(--blue); border-left: 1px solid var(--blue); }
-  .ca-tr { top: 10px; right: 10px; border-top: 1px solid var(--blue); border-right: 1px solid var(--blue); }
-  .ca-bl { bottom: 10px; left: 10px; border-bottom: 1px solid var(--blue); border-left: 1px solid var(--blue); }
-  .ca-br { bottom: 10px; right: 10px; border-bottom: 1px solid var(--blue); border-right: 1px solid var(--blue); }
-
-  /* scrollbar */
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(0,180,255,0.2); border-radius: 2px; }
+/* CORNERS */
+.ca{position:fixed;width:50px;height:50px;pointer-events:none;opacity:0.3;z-index:0}
+.ca-tl{top:10px;left:10px;border-top:1px solid var(--blue);border-left:1px solid var(--blue)}
+.ca-tr{top:10px;right:10px;border-top:1px solid var(--blue);border-right:1px solid var(--blue)}
+.ca-bl{bottom:10px;left:10px;border-bottom:1px solid var(--blue);border-left:1px solid var(--blue)}
+.ca-br{bottom:10px;right:10px;border-bottom:1px solid var(--blue);border-right:1px solid var(--blue)}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(0,180,255,0.2);border-radius:2px}
 </style>
 </head>
 <body>
+
+<!-- SETUP SCREEN -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-logo">Claudia</div>
+    <div class="setup-sub">personal assistant v1 — first time setup</div>
+    <div class="setup-label">// ENTER YOUR API KEY</div>
+    <input class="setup-input" id="api-key-input" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false" />
+    <div class="setup-note">Your key is saved on this device only. Never shared. Never uploaded.</div>
+    <div class="setup-error" id="setup-error">Invalid key or connection failed. Check and try again.</div>
+    <button class="setup-btn" onclick="saveKey()">ACTIVATE CLAUDIA</button>
+  </div>
+</div>
 
 <div class="ca ca-tl"></div>
 <div class="ca ca-tr"></div>
 <div class="ca ca-bl"></div>
 <div class="ca ca-br"></div>
 
-<div class="app">
+<div class="app" id="main-app" style="display:none">
   <header>
     <div class="id-block">
-      <div class="avatar-ring">
-        <div class="avatar-dot">CL</div>
-      </div>
+      <div class="avatar-ring"><div class="avatar-dot">CL</div></div>
       <div class="name-block">
         <div class="name">Claudia</div>
         <div class="sub">personal assistant v1</div>
@@ -460,7 +166,6 @@
   </header>
 
   <div class="scroll-area">
-
     <div class="greeting-card">
       <div class="card-label">// MORNING BRIEF</div>
       <div class="greeting-text" id="greeting-text"><span class="cursor"></span></div>
@@ -514,9 +219,7 @@
     </div>
 
     <div class="section-card">
-      <div class="section-head">
-        <div class="section-title">today's tasks</div>
-      </div>
+      <div class="section-head"><div class="section-title">today's tasks</div></div>
       <div id="task-list">
         <div class="task-item">
           <span class="badge badge-asap">ASAP</span>
@@ -536,7 +239,6 @@
         <button class="add-btn" onclick="addTask()">+ ADD</button>
       </div>
     </div>
-
   </div>
 
   <div class="voice-section">
@@ -545,8 +247,8 @@
       <i class="ti ti-microphone" aria-hidden="true"></i>
     </button>
     <div class="voice-hint" id="voice-hint">TAP TO SPEAK — EN / RU</div>
+    <button class="reset-btn" onclick="resetKey()">reset api key</button>
   </div>
-
 </div>
 
 <script>
@@ -565,36 +267,47 @@ let currentLang = 'en';
 let isListening = false;
 let recognition = null;
 const synth = window.speechSynthesis;
+let apiMessages = [];
+let apiKey = '';
 
-const responses = {
-  en: {
-    greeting: ["Hey friend!", "Here for you.", "Online and ready."],
-    task_added: "Got it, friend. Added to your list.",
-    routine_done: "Nice work, friend. Keep going.",
-    all_done: "Morning routine complete. You're crushing it, friend.",
-    unknown: "I'm with you, friend. Tell me more.",
-    help: "I can help you manage your morning routine, track tasks, and chat. Just speak or type.",
-    morning: "Your morning is set up and ready. Tick off each step as you go.",
-    tasks: "You've got tasks lined up. ASAP ones first, then morning, then afternoon."
-  },
-  ru: {
-    greeting: ["Привет, друг!", "Здесь, для тебя.", "Онлайн и готова."],
-    task_added: "Понял, друг. Добавила в список.",
-    routine_done: "Отлично, друг. Продолжай.",
-    all_done: "Утренняя рутина завершена. Ты молодец, друг.",
-    unknown: "Я с тобой, друг. Расскажи подробнее.",
-    help: "Я помогу с утренней рутиной, задачами и разговором. Просто говори или пиши.",
-    morning: "Утро готово. Отмечай каждый шаг по мере выполнения.",
-    tasks: "У тебя есть задачи. Сначала срочные, потом утренние, потом дневные."
+function init() {
+  const stored = localStorage.getItem('claudia_api_key');
+  if (stored) {
+    apiKey = stored;
+    showMain();
   }
-};
+}
+
+function saveKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  if (!val.startsWith('sk-ant-')) {
+    document.getElementById('setup-error').style.display = 'block';
+    return;
+  }
+  apiKey = val;
+  localStorage.setItem('claudia_api_key', val);
+  showMain();
+}
+
+function showMain() {
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'flex';
+  updateClock();
+  setTimeout(typeGreeting, 500);
+}
+
+function resetKey() {
+  if (confirm('Reset API key and return to setup?')) {
+    localStorage.removeItem('claudia_api_key');
+    location.reload();
+  }
+}
 
 function updateClock() {
   const now = new Date();
   document.getElementById('clock').textContent =
     String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
 }
-updateClock();
 setInterval(updateClock, 15000);
 
 function typeGreeting() {
@@ -604,14 +317,10 @@ function typeGreeting() {
   el.innerHTML = '<span class="cursor"></span>';
   let i = 0;
   const t = setInterval(() => {
-    if (i < text.length) {
-      el.innerHTML = text.substring(0, ++i) + '<span class="cursor"></span>';
-    } else {
-      clearInterval(t);
-    }
+    if (i < text.length) el.innerHTML = text.substring(0, ++i) + '<span class="cursor"></span>';
+    else clearInterval(t);
   }, 40);
 }
-setTimeout(typeGreeting, 500);
 
 function setLang(lang) {
   currentLang = lang;
@@ -625,13 +334,9 @@ function setLang(lang) {
 
 function toggleRoutine(el) {
   el.classList.toggle('done');
-  const allItems = document.querySelectorAll('.routine-item');
-  const doneCount = document.querySelectorAll('.routine-item.done').length;
-  if (doneCount === allItems.length) {
-    speakResponse(responses[currentLang].all_done);
-  } else if (el.classList.contains('done')) {
-    speakResponse(responses[currentLang].routine_done);
-  }
+  const all = document.querySelectorAll('.routine-item').length;
+  const done = document.querySelectorAll('.routine-item.done').length;
+  if (done === all) askClaudia(currentLang === 'ru' ? 'Я завершил утреннюю рутину полностью' : 'I just completed my full morning routine');
 }
 
 function addTask() {
@@ -644,7 +349,9 @@ function addTask() {
   item.innerHTML = `<span class="badge badge-new">NEW</span><span class="task-text">${text}</span>`;
   list.appendChild(item);
   input.value = '';
-  speakResponse(responses[currentLang].task_added);
+  askClaudia(currentLang === 'ru'
+    ? `Я только что добавил задачу: ${text}. Скажи коротко что-нибудь мотивирующее.`
+    : `I just added a task: ${text}. Say something short and encouraging.`);
 }
 
 function showResponse(text) {
@@ -653,80 +360,108 @@ function showResponse(text) {
   box.textContent = text;
 }
 
-function speakResponse(text) {
-  showResponse(text);
+function speakText(text) {
   if (!synth) return;
   synth.cancel();
   const utt = new SpeechSynthesisUtterance(text);
   utt.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
-  utt.rate = 0.92;
-  utt.pitch = 1.1;
-
+  utt.rate = 0.92; utt.pitch = 1.1;
   const voices = synth.getVoices();
   const femaleKw = ['female','woman','girl','zira','samantha','victoria','fiona','moira','veena','tessa','karen','google uk english female','milena','svetlana'];
   const lc = currentLang === 'ru' ? 'ru' : 'en';
   let v = voices.find(v => v.lang.toLowerCase().startsWith(lc) && femaleKw.some(k => v.name.toLowerCase().includes(k)));
   if (!v) v = voices.find(v => v.lang.toLowerCase().startsWith(lc));
   if (v) utt.voice = v;
-
   const btn = document.getElementById('voice-btn');
   const icon = btn.querySelector('i');
-  btn.classList.add('speaking');
+  btn.classList.remove('thinking'); btn.classList.add('speaking');
   icon.className = 'ti ti-volume';
-  utt.onend = () => {
-    btn.classList.remove('speaking');
-    icon.className = 'ti ti-microphone';
-  };
+  utt.onend = () => { btn.classList.remove('speaking'); icon.className = 'ti ti-microphone'; };
   synth.speak(utt);
 }
 
-function smartReply(text) {
-  const t = text.toLowerCase();
-  const r = responses[currentLang];
-  if (t.includes('hello') || t.includes('hi') || t.includes('привет') || t.includes('здравствуй')) return r.greeting[Math.floor(Math.random()*r.greeting.length)];
-  if (t.includes('help') || t.includes('помощь') || t.includes('помоги')) return r.help;
-  if (t.includes('morning') || t.includes('routine') || t.includes('утро') || t.includes('рутин')) return r.morning;
-  if (t.includes('task') || t.includes('todo') || t.includes('задач')) return r.tasks;
-  if (t.includes('add') || t.includes('добавь') || t.includes('добавить')) {
-    const parts = text.split(/add|добавь|добавить/i);
-    if (parts[1] && parts[1].trim().length > 1) {
-      const taskText = parts[1].trim().replace(/^[:\-\s]+/, '');
-      if (taskText) {
-        const list = document.getElementById('task-list');
-        const item = document.createElement('div');
-        item.className = 'task-item';
-        item.innerHTML = `<span class="badge badge-new">NEW</span><span class="task-text">${taskText}</span>`;
-        list.appendChild(item);
-        return r.task_added;
-      }
-    }
-    return r.task_added;
-  }
-  return r.unknown;
+function getTaskContext() {
+  const tasks = [];
+  document.querySelectorAll('#task-list .task-item').forEach(item => {
+    const badge = item.querySelector('.badge') ? item.querySelector('.badge').textContent : 'TASK';
+    const text = item.querySelector('.task-text') ? item.querySelector('.task-text').textContent : '';
+    if (text) tasks.push(`[${badge}] ${text}`);
+  });
+  return tasks.join(', ') || 'none';
 }
 
-function toggleVoice() {
+function getRoutineContext() {
+  const done = document.querySelectorAll('.routine-item.done').length;
+  const total = document.querySelectorAll('.routine-item').length;
+  return `${done}/${total} completed`;
+}
+
+async function askClaudia(userText) {
   const btn = document.getElementById('voice-btn');
   const icon = btn.querySelector('i');
   const hint = document.getElementById('voice-hint');
 
-  if (isListening) {
-    if (recognition) recognition.stop();
-    return;
-  }
+  btn.classList.add('thinking');
+  icon.className = 'ti ti-loader';
+  hint.textContent = currentLang === 'ru' ? 'ДУМАЮ...' : 'THINKING...';
+  showResponse('...');
 
+  const systemPrompt = `You are Claudia, a warm personal assistant — like a clever, caring younger sister. You call the user "friend". You are fully bilingual: you understand and respond in both English and Russian naturally. Always respond in the same language the user spoke to you. Keep responses short and natural — 1-3 sentences max, like a real voice assistant. Be warm, direct, practical. Never robotic. Current context: Tasks today: ${getTaskContext()}. Morning routine: ${getRoutineContext()}.`;
+
+  apiMessages.push({ role: 'user', content: userText });
+  if (apiMessages.length > 20) apiMessages = apiMessages.slice(-20);
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: apiMessages
+      })
+    });
+    const data = await res.json();
+    if (data.error) {
+      showResponse('Error: ' + data.error.message);
+      btn.classList.remove('thinking');
+      icon.className = 'ti ti-microphone';
+      hint.textContent = 'TAP TO SPEAK — EN / RU';
+      return;
+    }
+    const reply = data.content && data.content[0] ? data.content[0].text : (currentLang === 'ru' ? 'Что-то пошло не так, друг.' : 'Something went wrong, friend.');
+    apiMessages.push({ role: 'assistant', content: reply });
+    showResponse(reply);
+    speakText(reply);
+  } catch(e) {
+    showResponse(currentLang === 'ru' ? 'Нет соединения, друг. Попробуй снова.' : 'No connection, friend. Try again.');
+    btn.classList.remove('thinking');
+    icon.className = 'ti ti-microphone';
+  }
+  hint.textContent = 'TAP TO SPEAK — EN / RU';
+}
+
+function toggleVoice() {
+  if (isListening) { if (recognition) recognition.stop(); return; }
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) {
-    speakResponse(currentLang === 'ru'
-      ? "Голосовой ввод не поддерживается. Попробуй Chrome, друг."
-      : "Voice input isn't supported here. Try Chrome, friend.");
+    askClaudia(currentLang === 'ru' ? 'Голосовой ввод не поддерживается в этом браузере' : 'Voice input not supported — please use Chrome');
     return;
   }
-
   recognition = new SR();
   recognition.continuous = false;
   recognition.interimResults = false;
   recognition.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
+
+  const btn = document.getElementById('voice-btn');
+  const icon = btn.querySelector('i');
+  const hint = document.getElementById('voice-hint');
 
   recognition.onstart = () => {
     isListening = true;
@@ -734,32 +469,28 @@ function toggleVoice() {
     icon.className = 'ti ti-microphone';
     hint.textContent = currentLang === 'ru' ? 'СЛУШАЮ...' : 'LISTENING...';
   };
-
   recognition.onresult = e => {
     const heard = e.results[0][0].transcript;
     showResponse((currentLang === 'ru' ? 'Ты: ' : 'You: ') + heard);
-    setTimeout(() => speakResponse(smartReply(heard)), 300);
+    askClaudia(heard);
   };
-
   recognition.onerror = () => {
-    speakResponse(currentLang === 'ru'
-      ? "Не расслышала, друг. Попробуй ещё раз."
-      : "Didn't catch that, friend. Try again.");
+    btn.classList.remove('listening');
+    icon.className = 'ti ti-microphone';
+    hint.textContent = 'TAP TO SPEAK — EN / RU';
+    isListening = false;
   };
-
   recognition.onend = () => {
     isListening = false;
     btn.classList.remove('listening');
     icon.className = 'ti ti-microphone';
     hint.textContent = 'TAP TO SPEAK — EN / RU';
   };
-
   recognition.start();
 }
 
-if (synth && synth.onvoiceschanged !== undefined) {
-  synth.onvoiceschanged = () => {};
-}
+if (synth && synth.onvoiceschanged !== undefined) synth.onvoiceschanged = () => {};
+init();
 </script>
 </body>
 </html>
