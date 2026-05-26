@@ -14,31 +14,30 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --blue:#00b4ff;--blue-dim:rgba(0,180,255,0.12);--blue-faint:rgba(0,180,255,0.06);
-  --blue-glow:rgba(0,180,255,0.35);--green:#00ff88;--red:#ff6b6b;--amber:#ffc83d;
+  --blue:#00b4ff;--blue-faint:rgba(0,180,255,0.06);--blue-glow:rgba(0,180,255,0.35);
+  --green:#00ff88;--red:#ff6b6b;--amber:#ffc83d;
   --text:#e8f4ff;--text-mid:#a0c4d8;--text-dim:rgba(0,180,255,0.4);
-  --bg:#080c14;--bg2:#0d1520;--border:rgba(0,180,255,0.12);
+  --bg:#080c14;--border:rgba(0,180,255,0.12);
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden}
 body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
 .app{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;max-width:480px;margin:0 auto;width:100%;padding:0 0 env(safe-area-inset-bottom)}
 
-/* SETUP SCREEN */
-#setup-screen{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px}
+#setup-screen{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto}
 .setup-card{background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.2);border-radius:16px;padding:32px 28px;width:100%;max-width:400px}
 .setup-logo{font-size:22px;font-weight:600;letter-spacing:4px;color:var(--text);text-transform:uppercase;margin-bottom:4px}
 .setup-sub{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:28px}
-.setup-label{font-size:12px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px}
-.setup-input{width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:12px 16px;font-family:'Share Tech Mono',monospace;font-size:13px;color:#c8dff0;outline:none;letter-spacing:1px;-webkit-appearance:none}
+.setup-section{margin-bottom:22px}
+.setup-label{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px}
+.setup-input{width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:12px 16px;font-family:'Share Tech Mono',monospace;font-size:13px;color:#c8dff0;outline:none;letter-spacing:1px;-webkit-appearance:none;margin-bottom:4px}
 .setup-input::placeholder{color:rgba(0,180,255,0.2)}
 .setup-input:focus{border-color:rgba(0,180,255,0.5)}
-.setup-note{font-size:12px;color:rgba(0,180,255,0.35);margin-top:8px;line-height:1.5;font-family:'Share Tech Mono',monospace}
-.setup-btn{width:100%;margin-top:24px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;padding:14px;color:#7fd4ff;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;cursor:pointer;transition:all 0.2s}
+.setup-note{font-size:11px;color:rgba(0,180,255,0.3);line-height:1.5;font-family:'Share Tech Mono',monospace}
+.setup-btn{width:100%;margin-top:8px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;padding:14px;color:#7fd4ff;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;cursor:pointer}
 .setup-btn:active{background:rgba(0,180,255,0.18)}
-.setup-error{font-size:12px;color:#ff7070;margin-top:10px;font-family:'Share Tech Mono',monospace;display:none}
+.setup-error{font-size:11px;color:#ff7070;margin-top:10px;font-family:'Share Tech Mono',monospace;display:none}
 
-/* HEADER */
 header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(8,12,20,0.92);backdrop-filter:blur(12px);z-index:10}
 .id-block{display:flex;align-items:center;gap:12px}
 .avatar-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--blue-glow);display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
@@ -53,10 +52,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 @keyframes blink-dot{0%,100%{opacity:1}50%{opacity:0.3}}
 .status-txt{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(0,255,136,0.55);letter-spacing:1.5px}
 
-/* SCROLL */
 .scroll-area{flex:1;overflow-y:auto;padding:20px 20px 0;display:flex;flex-direction:column;gap:16px}
 
-/* GREETING */
 .greeting-card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:18px 20px;position:relative;overflow:hidden}
 .greeting-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--blue),transparent)}
 .card-label{font-size:10px;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-bottom:8px}
@@ -64,12 +61,10 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .cursor{display:inline-block;width:2px;height:16px;background:var(--blue);margin-left:2px;vertical-align:middle;animation:blink-cur 1s infinite}
 @keyframes blink-cur{0%,100%{opacity:1}50%{opacity:0}}
 
-/* CARDS */
 .section-card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:16px 18px}
 .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .section-title{font-size:10px;letter-spacing:2.5px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;text-transform:uppercase}
 
-/* ROUTINE */
 .routine-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);cursor:pointer;transition:padding-left 0.2s;-webkit-tap-highlight-color:transparent}
 .routine-item:last-child{border-bottom:none}
 .routine-item:active{padding-left:4px}
@@ -80,7 +75,6 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .routine-item.done .routine-name{color:rgba(200,223,240,0.3);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.25)}
 .routine-dur{font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:1px}
 
-/* TASKS */
 .task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)}
 .task-item:last-child{border-bottom:none}
 .badge{font-size:9px;letter-spacing:1px;padding:2px 7px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0;margin-top:2px;white-space:nowrap}
@@ -90,18 +84,16 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 .badge-new{background:rgba(0,255,136,0.08);color:rgba(0,255,136,0.7);border:0.5px solid rgba(0,255,136,0.18)}
 .task-text{font-size:14px;color:var(--text-mid);line-height:1.4;flex:1}
 .add-row{display:flex;gap:8px;margin-top:12px}
-.task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:10px 14px;font-family:'Rajdhani',sans-serif;font-size:15px;color:#c8dff0;outline:none;transition:border-color 0.2s;-webkit-appearance:none}
+.task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:10px 14px;font-family:'Rajdhani',sans-serif;font-size:15px;color:#c8dff0;outline:none;-webkit-appearance:none}
 .task-input::placeholder{color:rgba(0,180,255,0.22)}
 .task-input:focus{border-color:rgba(0,180,255,0.45)}
 .add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:10px 14px;color:rgba(0,180,255,0.7);font-family:'Share Tech Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 .add-btn:active{background:rgba(0,180,255,0.16)}
 
-/* LANG */
 .lang-toggle{display:flex;gap:5px}
-.lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .lang-btn.active{background:rgba(0,180,255,0.1);border-color:rgba(0,180,255,0.45);color:#7fd4ff}
 
-/* VOICE */
 .voice-section{padding:24px 20px 28px;display:flex;flex-direction:column;align-items:center;gap:16px}
 #response-box{width:100%;background:var(--blue-faint);border:0.5px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;color:var(--text-mid);line-height:1.6;display:none;min-height:52px;white-space:pre-wrap}
 .voice-btn{width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(0,180,255,0.4);background:rgba(8,20,36,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;outline:none;-webkit-tap-highlight-color:transparent;font-size:28px;color:rgba(0,180,255,0.65)}
@@ -113,32 +105,39 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 @keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.3)}50%{box-shadow:0 0 0 14px rgba(0,255,136,0)}}
 @keyframes pulse-amber{0%,100%{box-shadow:0 0 0 0 rgba(255,200,50,0.3)}50%{box-shadow:0 0 0 14px rgba(255,200,50,0)}}
 .voice-hint{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:2px;text-align:center}
-.reset-btn{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,107,107,0.3);letter-spacing:1px;background:none;border:none;cursor:pointer;margin-top:4px;-webkit-tap-highlight-color:transparent}
+.reset-btn{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,107,107,0.25);letter-spacing:1px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .reset-btn:active{color:rgba(255,107,107,0.6)}
 
-/* CORNERS */
 .ca{position:fixed;width:50px;height:50px;pointer-events:none;opacity:0.3;z-index:0}
 .ca-tl{top:10px;left:10px;border-top:1px solid var(--blue);border-left:1px solid var(--blue)}
 .ca-tr{top:10px;right:10px;border-top:1px solid var(--blue);border-right:1px solid var(--blue)}
 .ca-bl{bottom:10px;left:10px;border-bottom:1px solid var(--blue);border-left:1px solid var(--blue)}
 .ca-br{bottom:10px;right:10px;border-bottom:1px solid var(--blue);border-right:1px solid var(--blue)}
 ::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(0,180,255,0.2);border-radius:2px}
 </style>
 </head>
 <body>
 
-<!-- SETUP SCREEN -->
 <div id="setup-screen">
   <div class="setup-card">
     <div class="setup-logo">Claudia</div>
-    <div class="setup-sub">personal assistant v1 — first time setup</div>
-    <div class="setup-label">// ENTER YOUR API KEY</div>
-    <input class="setup-input" id="api-key-input" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false" />
-    <div class="setup-note">Your key is saved on this device only. Never shared. Never uploaded.</div>
-    <div class="setup-error" id="setup-error">Invalid key or connection failed. Check and try again.</div>
-    <button class="setup-btn" onclick="saveKey()">ACTIVATE CLAUDIA</button>
+    <div class="setup-sub">first time setup — keys stay on your device only</div>
+
+    <div class="setup-section">
+      <div class="setup-label">// ANTHROPIC API KEY</div>
+      <input class="setup-input" id="anthropic-key" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false" />
+      <div class="setup-note">Powers Claudia's brain</div>
+    </div>
+
+    <div class="setup-section">
+      <div class="setup-label">// ELEVENLABS API KEY</div>
+      <input class="setup-input" id="eleven-key" type="password" placeholder="your elevenlabs key..." autocomplete="off" spellcheck="false" />
+      <div class="setup-note">Powers Claudia's real human voice</div>
+    </div>
+
+    <div class="setup-error" id="setup-error">Check your keys and try again.</div>
+    <button class="setup-btn" onclick="saveKeys()">ACTIVATE CLAUDIA</button>
   </div>
 </div>
 
@@ -247,7 +246,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
       <i class="ti ti-microphone" aria-hidden="true"></i>
     </button>
     <div class="voice-hint" id="voice-hint">TAP TO SPEAK — EN / RU</div>
-    <button class="reset-btn" onclick="resetKey()">reset api key</button>
+    <button class="reset-btn" onclick="resetKeys()">reset keys</button>
   </div>
 </div>
 
@@ -266,26 +265,34 @@ const greetingsRU = [
 let currentLang = 'en';
 let isListening = false;
 let recognition = null;
-const synth = window.speechSynthesis;
 let apiMessages = [];
-let apiKey = '';
+let anthropicKey = '';
+let elevenKey = '';
+
+const ELEVEN_VOICE_EN = 'cgSgspJ2msm6clMCkdW9';
+const ELEVEN_VOICE_RU = 'cgSgspJ2msm6clMCkdW9';
 
 function init() {
-  const stored = localStorage.getItem('claudia_api_key');
-  if (stored) {
-    apiKey = stored;
+  const ak = localStorage.getItem('claudia_anthropic');
+  const ek = localStorage.getItem('claudia_eleven');
+  if (ak && ek) {
+    anthropicKey = ak;
+    elevenKey = ek;
     showMain();
   }
 }
 
-function saveKey() {
-  const val = document.getElementById('api-key-input').value.trim();
-  if (!val.startsWith('sk-ant-')) {
+function saveKeys() {
+  const ak = document.getElementById('anthropic-key').value.trim();
+  const ek = document.getElementById('eleven-key').value.trim();
+  if (!ak.startsWith('sk-ant-') || ek.length < 10) {
     document.getElementById('setup-error').style.display = 'block';
     return;
   }
-  apiKey = val;
-  localStorage.setItem('claudia_api_key', val);
+  anthropicKey = ak;
+  elevenKey = ek;
+  localStorage.setItem('claudia_anthropic', ak);
+  localStorage.setItem('claudia_eleven', ek);
   showMain();
 }
 
@@ -296,9 +303,9 @@ function showMain() {
   setTimeout(typeGreeting, 500);
 }
 
-function resetKey() {
-  if (confirm('Reset API key and return to setup?')) {
-    localStorage.removeItem('claudia_api_key');
+function resetKeys() {
+  if (confirm('Reset all keys?')) {
+    localStorage.clear();
     location.reload();
   }
 }
@@ -350,8 +357,8 @@ function addTask() {
   list.appendChild(item);
   input.value = '';
   askClaudia(currentLang === 'ru'
-    ? `Я только что добавил задачу: ${text}. Скажи коротко что-нибудь мотивирующее.`
-    : `I just added a task: ${text}. Say something short and encouraging.`);
+    ? `Я только что добавил задачу: ${text}. Скажи коротко что-нибудь мотивирующее. Без эмодзи.`
+    : `I just added a task: ${text}. Say something short and encouraging. No emoji.`);
 }
 
 function showResponse(text) {
@@ -360,24 +367,57 @@ function showResponse(text) {
   box.textContent = text;
 }
 
-function speakText(text) {
-  if (!synth) return;
-  synth.cancel();
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
-  utt.rate = 0.92; utt.pitch = 1.1;
-  const voices = synth.getVoices();
-  const femaleKw = ['female','woman','girl','zira','samantha','victoria','fiona','moira','veena','tessa','karen','google uk english female','milena','svetlana'];
-  const lc = currentLang === 'ru' ? 'ru' : 'en';
-  let v = voices.find(v => v.lang.toLowerCase().startsWith(lc) && femaleKw.some(k => v.name.toLowerCase().includes(k)));
-  if (!v) v = voices.find(v => v.lang.toLowerCase().startsWith(lc));
-  if (v) utt.voice = v;
+function stripEmoji(text) {
+  return text.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27FF}|\u{2300}-\u{23FF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}]/gu, '').trim();
+}
+
+async function speakWithEleven(text) {
   const btn = document.getElementById('voice-btn');
   const icon = btn.querySelector('i');
-  btn.classList.remove('thinking'); btn.classList.add('speaking');
-  icon.className = 'ti ti-volume';
-  utt.onend = () => { btn.classList.remove('speaking'); icon.className = 'ti ti-microphone'; };
-  synth.speak(utt);
+  const voiceId = ELEVEN_VOICE_EN;
+
+  try {
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'xi-api-key': elevenKey
+      },
+      body: JSON.stringify({
+        text: text,
+        model_id: 'eleven_multilingual_v2',
+        voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.3, use_speaker_boost: true }
+      })
+    });
+
+    if (!res.ok) {
+      showResponse(text);
+      return;
+    }
+
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+
+    btn.classList.remove('thinking');
+    btn.classList.add('speaking');
+    icon.className = 'ti ti-volume';
+
+    audio.onended = () => {
+      btn.classList.remove('speaking');
+      icon.className = 'ti ti-microphone';
+      URL.revokeObjectURL(url);
+    };
+    audio.onerror = () => {
+      btn.classList.remove('speaking');
+      icon.className = 'ti ti-microphone';
+    };
+    await audio.play();
+  } catch(e) {
+    btn.classList.remove('thinking', 'speaking');
+    icon.className = 'ti ti-microphone';
+    showResponse(text);
+  }
 }
 
 function getTaskContext() {
@@ -406,7 +446,7 @@ async function askClaudia(userText) {
   hint.textContent = currentLang === 'ru' ? 'ДУМАЮ...' : 'THINKING...';
   showResponse('...');
 
-  const systemPrompt = `You are Claudia, a warm personal assistant — like a clever, caring younger sister. You call the user "friend". You are fully bilingual: you understand and respond in both English and Russian naturally. Always respond in the same language the user spoke to you. Keep responses short and natural — 1-3 sentences max, like a real voice assistant. Be warm, direct, practical. Never robotic. Current context: Tasks today: ${getTaskContext()}. Morning routine: ${getRoutineContext()}.`;
+  const systemPrompt = `You are Claudia, a warm personal assistant — like a clever, caring younger sister. You call the user "friend". You are fully bilingual: understand and respond in both English and Russian naturally. Always respond in the same language the user spoke. Keep responses short and natural — 1-3 sentences max. Be warm, direct, practical. Never robotic. Never use emoji or special symbols — plain text only, because your response will be spoken aloud. Current context: Tasks today: ${getTaskContext()}. Morning routine: ${getRoutineContext()}.`;
 
   apiMessages.push({ role: 'user', content: userText });
   if (apiMessages.length > 20) apiMessages = apiMessages.slice(-20);
@@ -416,7 +456,7 @@ async function askClaudia(userText) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': anthropicKey,
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
@@ -427,6 +467,7 @@ async function askClaudia(userText) {
         messages: apiMessages
       })
     });
+
     const data = await res.json();
     if (data.error) {
       showResponse('Error: ' + data.error.message);
@@ -435,12 +476,13 @@ async function askClaudia(userText) {
       hint.textContent = 'TAP TO SPEAK — EN / RU';
       return;
     }
-    const reply = data.content && data.content[0] ? data.content[0].text : (currentLang === 'ru' ? 'Что-то пошло не так, друг.' : 'Something went wrong, friend.');
+
+    const reply = data.content && data.content[0] ? stripEmoji(data.content[0].text) : 'Something went wrong, friend.';
     apiMessages.push({ role: 'assistant', content: reply });
     showResponse(reply);
-    speakText(reply);
+    await speakWithEleven(reply);
   } catch(e) {
-    showResponse(currentLang === 'ru' ? 'Нет соединения, друг. Попробуй снова.' : 'No connection, friend. Try again.');
+    showResponse(currentLang === 'ru' ? 'Нет соединения, друг.' : 'No connection, friend. Try again.');
     btn.classList.remove('thinking');
     icon.className = 'ti ti-microphone';
   }
@@ -451,9 +493,10 @@ function toggleVoice() {
   if (isListening) { if (recognition) recognition.stop(); return; }
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR) {
-    askClaudia(currentLang === 'ru' ? 'Голосовой ввод не поддерживается в этом браузере' : 'Voice input not supported — please use Chrome');
+    askClaudia(currentLang === 'ru' ? 'Голосовой ввод не поддерживается, используй Chrome' : 'Voice input not supported, please use Chrome');
     return;
   }
+
   recognition = new SR();
   recognition.continuous = false;
   recognition.interimResults = false;
@@ -466,7 +509,6 @@ function toggleVoice() {
   recognition.onstart = () => {
     isListening = true;
     btn.classList.add('listening');
-    icon.className = 'ti ti-microphone';
     hint.textContent = currentLang === 'ru' ? 'СЛУШАЮ...' : 'LISTENING...';
   };
   recognition.onresult = e => {
@@ -475,21 +517,20 @@ function toggleVoice() {
     askClaudia(heard);
   };
   recognition.onerror = () => {
+    isListening = false;
     btn.classList.remove('listening');
     icon.className = 'ti ti-microphone';
     hint.textContent = 'TAP TO SPEAK — EN / RU';
-    isListening = false;
   };
   recognition.onend = () => {
     isListening = false;
     btn.classList.remove('listening');
-    icon.className = 'ti ti-microphone';
+    if (!btn.classList.contains('thinking')) icon.className = 'ti ti-microphone';
     hint.textContent = 'TAP TO SPEAK — EN / RU';
   };
   recognition.start();
 }
 
-if (synth && synth.onvoiceschanged !== undefined) synth.onvoiceschanged = () => {};
 init();
 </script>
 </body>
