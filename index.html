@@ -27,34 +27,34 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #setup-screen{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto}
 .setup-card{background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.2);border-radius:16px;padding:32px 28px;width:100%;max-width:400px}
 .setup-logo{font-size:22px;font-weight:600;letter-spacing:4px;color:var(--text);text-transform:uppercase;margin-bottom:4px}
-.setup-sub{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:28px}
+.setup-sub{font-size:11px;font-family:monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:28px}
 .setup-section{margin-bottom:20px}
-.setup-label{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px}
-.setup-input{width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:12px 16px;font-family:'Share Tech Mono',monospace;font-size:13px;color:#c8dff0;outline:none;-webkit-appearance:none;margin-bottom:4px}
+.setup-label{font-size:11px;font-family:monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px}
+.setup-input{width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:12px 16px;font-family:monospace;font-size:13px;color:#c8dff0;outline:none;-webkit-appearance:none;margin-bottom:4px}
 .setup-input::placeholder{color:rgba(0,180,255,0.2)}
 .setup-input:focus{border-color:rgba(0,180,255,0.5)}
-.setup-note{font-size:11px;color:rgba(0,180,255,0.3);line-height:1.5;font-family:'Share Tech Mono',monospace}
-.setup-btn{width:100%;margin-top:8px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;padding:14px;color:#7fd4ff;font-family:'Share Tech Mono',monospace;font-size:13px;letter-spacing:2px;cursor:pointer}
+.setup-note{font-size:11px;color:rgba(0,180,255,0.3);line-height:1.5;font-family:monospace}
+.setup-btn{width:100%;margin-top:8px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;padding:14px;color:#7fd4ff;font-family:monospace;font-size:13px;letter-spacing:2px;cursor:pointer}
 .setup-btn:active{background:rgba(0,180,255,0.18)}
-.setup-error{font-size:11px;color:#ff7070;margin-top:10px;font-family:'Share Tech Mono',monospace;display:none}
+.setup-error{font-size:11px;color:#ff7070;margin-top:10px;font-family:monospace;display:none}
 
 /* APP */
 .app{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;max-width:480px;margin:0 auto;width:100%}
 header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(8,12,20,0.95);backdrop-filter:blur(12px);z-index:10;flex-shrink:0}
 .id-block{display:flex;align-items:center;gap:10px}
 .avatar-ring{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--blue-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.avatar-dot{width:27px;height:27px;border-radius:50%;background:#0a2a45;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:10px;color:#7fd4ff;letter-spacing:1px}
+.avatar-dot{width:27px;height:27px;border-radius:50%;background:#0a2a45;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:10px;color:#7fd4ff;letter-spacing:1px}
 .name-block .name{font-size:15px;font-weight:600;color:var(--text);letter-spacing:3px;text-transform:uppercase;line-height:1}
-.name-block .sub{font-size:9px;color:var(--text-dim);letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-top:2px}
+.name-block .sub{font-size:9px;color:var(--text-dim);letter-spacing:2px;font-family:monospace;margin-top:2px}
 .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-#clock{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-dim);letter-spacing:1px}
+#clock{font-family:monospace;font-size:12px;color:var(--text-dim);letter-spacing:1px}
 .status-row{display:flex;align-items:center;gap:5px}
 .status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink-dot 2.5s infinite}
 @keyframes blink-dot{0%,100%{opacity:1}50%{opacity:0.3}}
-.status-txt{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,255,136,0.55);letter-spacing:1.5px}
+.status-txt{font-family:monospace;font-size:9px;color:rgba(0,255,136,0.55);letter-spacing:1.5px}
 
 .tabs{display:flex;border-bottom:0.5px solid var(--border);flex-shrink:0;background:rgba(8,12,20,0.95)}
-.tab{flex:1;padding:10px 4px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:8px;letter-spacing:1.5px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.tab{flex:1;padding:10px 4px;text-align:center;font-family:monospace;font-size:8px;letter-spacing:1.5px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
 .tab.active{color:var(--blue);border-bottom-color:var(--blue)}
 .tab i{display:block;font-size:15px;margin-bottom:2px}
 
@@ -62,9 +62,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .page.active{display:flex}
 
 .card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:14px 15px}
-.card-label{font-size:9px;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-bottom:8px}
+.card-label{font-size:9px;letter-spacing:3px;color:var(--text-dim);font-family:monospace;margin-bottom:8px}
 .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.section-title{font-size:9px;letter-spacing:2.5px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;text-transform:uppercase}
+.section-title{font-size:9px;letter-spacing:2.5px;color:var(--text-dim);font-family:monospace;text-transform:uppercase}
 
 .greeting-text{font-size:17px;font-weight:500;color:var(--text);line-height:1.35;min-height:26px;position:relative;padding-left:8px}
 .greeting-text::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:linear-gradient(to bottom,transparent,var(--blue),transparent)}
@@ -72,7 +72,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 @keyframes blink-cur{0%,100%{opacity:1}50%{opacity:0}}
 
 /* MORNING BRIEF BUTTON */
-.brief-btn{width:100%;margin-top:12px;background:rgba(0,180,255,0.06);border:0.5px solid rgba(0,180,255,0.2);border-radius:8px;padding:10px;color:rgba(0,180,255,0.6);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-tap-highlight-color:transparent}
+.brief-btn{width:100%;margin-top:12px;background:rgba(0,180,255,0.06);border:0.5px solid rgba(0,180,255,0.2);border-radius:8px;padding:10px;color:rgba(0,180,255,0.6);font-family:monospace;font-size:10px;letter-spacing:2px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;-webkit-tap-highlight-color:transparent}
 .brief-btn:active{background:rgba(0,180,255,0.12)}
 .brief-btn i{font-size:14px}
 
@@ -88,23 +88,23 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .habit-name{font-size:14px;color:#c8dff0;font-weight:500;line-height:1.2}
 .habit-item.done-today .habit-name{color:rgba(200,223,240,0.45);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.3)}
 .habit-meta{display:flex;align-items:center;gap:6px;margin-top:3px;flex-wrap:wrap}
-.streak-badge{font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:600;color:var(--orange)}
-.streak-days{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:1px}
-.lock-badge{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,180,255,0.3);letter-spacing:1px;display:flex;align-items:center;gap:3px}
+.streak-badge{font-family:monospace;font-size:11px;font-weight:600;color:var(--orange)}
+.streak-days{font-family:monospace;font-size:9px;color:var(--text-dim);letter-spacing:1px}
+.lock-badge{font-family:monospace;font-size:9px;color:rgba(0,180,255,0.3);letter-spacing:1px;display:flex;align-items:center;gap:3px}
 .habit-actions{display:flex;gap:4px;flex-shrink:0}
-.habit-edit-btn{background:none;border:0.5px solid rgba(0,180,255,0.2);border-radius:4px;padding:3px 7px;font-size:9px;color:rgba(0,180,255,0.4);cursor:pointer;font-family:'Share Tech Mono',monospace;-webkit-tap-highlight-color:transparent}
-.habit-del-btn{background:none;border:0.5px solid rgba(255,107,107,0.2);border-radius:4px;padding:3px 7px;font-size:9px;color:rgba(255,107,107,0.35);cursor:pointer;font-family:'Share Tech Mono',monospace;-webkit-tap-highlight-color:transparent}
+.habit-edit-btn{background:none;border:0.5px solid rgba(0,180,255,0.2);border-radius:4px;padding:3px 7px;font-size:9px;color:rgba(0,180,255,0.4);cursor:pointer;font-family:monospace;-webkit-tap-highlight-color:transparent}
+.habit-del-btn{background:none;border:0.5px solid rgba(255,107,107,0.2);border-radius:4px;padding:3px 7px;font-size:9px;color:rgba(255,107,107,0.35);cursor:pointer;font-family:monospace;-webkit-tap-highlight-color:transparent}
 .unlock-bar{height:3px;border-radius:2px;background:rgba(0,180,255,0.08);margin-top:4px;overflow:hidden;width:80px}
 .unlock-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--orange),var(--amber));transition:width 0.4s}
 .add-habit-row{display:flex;gap:8px;margin-top:12px}
 .habit-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:9px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;-webkit-appearance:none}
 .habit-input::placeholder{color:rgba(0,180,255,0.22)}
-.add-btn{background:rgba(255,140,66,0.1);border:0.5px solid rgba(255,140,66,0.3);border-radius:8px;padding:9px 12px;color:rgba(255,140,66,0.8);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.add-btn{background:rgba(255,140,66,0.1);border:0.5px solid rgba(255,140,66,0.3);border-radius:8px;padding:9px 12px;color:rgba(255,140,66,0.8);font-family:monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 
 /* TASKS */
 .task-item{display:flex;align-items:flex-start;gap:8px;padding:9px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)}
 .task-item:last-child{border-bottom:none}
-.badge{font-size:8px;letter-spacing:1px;padding:2px 6px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0;margin-top:3px;white-space:nowrap}
+.badge{font-size:8px;letter-spacing:1px;padding:2px 6px;border-radius:3px;font-family:monospace;flex-shrink:0;margin-top:3px;white-space:nowrap}
 .badge-asap{background:rgba(255,80,80,0.1);color:#ff7070;border:0.5px solid rgba(255,80,80,0.2)}
 .badge-morning{background:rgba(255,200,50,0.08);color:var(--amber);border:0.5px solid rgba(255,200,50,0.18)}
 .badge-afternoon{background:rgba(0,180,255,0.08);color:#7fd4ff;border:0.5px solid rgba(0,180,255,0.18)}
@@ -112,27 +112,27 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .badge-postponed{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.2)}
 .task-body{flex:1;min-width:0}
 .task-text{font-size:13px;color:var(--text-mid);line-height:1.3}
-.task-meta{font-size:9px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:2px}
+.task-meta{font-size:9px;color:var(--text-dim);font-family:monospace;margin-top:2px}
 .task-actions{display:flex;gap:3px;flex-shrink:0;margin-top:2px}
-.task-btn{background:none;border:0.5px solid var(--border);border-radius:4px;padding:3px 6px;font-size:9px;color:var(--text-dim);cursor:pointer;font-family:'Share Tech Mono',monospace;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.task-btn{background:none;border:0.5px solid var(--border);border-radius:4px;padding:3px 6px;font-size:9px;color:var(--text-dim);cursor:pointer;font-family:monospace;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 .task-btn.done-btn{border-color:rgba(0,255,136,0.2);color:rgba(0,255,136,0.5)}
 .task-btn.del-btn{border-color:rgba(255,107,107,0.2);color:rgba(255,107,107,0.4)}
 .add-row{display:flex;gap:8px;margin-top:12px}
 .task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:9px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;-webkit-appearance:none}
 .task-input::placeholder{color:rgba(0,180,255,0.22)}
-.task-add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:9px 12px;color:rgba(0,180,255,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.task-add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:9px 12px;color:rgba(0,180,255,0.7);font-family:monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 
 /* CALENDAR */
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .cal-nav-btn{background:none;border:0.5px solid var(--border);border-radius:6px;padding:5px 10px;color:var(--text-dim);cursor:pointer;font-size:16px;-webkit-tap-highlight-color:transparent}
 .cal-nav-btn:active{background:rgba(0,180,255,0.08)}
-.cal-month{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text);letter-spacing:2px}
+.cal-month{font-family:monospace;font-size:12px;color:var(--text);letter-spacing:2px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:14px}
-.cal-weekday{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);text-align:center;padding:4px 0;letter-spacing:1px}
+.cal-weekday{font-family:monospace;font-size:9px;color:var(--text-dim);text-align:center;padding:4px 0;letter-spacing:1px}
 .cal-day{aspect-ratio:1;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;-webkit-tap-highlight-color:transparent;transition:all 0.15s;border:0.5px solid transparent}
 .cal-day:active{transform:scale(0.93)}
 .cal-day.empty{cursor:default}
-.cal-day-num{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-dim)}
+.cal-day-num{font-family:monospace;font-size:12px;color:var(--text-dim)}
 .cal-day.has-data .cal-day-num{color:var(--text)}
 .cal-day.today{border-color:rgba(0,180,255,0.4);background:rgba(0,180,255,0.06)}
 .cal-day.today .cal-day-num{color:var(--blue)}
@@ -145,20 +145,20 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .dot-done{background:var(--green)}
 
 .day-detail{border-top:0.5px solid var(--border);padding-top:14px;margin-top:4px}
-.day-detail-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:2px;margin-bottom:10px}
+.day-detail-date{font-family:monospace;font-size:10px;color:var(--blue);letter-spacing:2px;margin-bottom:10px}
 .detail-section{margin-bottom:10px}
-.detail-label{font-size:9px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px}
+.detail-label{font-size:9px;font-family:monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px}
 .detail-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:0.5px solid rgba(0,180,255,0.04);font-size:12px;color:var(--text-mid)}
 .detail-item:last-child{border-bottom:none}
-.detail-status{font-family:'Share Tech Mono',monospace;font-size:8px;padding:1px 5px;border-radius:3px;flex-shrink:0}
+.detail-status{font-family:monospace;font-size:8px;padding:1px 5px;border-radius:3px;flex-shrink:0}
 .ds-done{background:rgba(0,255,136,0.08);color:rgba(0,255,136,0.7);border:0.5px solid rgba(0,255,136,0.15)}
 .ds-added{background:rgba(0,180,255,0.06);color:rgba(0,180,255,0.6);border:0.5px solid rgba(0,180,255,0.15)}
 .ds-postponed{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.15)}
 .ds-habit{background:rgba(255,140,66,0.08);color:var(--orange);border:0.5px solid rgba(255,140,66,0.2)}
-.empty-state{text-align:center;padding:28px 16px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;line-height:2.2}
+.empty-state{text-align:center;padding:28px 16px;color:var(--text-dim);font-family:monospace;font-size:10px;letter-spacing:1px;line-height:2.2}
 
 .lang-toggle{display:flex;gap:5px}
-.lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 8px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 8px;font-family:monospace;font-size:9px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .lang-btn.active{background:rgba(0,180,255,0.1);border-color:rgba(0,180,255,0.45);color:#7fd4ff}
 
 /* VOICE */
@@ -172,8 +172,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 @keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.35)}50%{box-shadow:0 0 0 12px rgba(255,107,107,0)}}
 @keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.3)}50%{box-shadow:0 0 0 12px rgba(0,255,136,0)}}
 @keyframes pulse-amber{0%,100%{box-shadow:0 0 0 0 rgba(255,200,50,0.3)}50%{box-shadow:0 0 0 12px rgba(255,200,50,0)}}
-.voice-hint{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px}
-.reset-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,107,107,0.2);letter-spacing:1px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.voice-hint{font-family:monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px}
+.reset-btn{font-family:monospace;font-size:9px;color:rgba(255,107,107,0.2);letter-spacing:1px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 
 .ca{position:fixed;width:32px;height:32px;pointer-events:none;opacity:0.18;z-index:0}
 .ca-tl{top:6px;left:6px;border-top:1px solid var(--blue);border-left:1px solid var(--blue)}
@@ -260,7 +260,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="card">
       <div class="section-head">
         <div class="section-title">calories today</div>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim)" id="home-cal-goal-label"></span>
+        <span style="font-family:monospace;font-size:9px;color:var(--text-dim)" id="home-cal-goal-label"></span>
       </div>
       <div id="home-cal-preview"></div>
     </div>
@@ -272,7 +272,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="card">
       <div class="section-head">
         <div class="section-title">fire habits</div>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--orange)" id="habits-done-count"></span>
+        <span style="font-family:monospace;font-size:9px;color:var(--orange)" id="habits-done-count"></span>
       </div>
       <div id="habits-list"></div>
       <div class="add-habit-row">
@@ -282,7 +282,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     </div>
     <div class="card" style="background:rgba(255,140,66,0.03);border-color:rgba(255,140,66,0.1)">
       <div class="card-label">// HOW IT WORKS</div>
-      <div style="font-size:12px;color:var(--text-dim);line-height:1.8;font-family:'Share Tech Mono',monospace">
+      <div style="font-size:12px;color:var(--text-dim);line-height:1.8;font-family:monospace">
         Tap flame to mark done each day.<br>
         Streak counts consecutive days.<br>
         Edit or delete unlocks at 7 days.<br>
@@ -297,7 +297,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="card">
       <div class="section-head">
         <div class="section-title">active tasks</div>
-        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim)" id="task-count">0 tasks</span>
+        <span style="font-family:monospace;font-size:9px;color:var(--text-dim)" id="task-count">0 tasks</span>
       </div>
       <div id="task-list"></div>
       <div class="add-row">
@@ -334,11 +334,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="card">
       <div class="section-head">
         <div class="section-title">daily calories</div>
-        <button onclick="changeCalorieGoal()" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,180,255,0.4);background:none;border:0.5px solid rgba(0,180,255,0.2);border-radius:4px;padding:2px 8px;cursor:pointer;letter-spacing:1px">SET GOAL</button>
+        <button onclick="changeCalorieGoal()" style="font-family:monospace;font-size:9px;color:rgba(0,180,255,0.4);background:none;border:0.5px solid rgba(0,180,255,0.2);border-radius:4px;padding:2px 8px;cursor:pointer;letter-spacing:1px">SET GOAL</button>
       </div>
       <div id="diet-goal-display" style="margin-bottom:12px"></div>
       <div id="diet-progress-bar" style="height:6px;border-radius:3px;background:rgba(0,180,255,0.08);overflow:hidden;margin-bottom:14px"><div id="diet-progress-fill" style="height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--amber));transition:width 0.4s;width:0%"></div></div>
-      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">// LOG FOOD</div>
+      <div style="font-family:monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">// LOG FOOD</div>
       <div class="add-row">
         <input class="task-input" id="food-input" placeholder="e.g. bowl of oatmeal, 2 eggs..." onkeydown="if(event.key==='Enter')logFoodFromInput()"/>
         <button class="task-add-btn" onclick="logFoodFromInput()">+ LOG</button>
@@ -347,7 +347,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="card" id="food-log-card">
       <div class="section-head">
         <div class="section-title">today's meals</div>
-        <button onclick="clearTodayFood()" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,107,107,0.3);background:none;border:none;cursor:pointer;letter-spacing:1px">CLEAR</button>
+        <button onclick="clearTodayFood()" style="font-family:monospace;font-size:9px;color:rgba(255,107,107,0.3);background:none;border:none;cursor:pointer;letter-spacing:1px">CLEAR</button>
       </div>
       <div id="food-log-list"></div>
     </div>
@@ -512,7 +512,7 @@ function renderHabits(){
       const progressBar=!unlocked?`<div class="unlock-bar"><div class="unlock-fill" style="width:${pct}%"></div></div>`:'';
       const editBtn=unlocked?`<button class="habit-edit-btn" onclick="editHabit(${i})">EDIT</button>`:'';
       const delBtn=unlocked?`<button class="habit-del-btn" onclick="deleteHabit(${i})">DEL</button>`:'';
-      const smartBadge=h.smartScore?`<span style="font-family:'Share Tech Mono',monospace;font-size:9px;padding:1px 5px;border-radius:3px;background:${h.smartScore>=4?'rgba(0,255,136,0.08)':h.smartScore===3?'rgba(255,200,50,0.08)':'rgba(255,107,107,0.08)'};color:${h.smartScore>=4?'rgba(0,255,136,0.6)':h.smartScore===3?'var(--amber)':'var(--red)'};border:0.5px solid ${h.smartScore>=4?'rgba(0,255,136,0.15)':h.smartScore===3?'rgba(255,200,50,0.15)':'rgba(255,107,107,0.15)'}">S${h.smartScore}</span>`:'';
+      const smartBadge=h.smartScore?`<span style="font-family:monospace;font-size:9px;padding:1px 5px;border-radius:3px;background:${h.smartScore>=4?'rgba(0,255,136,0.08)':h.smartScore===3?'rgba(255,200,50,0.08)':'rgba(255,107,107,0.08)'};color:${h.smartScore>=4?'rgba(0,255,136,0.6)':h.smartScore===3?'var(--amber)':'var(--red)'};border:0.5px solid ${h.smartScore>=4?'rgba(0,255,136,0.15)':h.smartScore===3?'rgba(255,200,50,0.15)':'rgba(255,107,107,0.15)'}">S${h.smartScore}</span>`:'';
       return`<div class="habit-item${h.doneToday?' done-today':''}" id="habit-${i}">
         <div class="habit-check" onclick="toggleHabit(${i})"><i class="ti ti-${h.doneToday?'check':'flame'} habit-check-icon"></i></div>
         <div class="habit-info">
@@ -529,12 +529,12 @@ function renderHabits(){
 
 function renderHomeHabitsPreview(habits){
   const el=document.getElementById('home-habits-preview');if(!el)return;
-  if(!habits||habits.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No fire habits yet.</div>';return;}
+  if(!habits||habits.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:monospace;letter-spacing:1px">No fire habits yet.</div>';return;}
   el.innerHTML=habits.slice(0,4).map(h=>`
     <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
       <i class="ti ti-${h.doneToday?'check':'flame'}" style="font-size:14px;color:${h.doneToday?'var(--green)':'var(--orange)'}"></i>
       <span style="font-size:13px;color:${h.doneToday?'rgba(200,223,240,0.4)':'#c8dff0'};${h.doneToday?'text-decoration:line-through':''}">${h.name}</span>
-      ${h.streak>0?`<span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--orange);margin-left:auto">${h.streak}d</span>`:''}
+      ${h.streak>0?`<span style="font-family:monospace;font-size:10px;color:var(--orange);margin-left:auto">${h.streak}d</span>`:''}
     </div>`).join('');
 }
 
@@ -592,28 +592,28 @@ function showSmartPanel(originalText,score,feedback,suggestion){
   const safeFb=feedback.replace(/'/g,"\\'").replace(/"/g,'&quot;');
   const suggestionHtml=safeSug?`
     <div style="margin-top:10px;padding:10px 12px;background:rgba(0,180,255,0.06);border:0.5px solid rgba(0,180,255,0.2);border-radius:8px">
-      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">// NIKA SUGGESTS</div>
+      <div style="font-family:monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">// NIKA SUGGESTS</div>
       <div style="font-size:13px;color:#c8dff0;line-height:1.4">${suggestion}</div>
     </div>
     <div style="display:flex;gap:8px;margin-top:10px">
-      <button onclick="acceptSuggestion('${safeSug}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="flex:1;padding:9px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;color:#7fd4ff;font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px">USE NIKA'S VERSION</button>
-      <button onclick="acceptOriginal('${safeOrig}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="flex:1;padding:9px;background:rgba(255,140,66,0.08);border:0.5px solid rgba(255,140,66,0.2);border-radius:8px;color:rgba(255,140,66,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px">KEEP MINE</button>
+      <button onclick="acceptSuggestion('${safeSug}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="flex:1;padding:9px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;color:#7fd4ff;font-family:monospace;font-size:10px;cursor:pointer;letter-spacing:1px">USE NIKA'S VERSION</button>
+      <button onclick="acceptOriginal('${safeOrig}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="flex:1;padding:9px;background:rgba(255,140,66,0.08);border:0.5px solid rgba(255,140,66,0.2);border-radius:8px;color:rgba(255,140,66,0.7);font-family:monospace;font-size:10px;cursor:pointer;letter-spacing:1px">KEEP MINE</button>
     </div>`:`
     <div style="margin-top:10px">
-      <button onclick="acceptOriginal('${safeOrig}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="width:100%;padding:9px;background:rgba(0,255,136,0.08);border:0.5px solid rgba(0,255,136,0.25);border-radius:8px;color:rgba(0,255,136,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px">ADD HABIT</button>
+      <button onclick="acceptOriginal('${safeOrig}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="width:100%;padding:9px;background:rgba(0,255,136,0.08);border:0.5px solid rgba(0,255,136,0.25);border-radius:8px;color:rgba(0,255,136,0.7);font-family:monospace;font-size:10px;cursor:pointer;letter-spacing:1px">ADD HABIT</button>
     </div>`;
   const panel=document.createElement('div');
   panel.id='smart-panel';
   panel.style.cssText='position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#0d1520;border-top:0.5px solid rgba(0,180,255,0.25);border-radius:16px 16px 0 0;padding:20px 18px 32px;z-index:50;animation:slideUp 0.25s ease';
   panel.innerHTML=`<style>@keyframes slideUp{from{transform:translateX(-50%) translateY(100%)}to{transform:translateX(-50%) translateY(0)}}</style>
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px">// SMART RATING</div>
+      <div style="font-family:monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px">// SMART RATING</div>
       <button onclick="document.getElementById('smart-panel').remove()" style="background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;line-height:1">x</button>
     </div>
     <div style="font-size:15px;color:#c8dff0;font-weight:500;margin-bottom:10px">${originalText}</div>
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
       <div style="display:flex;gap:5px">${dots}</div>
-      <span style="font-family:'Share Tech Mono',monospace;font-size:14px;font-weight:700;color:${scoreColor}">${score}/5</span>
+      <span style="font-family:monospace;font-size:14px;font-weight:700;color:${scoreColor}">${score}/5</span>
     </div>
     <div style="font-size:13px;color:var(--text-mid);line-height:1.5">${feedback}</div>
     ${suggestionHtml}`;
@@ -681,12 +681,12 @@ function renderTasks(){
 
 function renderHomeTasksPreview(active){
   const el=document.getElementById('home-tasks-preview');if(!el)return;
-  if(!active||active.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No tasks — tell Nika</div>';return;}
+  if(!active||active.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:monospace;letter-spacing:1px">No tasks — tell Nika</div>';return;}
   el.innerHTML=active.slice(0,3).map(t=>`
     <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
       <span class="badge badge-${t.priority||'new'}">${(t.priority||'new').toUpperCase()}</span>
       <span style="font-size:13px;color:var(--text-mid)">${t.text}</span>
-    </div>`).join('')+(active.length>3?`<div style="font-size:10px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;padding-top:6px">+${active.length-3} more in Tasks</div>`:'');
+    </div>`).join('')+(active.length>3?`<div style="font-size:10px;color:var(--text-dim);font-family:monospace;padding-top:6px">+${active.length-3} more in Tasks</div>`:'');
 }
 
 function addTask(text,priority){
@@ -828,7 +828,7 @@ function showDayDetail(dateStr){
     if(food.length>0){
       const total=food.reduce((s,i)=>s+(parseInt(i.extra)||0),0);
       html+=`<div class="detail-section"><div class="detail-label">// DIET · ${total} kcal total</div>`;
-      html+=food.map(i=>`<div class="detail-item"><span class="detail-status" style="background:rgba(255,200,50,0.08);color:var(--amber);border:0.5px solid rgba(255,200,50,0.15);font-size:8px;padding:1px 5px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0">FOOD</span>${i.text} · ${i.extra}</div>`).join('');
+      html+=food.map(i=>`<div class="detail-item"><span class="detail-status" style="background:rgba(255,200,50,0.08);color:var(--amber);border:0.5px solid rgba(255,200,50,0.15);font-size:8px;padding:1px 5px;border-radius:3px;font-family:monospace;flex-shrink:0">FOOD</span>${i.text} · ${i.extra}</div>`).join('');
       html+=`</div>`;
     }
     content.innerHTML=html;
@@ -969,11 +969,11 @@ function renderDiet(){
   const goalEl=document.getElementById('diet-goal-display');
   if(goalEl){
     if(!goal){
-      goalEl.innerHTML='<div style="font-size:13px;color:var(--text-dim);font-family:'Share Tech Mono',monospace">No goal set. Tap SET GOAL above.</div>';
+      goalEl.innerHTML='<div style="font-size:13px;color:var(--text-dim);font-family:monospace">No goal set. Tap SET GOAL above.</div>';
     } else {
       const pct=Math.min(100,Math.round((total/goal)*100));
       const color=pct>=100?'var(--red)':pct>=80?'var(--amber)':'var(--green)';
-      goalEl.innerHTML=`<div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:28px;font-weight:600;color:${color};font-family:'Share Tech Mono',monospace">${total}</span><span style="font-size:13px;color:var(--text-dim);font-family:'Share Tech Mono',monospace">/ ${goal} kcal</span></div>`;
+      goalEl.innerHTML=`<div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:28px;font-weight:600;color:${color};font-family:monospace">${total}</span><span style="font-size:13px;color:var(--text-dim);font-family:monospace">/ ${goal} kcal</span></div>`;
       const fill=document.getElementById('diet-progress-fill');
       if(fill){fill.style.width=pct+'%';fill.style.background=pct>=100?'var(--red)':pct>=80?'linear-gradient(90deg,var(--amber),var(--red))':'linear-gradient(90deg,var(--green),var(--amber))';}
     }
@@ -989,10 +989,10 @@ function renderDiet(){
         <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
           <div style="flex:1">
             <div style="font-size:13px;color:#c8dff0">${item.food}</div>
-            <div style="font-size:9px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:2px">${item.time}</div>
+            <div style="font-size:9px;color:var(--text-dim);font-family:monospace;margin-top:2px">${item.time}</div>
           </div>
-          <span style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--amber);font-weight:600">${item.calories} kcal</span>
-          <button onclick="deleteFoodItem(${i})" style="background:none;border:0.5px solid rgba(255,107,107,0.2);border-radius:4px;padding:2px 6px;font-size:9px;color:rgba(255,107,107,0.4);cursor:pointer;font-family:'Share Tech Mono',monospace">DEL</button>
+          <span style="font-family:monospace;font-size:12px;color:var(--amber);font-weight:600">${item.calories} kcal</span>
+          <button onclick="deleteFoodItem(${i})" style="background:none;border:0.5px solid rgba(255,107,107,0.2);border-radius:4px;padding:2px 6px;font-size:9px;color:rgba(255,107,107,0.4);cursor:pointer;font-family:monospace">DEL</button>
         </div>`).join('');
     }
   }
@@ -1005,7 +1005,7 @@ function renderHomeCalsPreview(total,goal){
   if(!el)return;
   if(!goal){
     if(labelEl)labelEl.textContent='no goal set';
-    el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;letter-spacing:1px">Set a goal in Diet tab</div>';
+    el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:monospace;letter-spacing:1px">Set a goal in Diet tab</div>';
     return;
   }
   const pct=Math.min(100,Math.round((total/goal)*100));
@@ -1013,8 +1013,8 @@ function renderHomeCalsPreview(total,goal){
   if(labelEl)labelEl.textContent='goal: '+goal+' kcal';
   el.innerHTML=`
     <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:8px">
-      <span style="font-size:22px;font-weight:600;color:${color};font-family:'Share Tech Mono',monospace">${total}</span>
-      <span style="font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace">/ ${goal} kcal (${pct}%)</span>
+      <span style="font-size:22px;font-weight:600;color:${color};font-family:monospace">${total}</span>
+      <span style="font-size:11px;color:var(--text-dim);font-family:monospace">/ ${goal} kcal (${pct}%)</span>
     </div>
     <div style="height:4px;border-radius:2px;background:rgba(0,180,255,0.08);overflow:hidden">
       <div style="height:100%;border-radius:2px;background:${pct>=100?'var(--red)':pct>=80?'var(--amber)':'var(--green)'};width:${pct}%;transition:width 0.4s"></div>
@@ -1037,7 +1037,7 @@ function deleteFoodItem(idx){
   const items=getTodayFood();items.splice(idx,1);saveTodayFood(items);renderDiet();
 }
 function clearTodayFood(){
-  if(confirm('Clear today's food log?')){saveTodayFood([]);renderDiet();}
+  if(confirm("Clear today's food log?")){saveTodayFood([]);renderDiet();}
 }
 
 function logFoodFromInput(){
