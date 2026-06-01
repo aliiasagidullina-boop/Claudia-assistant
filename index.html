@@ -155,6 +155,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .ds-added{background:rgba(0,180,255,0.06);color:rgba(0,180,255,0.6);border:0.5px solid rgba(0,180,255,0.15)}
 .ds-postponed{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.15)}
 .ds-habit{background:rgba(255,140,66,0.08);color:var(--orange);border:0.5px solid rgba(255,140,66,0.2)}
+.ds-planned{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.2)}
 .empty-state{text-align:center;padding:28px 16px;color:var(--text-dim);font-family:monospace;font-size:10px;letter-spacing:1px;line-height:2.2}
 
 .lang-toggle{display:flex;gap:5px}
@@ -386,9 +387,9 @@ function saveTasks(t){localStorage.setItem('nika_tasks',JSON.stringify(t))}
 function loadHistory(){try{return JSON.parse(localStorage.getItem('nika_history')||'[]')}catch{return[]}}
 function saveHistory(h){localStorage.setItem('nika_history',JSON.stringify(h))}
 
-function addToHistory(text,action,extra){
+function addToHistory(text,action,extra,plannedTime,ts){
   const h=loadHistory();
-  h.unshift({text,action,extra:extra||'',ts:Date.now()});
+  h.unshift({text,action,extra:extra||'',plannedTime:plannedTime||null,ts:ts||Date.now()});
   if(h.length>500)h.splice(500);
   saveHistory(h);
 }
@@ -656,7 +657,7 @@ function renderTasks(){
   else{list.innerHTML=active.map(t=>`
     <div class="task-item">
       <span class="badge badge-${t.priority||'new'}">${(t.priority||'new').toUpperCase()}</span>
-      <div class="task-body"><div class="task-text">${t.text}</div><div class="task-meta">Added ${formatDateShort(t.created)}</div></div>
+      <div class="task-body"><div class="task-text">${t.text}</div><div class="task-meta">${t.plannedDate?'<span style="color:var(--purple);margin-right:6px">'+formatDateShort(new Date(t.plannedDate+'T12:00:00').getTime())+'</span>':''}${t.plannedTime?'<span style="color:var(--amber);margin-right:6px">'+t.plannedTime+'</span>':''}</div></div>
       <div class="task-actions">
         <button class="task-btn done-btn" onclick="completeTask(${t.id})">DONE</button>
         <button class="task-btn" onclick="showPostponeUI(${t.id})">DELAY</button>
@@ -689,10 +690,24 @@ function renderHomeTasksPreview(active){
     </div>`).join('')+(active.length>3?`<div style="font-size:10px;color:var(--text-dim);font-family:monospace;padding-top:6px">+${active.length-3} more in Tasks</div>`:'');
 }
 
-function addTask(text,priority){
+function parseTimeFromText(text){
+  const m=text.match(/\b(at\s+)?(\d{1,2})(:(\d{2}))?\s*(am|pm)?\b/i);
+  if(!m)return null;
+  let h=parseInt(m[2]),min=parseInt(m[4]||'0');
+  const ampm=(m[5]||'').toLowerCase();
+  if(ampm==='pm'&&h<12)h+=12;
+  if(ampm==='am'&&h===12)h=0;
+  if(h>23||min>59)return null;
+  return String(h).padStart(2,'0')+':'+String(min).padStart(2,'0');
+}
+function addTask(text,priority,plannedTime,plannedDate){
   const tasks=loadTasks();
-  const task={id:Date.now(),text,priority:priority||'new',status:'active',created:Date.now()};
-  tasks.push(task);saveTasks(tasks);addToHistory(text,'added',priority||'new');renderTasks();return task;
+  const autoTime=plannedTime||parseTimeFromText(text)||null;
+  const task={id:Date.now(),text,priority:priority||'new',status:'active',created:Date.now(),plannedTime:autoTime,plannedDate:plannedDate||null};
+  tasks.push(task);saveTasks(tasks);
+  const extra=(plannedDate?plannedDate+' ':'')+( priority||'new');
+  addToHistory(text,'added',extra,autoTime,task.plannedDate?new Date(task.plannedDate+'T12:00:00').getTime():Date.now());
+  renderTasks();return task;
 }
 function completeTask(id){
   const tasks=loadTasks();const t=tasks.find(t=>t.id===id);
@@ -701,7 +716,7 @@ function completeTask(id){
 }
 function postponeTask(id,toDate){
   const tasks=loadTasks();const t=tasks.find(t=>t.id===id);
-  if(t){t.status='postponed';t.postponedTo=toDate;addToHistory(t.text,'postponed',formatDate(toDate));}
+  if(t){t.status='postponed';t.postponedTo=toDate;addToHistory(t.text,'postponed',formatDate(toDate),t.plannedTime||null);}
   saveTasks(tasks);renderTasks();
 }
 function deleteTask(id){saveTasks(loadTasks().filter(t=>t.id!==id));renderTasks();}
@@ -745,6 +760,7 @@ function renderCalendar(){
   for(let i=0;i<startOffset;i++)html+=`<div class="cal-day empty"></div>`;
 
   const history=loadHistory();
+  const allTasks=loadTasks();
   const today=new Date();today.setHours(0,0,0,0);
 
   for(let d=1;d<=daysInMonth;d++){
@@ -758,8 +774,10 @@ function renderCalendar(){
       const itemDate=dateToStr(new Date(item.ts));
       return itemDate===dateStr;
     });
+    // also check active tasks with plannedDate on this day
+    const plannedTasks=allTasks.filter(t=>t.plannedDate===dateStr&&t.status==='active');
     const hasDone=dayItems.some(i=>i.action==='done');
-    const hasTask=dayItems.some(i=>i.action==='added'&&i.extra!=='habit');
+    const hasTask=dayItems.some(i=>i.action==='added'&&i.extra!=='habit')||plannedTasks.length>0;
     const hasHabit=dayItems.some(i=>i.action==='habit');
     const hasFood=dayItems.some(i=>i.action==='food');
     const hasData=dayItems.length>0;
@@ -807,16 +825,42 @@ function showDayDetail(dateStr){
   const dayItems=history.filter(item=>{
     return dateToStr(new Date(item.ts))===dateStr;
   });
+  // add planned future tasks for this date
+  const plannedForDay=loadTasks().filter(t=>t.plannedDate===dateStr&&t.status==='active');
+  plannedForDay.forEach(t=>{
+    if(!dayItems.find(i=>i.text===t.text&&i.action==='added')){
+      dayItems.push({text:t.text,action:'planned',extra:t.priority||'new',plannedTime:t.plannedTime||null,ts:new Date(dateStr+'T'+(t.plannedTime||'12:00')+':00').getTime()});
+    }
+  });
 
   if(dayItems.length===0){
     content.innerHTML='<div class="empty-state" style="padding:16px 0">No activity recorded for this day.</div>';
   } else {
-    const tasks=dayItems.filter(i=>i.action!=='habit');
+    const tasks=dayItems.filter(i=>i.action!=='habit'&&i.action!=='food');
     const habits=dayItems.filter(i=>i.action==='habit');
+    // sort tasks by plannedTime then by ts
+    tasks.sort((a,b)=>{
+      if(a.plannedTime&&b.plannedTime)return a.plannedTime.localeCompare(b.plannedTime);
+      if(a.plannedTime)return -1;
+      if(b.plannedTime)return 1;
+      return a.ts-b.ts;
+    });
     let html='';
     if(tasks.length>0){
       html+=`<div class="detail-section"><div class="detail-label">// TASKS</div>`;
-      html+=tasks.map(i=>`<div class="detail-item"><span class="detail-status ds-${i.action}">${i.action.toUpperCase()}</span>${i.text}${i.extra?' · '+i.extra:''}</div>`).join('');
+      html+=tasks.map(i=>{
+        const timeTag=i.plannedTime?`<span style="font-family:monospace;font-size:9px;color:var(--amber);min-width:36px;flex-shrink:0">${i.plannedTime}</span>`:`<span style="font-family:monospace;font-size:9px;color:var(--text-dim);min-width:36px;flex-shrink:0">—</span>`;
+        const addedTag=`<span style="font-family:monospace;font-size:9px;color:var(--text-dim)">booked ${new Date(i.ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</span>`;
+        const postponedTag=i.action==='postponed'?`<span style="font-family:monospace;font-size:9px;color:var(--purple)"> → ${i.extra}</span>`:'';
+        return`<div class="detail-item" style="align-items:flex-start;gap:6px">
+          ${timeTag}
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13px;color:var(--text-mid);line-height:1.3">${i.text}</div>
+            <div style="display:flex;gap:8px;margin-top:2px;flex-wrap:wrap">${addedTag}${postponedTag}</div>
+          </div>
+          <span class="detail-status ds-${i.action}" style="flex-shrink:0">${i.action.toUpperCase()}</span>
+        </div>`;
+      }).join('');
       html+=`</div>`;
     }
     if(habits.length>0){
@@ -883,7 +927,8 @@ function getContext(){
   const todayCals=getTodayCalories();
   const calGoal=loadCalGoal();
   const dietInfo=todayFood.length>0?`Today food: ${todayFood.map(f=>f.food+' ('+f.calories+'kcal)').join(', ')}. Total: ${todayCals}kcal${calGoal?' / goal '+calGoal+'kcal':'.'}`:'No food logged today.';
-  return`Tasks active: ${active}. Postponed: ${postponed}. Fire habits: ${habitsList}. Diet: ${dietInfo}`;
+  const futurePlanned=tasks.filter(t=>t.status==='active'&&t.plannedDate).map(t=>`${t.text} on ${t.plannedDate}${t.plannedTime?' at '+t.plannedTime:''}`).join(', ')||'none';
+  return`Tasks active: ${active}. Postponed: ${postponed}. Future planned: ${futurePlanned}. Fire habits: ${habitsList}. Diet: ${dietInfo}`;
 }
 
 async function askNika(userText){
@@ -893,12 +938,12 @@ async function askNika(userText){
   const isOnboard=userText==='__onboard__';
   let prompt=isOnboard?(currentLang==='ru'?'Первый запуск. Поприветствуй тепло и спроси что сегодня на повестке. Коротко, без эмодзи.':'First launch. Greet warmly and ask what tasks and habits to start with. Short, no emoji.'):userText;
 
-  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-2 short sentences maximum. Be direct and concise. No emoji. No lists. No special symbols. Plain text only — spoken aloud.
+  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. You sometimes call the user "friend" but not in every message — use it naturally, like a real person would, not as a reflex. Respond in same language as user. Keep replies to 1-2 short sentences maximum. Be direct and concise. No emoji. No lists. No special symbols. Plain text only — spoken aloud.
 
 Current context: ${getContext()}
 
 When performing operations append ONE ACTION block:
-Add task: ACTION:{"type":"add_task","text":"description","priority":"asap|morning|afternoon|new"}
+Add task: ACTION:{"type":"add_task","text":"description","priority":"asap|morning|afternoon|new","plannedTime":"HH:MM or null","plannedDate":"YYYY-MM-DD or null"}
 Complete task: ACTION:{"type":"done_task","id":TASK_ID}
 Postpone task: ACTION:{"type":"postpone_task","id":TASK_ID,"date":"tomorrow|friday|12 jun"}
 Add habit: ACTION:{"type":"add_habit","name":"habit name"}
@@ -924,7 +969,10 @@ Only include ACTION when performing an operation. For questions just answer.`;
     if(actionMatch){
       try{
         const action=JSON.parse(actionMatch[1]);reply=reply.replace(/ACTION:\{.*?\}/s,'').trim();
-        if(action.type==='add_task')addTask(action.text,action.priority||'new');
+        if(action.type==='add_task'){
+          const pd=action.plannedDate?action.plannedDate:null;
+          addTask(action.text,action.priority||'new',action.plannedTime||null,pd);
+        }
         else if(action.type==='done_task')completeTask(Number(action.id));
         else if(action.type==='postpone_task'){const p=parseDate(action.date);if(p)postponeTask(Number(action.id),p);}
         else if(action.type==='add_habit')addHabit(action.name);
