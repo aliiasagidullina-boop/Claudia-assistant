@@ -444,11 +444,12 @@ function setLang(lang){
 }
 
 // ── HABIT RESET ──
-function todayStr(){return new Date().toISOString().split('T')[0]}
+function todayStr(){const n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+function dateToStr(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
 function checkHabitReset(){
   const habits=loadHabits();const today=todayStr();let changed=false;
   habits.forEach(h=>{
-    if(h.lastDoneDate&&h.lastDoneDate!==today){
+    if(h.lastDoneDate&&h.lastDoneDate!==todayStr()){
       const last=new Date(h.lastDoneDate);const now=new Date(today);
       const diff=(now-last)/(1000*60*60*24);
       if(diff>1)h.streak=0;
@@ -506,7 +507,7 @@ function toggleHabit(i){
   const habits=loadHabits();const h=habits[i];const today=todayStr();
   if(h.doneToday){h.doneToday=false;if(h.streak>0)h.streak--;h.lastDoneDate=null;}
   else{
-    h.doneToday=true;h.streak=(h.streak||0)+1;h.lastDoneDate=today;
+    h.doneToday=true;h.streak=(h.streak||0)+1;h.lastDoneDate=dateToStr(new Date());
     addToHistory(h.name,'habit',`streak: ${h.streak}`);
     if(h.streak===7)setTimeout(()=>askClaudia(currentLang==='ru'?`Я выполнял привычку "${h.name}" 7 дней подряд. Поздравь и скажи что она разблокирована. Без эмодзи.`:`I hit 7 days on habit "${h.name}". Congratulate and mention it's unlocked. No emoji.`),300);
   }
@@ -642,13 +643,13 @@ function renderCalendar(){
 
   for(let d=1;d<=daysInMonth;d++){
     const dateObj=new Date(calYear,calMonth,d);
-    const dateStr=dateObj.toISOString().split('T')[0];
+    const dateStr=dateToStr(dateObj);
     const isToday=dateObj.getTime()===today.getTime();
     const isSel=selectedDay===dateStr;
 
     // gather dots from history
     const dayItems=history.filter(item=>{
-      const itemDate=new Date(item.ts).toISOString().split('T')[0];
+      const itemDate=dateToStr(new Date(item.ts));
       return itemDate===dateStr;
     });
     const hasDone=dayItems.some(i=>i.action==='done');
@@ -696,7 +697,7 @@ function showDayDetail(dateStr){
 
   const history=loadHistory();
   const dayItems=history.filter(item=>{
-    return new Date(item.ts).toISOString().split('T')[0]===dateStr;
+    return dateToStr(new Date(item.ts))===dateStr;
   });
 
   if(dayItems.length===0){
