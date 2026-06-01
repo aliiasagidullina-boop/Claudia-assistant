@@ -6,8 +6,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Claudia">
-<title>Claudia — Personal Assistant</title>
+<meta name="apple-mobile-web-app-title" content="Nika">
+<title>Nika — Personal Assistant</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
@@ -188,20 +188,20 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
 <div id="setup-screen">
   <div class="setup-card">
-    <div class="setup-logo">Claudia</div>
+    <div class="setup-logo">Nika</div>
     <div class="setup-sub">first time setup — keys saved on device only</div>
     <div class="setup-section">
       <div class="setup-label">// ANTHROPIC API KEY</div>
       <input class="setup-input" id="anthropic-key" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false"/>
-      <div class="setup-note">Powers Claudia's brain</div>
+      <div class="setup-note">Powers Nika's brain</div>
     </div>
     <div class="setup-section">
       <div class="setup-label">// ELEVENLABS API KEY</div>
       <input class="setup-input" id="eleven-key" type="password" placeholder="your elevenlabs key..." autocomplete="off" spellcheck="false"/>
-      <div class="setup-note">Powers Claudia's voice (leave empty for device voice)</div>
+      <div class="setup-note">Powers Nika's voice (leave empty for device voice)</div>
     </div>
     <div class="setup-error" id="setup-error">Check your Anthropic key and try again.</div>
-    <button class="setup-btn" onclick="saveKeys()">ACTIVATE CLAUDIA</button>
+    <button class="setup-btn" onclick="saveKeys()">ACTIVATE NIKA</button>
   </div>
 </div>
 
@@ -211,9 +211,9 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 <div class="app" id="main-app" style="display:none">
   <header>
     <div class="id-block">
-      <div class="avatar-ring"><div class="avatar-dot">CL</div></div>
+      <div class="avatar-ring"><div class="avatar-dot">NK</div></div>
       <div class="name-block">
-        <div class="name">Claudia</div>
+        <div class="name">Nika</div>
         <div class="sub">personal assistant v4</div>
       </div>
     </div>
@@ -231,6 +231,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="tab" onclick="showTab('habits')" id="tab-habits"><i class="ti ti-flame"></i>FIRE</div>
     <div class="tab" onclick="showTab('tasks')" id="tab-tasks"><i class="ti ti-checklist"></i>TASKS</div>
     <div class="tab" onclick="showTab('calendar')" id="tab-calendar"><i class="ti ti-calendar"></i>LOG</div>
+    <div class="tab" onclick="showTab('diet')" id="tab-diet"><i class="ti ti-salad"></i>DIET</div>
   </div>
 
   <!-- HOME -->
@@ -255,6 +256,13 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div class="card">
       <div class="section-head"><div class="section-title">today at a glance</div></div>
       <div id="home-tasks-preview"></div>
+    </div>
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">calories today</div>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim)" id="home-cal-goal-label"></span>
+      </div>
+      <div id="home-cal-preview"></div>
     </div>
     <div style="height:14px;flex-shrink:0"></div>
   </div>
@@ -321,6 +329,31 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div style="height:14px;flex-shrink:0"></div>
   </div>
 
+  <!-- DIET -->
+  <div class="page" id="page-diet">
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">daily calories</div>
+        <button onclick="changeCalorieGoal()" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,180,255,0.4);background:none;border:0.5px solid rgba(0,180,255,0.2);border-radius:4px;padding:2px 8px;cursor:pointer;letter-spacing:1px">SET GOAL</button>
+      </div>
+      <div id="diet-goal-display" style="margin-bottom:12px"></div>
+      <div id="diet-progress-bar" style="height:6px;border-radius:3px;background:rgba(0,180,255,0.08);overflow:hidden;margin-bottom:14px"><div id="diet-progress-fill" style="height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--amber));transition:width 0.4s;width:0%"></div></div>
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px">// LOG FOOD</div>
+      <div class="add-row">
+        <input class="task-input" id="food-input" placeholder="e.g. bowl of oatmeal, 2 eggs..." onkeydown="if(event.key==='Enter')logFoodFromInput()"/>
+        <button class="task-add-btn" onclick="logFoodFromInput()">+ LOG</button>
+      </div>
+    </div>
+    <div class="card" id="food-log-card">
+      <div class="section-head">
+        <div class="section-title">today's meals</div>
+        <button onclick="clearTodayFood()" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,107,107,0.3);background:none;border:none;cursor:pointer;letter-spacing:1px">CLEAR</button>
+      </div>
+      <div id="food-log-list"></div>
+    </div>
+    <div style="height:14px;flex-shrink:0"></div>
+  </div>
+
   <div class="voice-bar">
     <div id="response-box"></div>
     <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Tap to speak">
@@ -346,12 +379,12 @@ const greetingsEN=["Good morning, friend. Ready to own the day?","Rise and shine
 const greetingsRU=["Доброе утро, друг. Готов завоевать день?","Просыпайся, друг. Начнём с огня.","Утро, друг. Вот что тебя ждёт."];
 
 // ── STORAGE ──
-function loadHabits(){try{return JSON.parse(localStorage.getItem('claudia_habits')||'[]')}catch{return[]}}
-function saveHabits(h){localStorage.setItem('claudia_habits',JSON.stringify(h))}
-function loadTasks(){try{return JSON.parse(localStorage.getItem('claudia_tasks')||'[]')}catch{return[]}}
-function saveTasks(t){localStorage.setItem('claudia_tasks',JSON.stringify(t))}
-function loadHistory(){try{return JSON.parse(localStorage.getItem('claudia_history')||'[]')}catch{return[]}}
-function saveHistory(h){localStorage.setItem('claudia_history',JSON.stringify(h))}
+function loadHabits(){try{return JSON.parse(localStorage.getItem('nika_habits')||'[]')}catch{return[]}}
+function saveHabits(h){localStorage.setItem('nika_habits',JSON.stringify(h))}
+function loadTasks(){try{return JSON.parse(localStorage.getItem('nika_tasks')||'[]')}catch{return[]}}
+function saveTasks(t){localStorage.setItem('nika_tasks',JSON.stringify(t))}
+function loadHistory(){try{return JSON.parse(localStorage.getItem('nika_history')||'[]')}catch{return[]}}
+function saveHistory(h){localStorage.setItem('nika_history',JSON.stringify(h))}
 
 function addToHistory(text,action,extra){
   const h=loadHistory();
@@ -362,8 +395,8 @@ function addToHistory(text,action,extra){
 
 // ── SETUP ──
 function init(){
-  const ak=localStorage.getItem('claudia_anthropic');
-  const ek=localStorage.getItem('claudia_eleven')||'';
+  const ak=localStorage.getItem('nika_anthropic');
+  const ek=localStorage.getItem('nika_eleven')||'';
   if(ak){anthropicKey=ak;elevenKey=ek;showMain();}
 }
 function saveKeys(){
@@ -371,8 +404,8 @@ function saveKeys(){
   const ek=document.getElementById('eleven-key').value.trim();
   if(!ak.startsWith('sk-ant-')){document.getElementById('setup-error').style.display='block';return;}
   anthropicKey=ak;elevenKey=ek;
-  localStorage.setItem('claudia_anthropic',ak);
-  if(ek)localStorage.setItem('claudia_eleven',ek);
+  localStorage.setItem('nika_anthropic',ak);
+  if(ek)localStorage.setItem('nika_eleven',ek);
   showMain();
 }
 function showMain(){
@@ -380,12 +413,12 @@ function showMain(){
   document.getElementById('main-app').style.display='flex';
   updateClock();setInterval(updateClock,15000);
   checkHabitReset();
-  renderHabits();renderTasks();
+  renderHabits();renderTasks();renderDiet();
   const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();
   renderCalendar();
   setTimeout(typeGreeting,500);
   if(loadTasks().length===0&&loadHabits().length===0){
-    setTimeout(()=>askClaudia('__onboard__'),2200);
+    setTimeout(()=>askNika('__onboard__'),2200);
   } else {
     setTimeout(()=>triggerMorningBrief(),1800);
   }
@@ -400,11 +433,12 @@ function updateClock(){
 
 // ── TABS ──
 function showTab(name){
-  ['home','habits','tasks','calendar'].forEach(t=>{
+  ['home','habits','tasks','calendar','diet'].forEach(t=>{
     document.getElementById('page-'+t).classList.toggle('active',t===name);
     document.getElementById('tab-'+t).classList.toggle('active',t===name);
   });
   if(name==='calendar')renderCalendar();
+  if(name==='diet')renderDiet();
 }
 
 // ── GREETING ──
@@ -432,7 +466,7 @@ function triggerMorningBrief(){
   } else {
     prompt=`Give me a short morning brief. I have ${doneTasks} active task${doneTasks!==1?'s':''}. ${asap.length?'ASAP: '+asap.join(', ')+'.':''} Fire habits: ${habitsDone} of ${habits.length} done today. Short motivating brief. No emoji. 2-3 sentences.`;
   }
-  askClaudia(prompt);
+  askNika(prompt);
 }
 
 // ── LANG ──
@@ -468,7 +502,7 @@ function renderHabits(){
   const list=document.getElementById('habits-list');
   if(!list)return;
   if(habits.length===0){
-    list.innerHTML='<div class="empty-state">No fire habits yet.<br>Add one below or tell Claudia.</div>';
+    list.innerHTML='<div class="empty-state">No fire habits yet.<br>Add one below or tell Nika.</div>';
   } else {
     list.innerHTML=habits.map((h,i)=>{
       const unlocked=h.streak>=7;
@@ -478,11 +512,12 @@ function renderHabits(){
       const progressBar=!unlocked?`<div class="unlock-bar"><div class="unlock-fill" style="width:${pct}%"></div></div>`:'';
       const editBtn=unlocked?`<button class="habit-edit-btn" onclick="editHabit(${i})">EDIT</button>`:'';
       const delBtn=unlocked?`<button class="habit-del-btn" onclick="deleteHabit(${i})">DEL</button>`:'';
+      const smartBadge=h.smartScore?`<span style="font-family:'Share Tech Mono',monospace;font-size:9px;padding:1px 5px;border-radius:3px;background:${h.smartScore>=4?'rgba(0,255,136,0.08)':h.smartScore===3?'rgba(255,200,50,0.08)':'rgba(255,107,107,0.08)'};color:${h.smartScore>=4?'rgba(0,255,136,0.6)':h.smartScore===3?'var(--amber)':'var(--red)'};border:0.5px solid ${h.smartScore>=4?'rgba(0,255,136,0.15)':h.smartScore===3?'rgba(255,200,50,0.15)':'rgba(255,107,107,0.15)'}">S${h.smartScore}</span>`:'';
       return`<div class="habit-item${h.doneToday?' done-today':''}" id="habit-${i}">
         <div class="habit-check" onclick="toggleHabit(${i})"><i class="ti ti-${h.doneToday?'check':'flame'} habit-check-icon"></i></div>
         <div class="habit-info">
           <div class="habit-name">${h.name}</div>
-          <div class="habit-meta">${streakDisplay}${lockInfo}</div>
+          <div class="habit-meta">${streakDisplay}${smartBadge}${lockInfo}</div>
           ${progressBar}
         </div>
         <div class="habit-actions">${editBtn}${delBtn}</div>
@@ -509,19 +544,90 @@ function toggleHabit(i){
   else{
     h.doneToday=true;h.streak=(h.streak||0)+1;h.lastDoneDate=dateToStr(new Date());
     addToHistory(h.name,'habit',`streak: ${h.streak}`);
-    if(h.streak===7)setTimeout(()=>askClaudia(currentLang==='ru'?`Я выполнял привычку "${h.name}" 7 дней подряд. Поздравь и скажи что она разблокирована. Без эмодзи.`:`I hit 7 days on habit "${h.name}". Congratulate and mention it's unlocked. No emoji.`),300);
+    if(h.streak===7)setTimeout(()=>askNika(currentLang==='ru'?`Я выполнял привычку "${h.name}" 7 дней подряд. Поздравь и скажи что она разблокирована. Без эмодзи.`:`I hit 7 days on habit "${h.name}". Congratulate and mention it's unlocked. No emoji.`),300);
   }
   saveHabits(habits);renderHabits();
 }
-function addHabit(name){
+function addHabit(name,smartScore,smartNote){
   const habits=loadHabits();
-  habits.push({name,streak:0,doneToday:false,lastDoneDate:null,createdAt:Date.now()});
+  habits.push({name,streak:0,doneToday:false,lastDoneDate:null,createdAt:Date.now(),smartScore:smartScore||null,smartNote:smartNote||null});
   saveHabits(habits);addToHistory(name,'added','habit');renderHabits();
 }
 function addHabitFromInput(){
   const input=document.getElementById('habit-input');const text=input.value.trim();if(!text)return;
-  addHabit(text);input.value='';
-  askClaudia(currentLang==='ru'?`Добавил привычку: ${text}. Коротко мотивируй. Без эмодзи.`:`Added habit: ${text}. Short encouragement. No emoji.`);
+  input.value='';runSmartRating(text);
+}
+async function runSmartRating(habitText){
+  const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');const hint=document.getElementById('voice-hint');
+  btn.classList.add('thinking');icon.className='ti ti-loader';
+  hint.textContent=currentLang==='ru'?'ОЦЕНИВАЮ...':'RATING...';
+  showResponse(currentLang==='ru'?'Nika оценивает привычку...':'Nika is rating your habit...');
+  const prompt=currentLang==='ru'
+    ?`Оцени эту привычку по методу SMART: "${habitText}". Ответь ТОЛЬКО в JSON: {"score":ЧИСЛО_1_ДО_5,"feedback":"одно предложение","suggestion":"улучшенная версия или null если score 4 или 5"}`
+    :`Rate this habit using SMART method: "${habitText}". Reply ONLY in JSON: {"score":NUMBER_1_TO_5,"feedback":"one sentence","suggestion":"improved version or null if score 4 or 5"}`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':anthropicKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:300,system:'You are a SMART goals expert. Respond with valid JSON only. No markdown.',messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const raw=data.content&&data.content[0]?data.content[0].text:'{}';
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const result=JSON.parse(clean);
+    btn.classList.remove('thinking');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';
+    showSmartPanel(habitText,result.score||3,result.feedback||'',result.suggestion||null);
+  }catch(e){
+    btn.classList.remove('thinking');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';
+    addHabit(habitText,null,null);
+    showResponse(currentLang==='ru'?'Добавила привычку, друг.':'Added the habit, friend.');
+  }
+}
+function showSmartPanel(originalText,score,feedback,suggestion){
+  const existing=document.getElementById('smart-panel');if(existing)existing.remove();
+  const scoreColor=score>=4?'var(--green)':score===3?'var(--amber)':'var(--red)';
+  const dots=[1,2,3,4,5].map(i=>`<div style="width:10px;height:10px;border-radius:50%;background:${i<=score?scoreColor:'rgba(0,180,255,0.1)'};border:0.5px solid ${i<=score?scoreColor:'rgba(0,180,255,0.2)'}"></div>`).join('');
+  const safeOrig=originalText.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const safeSug=suggestion?(suggestion.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;')):null;
+  const safeFb=feedback.replace(/'/g,"\\'").replace(/"/g,'&quot;');
+  const suggestionHtml=safeSug?`
+    <div style="margin-top:10px;padding:10px 12px;background:rgba(0,180,255,0.06);border:0.5px solid rgba(0,180,255,0.2);border-radius:8px">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px;margin-bottom:6px">// NIKA SUGGESTS</div>
+      <div style="font-size:13px;color:#c8dff0;line-height:1.4">${suggestion}</div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button onclick="acceptSuggestion('${safeSug}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="flex:1;padding:9px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;color:#7fd4ff;font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px">USE NIKA'S VERSION</button>
+      <button onclick="acceptOriginal('${safeOrig}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="flex:1;padding:9px;background:rgba(255,140,66,0.08);border:0.5px solid rgba(255,140,66,0.2);border-radius:8px;color:rgba(255,140,66,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px">KEEP MINE</button>
+    </div>`:`
+    <div style="margin-top:10px">
+      <button onclick="acceptOriginal('${safeOrig}',${score},'${safeFb}');document.getElementById('smart-panel').remove()" style="width:100%;padding:9px;background:rgba(0,255,136,0.08);border:0.5px solid rgba(0,255,136,0.25);border-radius:8px;color:rgba(0,255,136,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px">ADD HABIT</button>
+    </div>`;
+  const panel=document.createElement('div');
+  panel.id='smart-panel';
+  panel.style.cssText='position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#0d1520;border-top:0.5px solid rgba(0,180,255,0.25);border-radius:16px 16px 0 0;padding:20px 18px 32px;z-index:50;animation:slideUp 0.25s ease';
+  panel.innerHTML=`<style>@keyframes slideUp{from{transform:translateX(-50%) translateY(100%)}to{transform:translateX(-50%) translateY(0)}}</style>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px">// SMART RATING</div>
+      <button onclick="document.getElementById('smart-panel').remove()" style="background:none;border:none;color:var(--text-dim);font-size:20px;cursor:pointer;line-height:1">x</button>
+    </div>
+    <div style="font-size:15px;color:#c8dff0;font-weight:500;margin-bottom:10px">${originalText}</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="display:flex;gap:5px">${dots}</div>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:14px;font-weight:700;color:${scoreColor}">${score}/5</span>
+    </div>
+    <div style="font-size:13px;color:var(--text-mid);line-height:1.5">${feedback}</div>
+    ${suggestionHtml}`;
+  document.body.appendChild(panel);
+}
+function acceptSuggestion(suggestion,score,feedback){
+  addHabit(suggestion,score,feedback);
+  const msg=currentLang==='ru'?`Отлично, друг. Добавила улучшенную версию. SMART: ${score} из 5.`:`Great choice, friend. Added the improved version. SMART score: ${score} out of 5.`;
+  showResponse(msg);speakWithEleven(msg);
+}
+function acceptOriginal(text,score,feedback){
+  addHabit(text,score,feedback);
+  const msg=score>=4?(currentLang==='ru'?`Сильная привычка, друг. SMART: ${score} из 5.`:`Strong habit, friend. SMART score: ${score} out of 5.`):(currentLang==='ru'?`Хорошо, друг. Оставляю твою версию. SMART: ${score} из 5.`:`Got it, friend. Keeping your version. SMART score: ${score} out of 5.`);
+  showResponse(msg);speakWithEleven(msg);
 }
 function editHabit(i){
   const habits=loadHabits();const h=habits[i];
@@ -546,7 +652,7 @@ function renderTasks(){
   const count=document.getElementById('task-count');
   if(count)count.textContent=active.length+' task'+(active.length!==1?'s':'');
   const list=document.getElementById('task-list');if(!list)return;
-  if(active.length===0){list.innerHTML='<div class="empty-state">No active tasks.<br>Tell Claudia what\'s on your plate.</div>';}
+  if(active.length===0){list.innerHTML='<div class="empty-state">No active tasks.<br>Tell Nika what\'s on your plate.</div>';}
   else{list.innerHTML=active.map(t=>`
     <div class="task-item">
       <span class="badge badge-${t.priority||'new'}">${(t.priority||'new').toUpperCase()}</span>
@@ -575,7 +681,7 @@ function renderTasks(){
 
 function renderHomeTasksPreview(active){
   const el=document.getElementById('home-tasks-preview');if(!el)return;
-  if(!active||active.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No tasks — tell Claudia</div>';return;}
+  if(!active||active.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No tasks — tell Nika</div>';return;}
   el.innerHTML=active.slice(0,3).map(t=>`
     <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
       <span class="badge badge-${t.priority||'new'}">${(t.priority||'new').toUpperCase()}</span>
@@ -608,7 +714,7 @@ function showPostponeUI(id){
 function addTaskFromInput(){
   const input=document.getElementById('task-input');const text=input.value.trim();if(!text)return;
   addTask(text,'new');input.value='';
-  askClaudia(currentLang==='ru'?`Добавил задачу: ${text}. Коротко. Без эмодзи.`:`Added task: ${text}. Short. No emoji.`);
+  askNika(currentLang==='ru'?`Добавил задачу: ${text}. Коротко. Без эмодзи.`:`Added task: ${text}. Short. No emoji.`);
 }
 function parseDate(str){
   const s=str.toLowerCase().trim();const now=new Date();now.setHours(0,0,0,0);
@@ -655,12 +761,14 @@ function renderCalendar(){
     const hasDone=dayItems.some(i=>i.action==='done');
     const hasTask=dayItems.some(i=>i.action==='added'&&i.extra!=='habit');
     const hasHabit=dayItems.some(i=>i.action==='habit');
+    const hasFood=dayItems.some(i=>i.action==='food');
     const hasData=dayItems.length>0;
 
     let dots='';
     if(hasDone)dots+=`<div class="cal-dot dot-done"></div>`;
     if(hasTask)dots+=`<div class="cal-dot dot-task"></div>`;
     if(hasHabit)dots+=`<div class="cal-dot dot-habit"></div>`;
+    if(hasFood)dots+=`<div class="cal-dot" style="background:var(--amber)"></div>`;
 
     html+=`<div class="cal-day${isToday?' today':''}${isSel?' selected':''}${hasData?' has-data':''}" onclick="selectDay('${dateStr}')">
       <div class="cal-day-num">${d}</div>
@@ -716,6 +824,13 @@ function showDayDetail(dateStr){
       html+=habits.map(i=>`<div class="detail-item"><span class="detail-status ds-habit">HABIT</span>${i.text}${i.extra?' · '+i.extra:''}</div>`).join('');
       html+=`</div>`;
     }
+    const food=dayItems.filter(i=>i.action==='food');
+    if(food.length>0){
+      const total=food.reduce((s,i)=>s+(parseInt(i.extra)||0),0);
+      html+=`<div class="detail-section"><div class="detail-label">// DIET · ${total} kcal total</div>`;
+      html+=food.map(i=>`<div class="detail-item"><span class="detail-status" style="background:rgba(255,200,50,0.08);color:var(--amber);border:0.5px solid rgba(255,200,50,0.15);font-size:8px;padding:1px 5px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0">FOOD</span>${i.text} · ${i.extra}</div>`).join('');
+      html+=`</div>`;
+    }
     content.innerHTML=html;
   }
   detail.style.display='block';
@@ -763,17 +878,21 @@ function getContext(){
   const active=tasks.filter(t=>t.status==='active').map(t=>`[${t.id}] ${t.text} (${t.priority})`).join(', ')||'none';
   const postponed=tasks.filter(t=>t.status==='postponed').map(t=>`[${t.id}] ${t.text} until ${formatDate(t.postponedTo)}`).join(', ')||'none';
   const habitsList=habits.map(h=>`${h.name} (streak:${h.streak}, done today:${h.doneToday}, unlocked:${h.streak>=7})`).join(', ')||'none';
-  return`Tasks active: ${active}. Postponed: ${postponed}. Fire habits: ${habitsList}.`;
+  const todayFood=getTodayFood();
+  const todayCals=getTodayCalories();
+  const calGoal=loadCalGoal();
+  const dietInfo=todayFood.length>0?`Today food: ${todayFood.map(f=>f.food+' ('+f.calories+'kcal)').join(', ')}. Total: ${todayCals}kcal${calGoal?' / goal '+calGoal+'kcal':'.'}`:'No food logged today.';
+  return`Tasks active: ${active}. Postponed: ${postponed}. Fire habits: ${habitsList}. Diet: ${dietInfo}`;
 }
 
-async function askClaudia(userText){
+async function askNika(userText){
   const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');const hint=document.getElementById('voice-hint');
   btn.classList.add('thinking');icon.className='ti ti-loader';
   hint.textContent=currentLang==='ru'?'ДУМАЮ...':'THINKING...';
   const isOnboard=userText==='__onboard__';
   let prompt=isOnboard?(currentLang==='ru'?'Первый запуск. Поприветствуй тепло и спроси что сегодня на повестке. Коротко, без эмодзи.':'First launch. Greet warmly and ask what tasks and habits to start with. Short, no emoji.'):userText;
 
-  const systemPrompt=`You are Claudia, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-3 sentences max. No emoji. No special symbols. Plain text only.
+  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-3 sentences max. No emoji. No special symbols. Plain text only.
 
 Current context: ${getContext()}
 
@@ -783,6 +902,8 @@ Complete task: ACTION:{"type":"done_task","id":TASK_ID}
 Postpone task: ACTION:{"type":"postpone_task","id":TASK_ID,"date":"tomorrow|friday|12 jun"}
 Add habit: ACTION:{"type":"add_habit","name":"habit name"}
 Toggle habit: ACTION:{"type":"toggle_habit","name":"partial habit name"}
+Log food: ACTION:{"type":"log_food","food":"food description"}
+Set calorie goal: ACTION:{"type":"set_cal_goal","goal":NUMBER}
 
 Only include ACTION when performing an operation. For questions just answer.`;
 
@@ -807,6 +928,8 @@ Only include ACTION when performing an operation. For questions just answer.`;
         else if(action.type==='postpone_task'){const p=parseDate(action.date);if(p)postponeTask(Number(action.id),p);}
         else if(action.type==='add_habit')addHabit(action.name);
         else if(action.type==='toggle_habit'){const habits=loadHabits();const idx=habits.findIndex(h=>h.name.toLowerCase().includes(action.name.toLowerCase()));if(idx>=0)toggleHabit(idx);}
+        else if(action.type==='log_food'){estimateCalories(action.food);}
+        else if(action.type==='set_cal_goal'){const g=parseInt(action.goal);if(!isNaN(g)&&g>0){saveCalGoal(g);renderDiet();}}
       }catch(e){}
     }
     reply=stripEmoji(reply);
@@ -819,16 +942,163 @@ Only include ACTION when performing an operation. For questions just answer.`;
   hint.textContent='TAP TO SPEAK — EN / RU';
 }
 
+
+// ── DIET ──
+function loadFood(){try{return JSON.parse(localStorage.getItem('nika_food')||'{}')}catch{return{}}}
+function saveFood(f){localStorage.setItem('nika_food',JSON.stringify(f))}
+function loadCalGoal(){return parseInt(localStorage.getItem('nika_cal_goal')||'0')}
+function saveCalGoal(g){localStorage.setItem('nika_cal_goal',String(g))}
+
+function getTodayFood(){
+  const all=loadFood();const today=todayStr();
+  return all[today]||[];
+}
+function saveTodayFood(items){
+  const all=loadFood();all[todayStr()]=items;saveFood(all);
+}
+function getTodayCalories(){
+  return getTodayFood().reduce((sum,item)=>sum+(item.calories||0),0);
+}
+
+function renderDiet(){
+  const goal=loadCalGoal();
+  const total=getTodayCalories();
+  const items=getTodayFood();
+
+  // goal display
+  const goalEl=document.getElementById('diet-goal-display');
+  if(goalEl){
+    if(!goal){
+      goalEl.innerHTML='<div style="font-size:13px;color:var(--text-dim);font-family:'Share Tech Mono',monospace">No goal set. Tap SET GOAL above.</div>';
+    } else {
+      const pct=Math.min(100,Math.round((total/goal)*100));
+      const color=pct>=100?'var(--red)':pct>=80?'var(--amber)':'var(--green)';
+      goalEl.innerHTML=`<div style="display:flex;align-items:baseline;gap:8px"><span style="font-size:28px;font-weight:600;color:${color};font-family:'Share Tech Mono',monospace">${total}</span><span style="font-size:13px;color:var(--text-dim);font-family:'Share Tech Mono',monospace">/ ${goal} kcal</span></div>`;
+      const fill=document.getElementById('diet-progress-fill');
+      if(fill){fill.style.width=pct+'%';fill.style.background=pct>=100?'var(--red)':pct>=80?'linear-gradient(90deg,var(--amber),var(--red))':'linear-gradient(90deg,var(--green),var(--amber))';}
+    }
+  }
+
+  // food log
+  const listEl=document.getElementById('food-log-list');
+  if(listEl){
+    if(items.length===0){
+      listEl.innerHTML='<div class="empty-state">Nothing logged yet today.<br>Tell Nika what you ate.</div>';
+    } else {
+      listEl.innerHTML=items.map((item,i)=>`
+        <div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
+          <div style="flex:1">
+            <div style="font-size:13px;color:#c8dff0">${item.food}</div>
+            <div style="font-size:9px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:2px">${item.time}</div>
+          </div>
+          <span style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--amber);font-weight:600">${item.calories} kcal</span>
+          <button onclick="deleteFoodItem(${i})" style="background:none;border:0.5px solid rgba(255,107,107,0.2);border-radius:4px;padding:2px 6px;font-size:9px;color:rgba(255,107,107,0.4);cursor:pointer;font-family:'Share Tech Mono',monospace">DEL</button>
+        </div>`).join('');
+    }
+  }
+  renderHomeCalsPreview(total,goal);
+}
+
+function renderHomeCalsPreview(total,goal){
+  const el=document.getElementById('home-cal-preview');
+  const labelEl=document.getElementById('home-cal-goal-label');
+  if(!el)return;
+  if(!goal){
+    if(labelEl)labelEl.textContent='no goal set';
+    el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;letter-spacing:1px">Set a goal in Diet tab</div>';
+    return;
+  }
+  const pct=Math.min(100,Math.round((total/goal)*100));
+  const color=pct>=100?'var(--red)':pct>=80?'var(--amber)':'var(--green)';
+  if(labelEl)labelEl.textContent='goal: '+goal+' kcal';
+  el.innerHTML=`
+    <div style="display:flex;align-items:baseline;gap:6px;margin-bottom:8px">
+      <span style="font-size:22px;font-weight:600;color:${color};font-family:'Share Tech Mono',monospace">${total}</span>
+      <span style="font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace">/ ${goal} kcal (${pct}%)</span>
+    </div>
+    <div style="height:4px;border-radius:2px;background:rgba(0,180,255,0.08);overflow:hidden">
+      <div style="height:100%;border-radius:2px;background:${pct>=100?'var(--red)':pct>=80?'var(--amber)':'var(--green)'};width:${pct}%;transition:width 0.4s"></div>
+    </div>`;
+}
+
+function changeCalorieGoal(){
+  const current=loadCalGoal();
+  const val=prompt(currentLang==='ru'?`Введи дневную цель калорий (сейчас: ${current||'не задана'}):`:  `Enter your daily calorie goal (current: ${current||'not set'}):`, current||'2000');
+  if(!val)return;
+  const num=parseInt(val);
+  if(isNaN(num)||num<100){alert('Please enter a valid number (e.g. 2000)');return;}
+  saveCalGoal(num);
+  renderDiet();
+  const msg=currentLang==='ru'?`Цель обновлена: ${num} калорий в день, друг.`:`Goal updated to ${num} calories a day, friend.`;
+  showResponse(msg);speakWithEleven(msg);
+}
+
+function deleteFoodItem(idx){
+  const items=getTodayFood();items.splice(idx,1);saveTodayFood(items);renderDiet();
+}
+function clearTodayFood(){
+  if(confirm('Clear today's food log?')){saveTodayFood([]);renderDiet();}
+}
+
+function logFoodFromInput(){
+  const input=document.getElementById('food-input');const text=input.value.trim();if(!text)return;
+  input.value='';estimateCalories(text);
+}
+
+async function estimateCalories(foodText){
+  const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');const hint=document.getElementById('voice-hint');
+  btn.classList.add('thinking');icon.className='ti ti-loader';
+  hint.textContent=currentLang==='ru'?'СЧИТАЮ...':'COUNTING...';
+  showResponse(currentLang==='ru'?'Nika считает калории...':'Nika is estimating calories...');
+
+  const prompt=currentLang==='ru'
+    ?`Оцени калории для: "${foodText}". Ответь ТОЛЬКО в JSON: {"calories":ЧИСЛО,"food":"краткое описание еды на русском"}`
+    :`Estimate calories for: "${foodText}". Reply ONLY in JSON: {"calories":NUMBER,"food":"brief food description"}`;
+
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':anthropicKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:150,system:'You are a nutrition expert. Respond with valid JSON only. Be realistic with calorie estimates.',messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const raw=data.content&&data.content[0]?data.content[0].text:'{}';
+    const clean=raw.replace(/```json|```/g,'').trim();
+    const result=JSON.parse(clean);
+    const calories=result.calories||0;
+    const food=result.food||foodText;
+
+    // save to log
+    const items=getTodayFood();
+    const now=new Date();
+    const time=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+    items.push({food,calories,time,ts:Date.now()});
+    saveTodayFood(items);
+
+    // save to history
+    addToHistory(food,'food',calories+' kcal');
+
+    btn.classList.remove('thinking');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';
+    renderDiet();
+    const total=getTodayCalories();const goal=loadCalGoal();
+    const msg=currentLang==='ru'?`${food}: около ${calories} калорий. Итого сегодня: ${total}${goal?' из '+goal:''} kcal.`:`${food}: about ${calories} calories. Today's total: ${total}${goal?' of '+goal:''} kcal.`;
+    showResponse(msg);speakWithEleven(msg);
+  }catch(e){
+    btn.classList.remove('thinking');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';
+    showResponse(currentLang==='ru'?'Не смогла оценить калории, друг.':'Could not estimate calories, friend.');
+  }
+}
+
 // ── VOICE INPUT ──
 function toggleVoice(){
   if(isListening){if(recognition)recognition.stop();return;}
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){askClaudia('Voice input not supported — please use Chrome');return;}
+  if(!SR){askNika('Voice input not supported — please use Chrome');return;}
   recognition=new SR();recognition.continuous=false;recognition.interimResults=false;
   recognition.lang=currentLang==='ru'?'ru-RU':'en-US';
   const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');const hint=document.getElementById('voice-hint');
   recognition.onstart=()=>{isListening=true;btn.classList.add('listening');hint.textContent=currentLang==='ru'?'СЛУШАЮ...':'LISTENING...';};
-  recognition.onresult=e=>{const heard=e.results[0][0].transcript;showResponse((currentLang==='ru'?'Ты: ':'You: ')+heard);askClaudia(heard);};
+  recognition.onresult=e=>{const heard=e.results[0][0].transcript;showResponse((currentLang==='ru'?'Ты: ':'You: ')+heard);askNika(heard);};
   recognition.onerror=()=>{isListening=false;btn.classList.remove('listening');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';};
   recognition.onend=()=>{isListening=false;btn.classList.remove('listening');if(!btn.classList.contains('thinking'))icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';};
   recognition.start();
