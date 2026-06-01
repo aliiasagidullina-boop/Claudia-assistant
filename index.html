@@ -850,9 +850,10 @@ async function speakWithEleven(text){
     });
     if(!res.ok){speakFallback(text);return;}
     const blob=await res.blob();const url=URL.createObjectURL(blob);const audio=new Audio(url);
+    window._currentAudio=audio;
     btn.classList.remove('thinking');btn.classList.add('speaking');icon.className='ti ti-volume';
-    audio.onended=()=>{btn.classList.remove('speaking');icon.className='ti ti-microphone';URL.revokeObjectURL(url);};
-    audio.onerror=()=>{btn.classList.remove('speaking');icon.className='ti ti-microphone';};
+    audio.onended=()=>{btn.classList.remove('speaking');icon.className='ti ti-microphone';URL.revokeObjectURL(url);window._currentAudio=null;};
+    audio.onerror=()=>{btn.classList.remove('speaking');icon.className='ti ti-microphone';window._currentAudio=null;};
     await audio.play();
   }catch{speakFallback(text);}
 }
@@ -892,7 +893,7 @@ async function askNika(userText){
   const isOnboard=userText==='__onboard__';
   let prompt=isOnboard?(currentLang==='ru'?'Первый запуск. Поприветствуй тепло и спроси что сегодня на повестке. Коротко, без эмодзи.':'First launch. Greet warmly and ask what tasks and habits to start with. Short, no emoji.'):userText;
 
-  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-3 sentences max. No emoji. No special symbols. Plain text only.
+  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-2 short sentences maximum. Be direct and concise. No emoji. No lists. No special symbols. Plain text only — spoken aloud.
 
 Current context: ${getContext()}
 
@@ -1090,8 +1091,18 @@ async function estimateCalories(foodText){
 }
 
 // ── VOICE INPUT ──
+function stopSpeaking(){
+  const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');
+  if(window._currentAudio){window._currentAudio.pause();window._currentAudio=null;}
+  if(window.speechSynthesis)window.speechSynthesis.cancel();
+  btn.classList.remove('speaking','thinking','listening');
+  icon.className='ti ti-microphone';
+  document.getElementById('voice-hint').textContent='TAP TO SPEAK — EN / RU';
+}
 function toggleVoice(){
   if(isListening){if(recognition)recognition.stop();return;}
+  // if she's speaking — stop her
+  if(document.getElementById('voice-btn').classList.contains('speaking')||document.getElementById('voice-btn').classList.contains('thinking')){stopSpeaking();return;}
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){askNika('Voice input not supported — please use Chrome');return;}
   recognition=new SR();recognition.continuous=false;recognition.interimResults=false;
