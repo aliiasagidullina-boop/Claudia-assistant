@@ -15,7 +15,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --blue:#00b4ff;--blue-faint:rgba(0,180,255,0.06);--blue-glow:rgba(0,180,255,0.35);
-  --green:#00ff88;--red:#ff6b6b;--amber:#ffc83d;--purple:#b388ff;
+  --green:#00ff88;--red:#ff6b6b;--amber:#ffc83d;--purple:#b388ff;--orange:#ff8c42;
   --text:#e8f4ff;--text-mid:#a0c4d8;--text-dim:rgba(0,180,255,0.4);
   --bg:#080c14;--border:rgba(0,180,255,0.12);
 }
@@ -38,101 +38,114 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .setup-btn:active{background:rgba(0,180,255,0.18)}
 .setup-error{font-size:11px;color:#ff7070;margin-top:10px;font-family:'Share Tech Mono',monospace;display:none}
 
-/* APP SHELL */
+/* APP */
 .app{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;max-width:480px;margin:0 auto;width:100%}
 
-/* HEADER */
-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(8,12,20,0.95);backdrop-filter:blur(12px);z-index:10;flex-shrink:0}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(8,12,20,0.95);backdrop-filter:blur(12px);z-index:10;flex-shrink:0}
 .id-block{display:flex;align-items:center;gap:10px}
-.avatar-ring{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--blue-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.avatar-dot{width:28px;height:28px;border-radius:50%;background:#0a2a45;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:10px;color:#7fd4ff;letter-spacing:1px}
-.name-block .name{font-size:16px;font-weight:600;color:var(--text);letter-spacing:3px;text-transform:uppercase;line-height:1}
+.avatar-ring{width:38px;height:38px;border-radius:50%;border:1.5px solid var(--blue-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.avatar-dot{width:27px;height:27px;border-radius:50%;background:#0a2a45;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:10px;color:#7fd4ff;letter-spacing:1px}
+.name-block .name{font-size:15px;font-weight:600;color:var(--text);letter-spacing:3px;text-transform:uppercase;line-height:1}
 .name-block .sub{font-size:9px;color:var(--text-dim);letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-top:2px}
 .header-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
-#clock{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--text-dim);letter-spacing:1px}
+#clock{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--text-dim);letter-spacing:1px}
 .status-row{display:flex;align-items:center;gap:5px}
 .status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink-dot 2.5s infinite}
 @keyframes blink-dot{0%,100%{opacity:1}50%{opacity:0.3}}
 .status-txt{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,255,136,0.55);letter-spacing:1.5px}
 
-/* TABS */
 .tabs{display:flex;border-bottom:0.5px solid var(--border);flex-shrink:0;background:rgba(8,12,20,0.95)}
-.tab{flex:1;padding:12px 8px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.tab{flex:1;padding:10px 6px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
 .tab.active{color:var(--blue);border-bottom-color:var(--blue)}
-.tab i{display:block;font-size:16px;margin-bottom:3px}
+.tab i{display:block;font-size:15px;margin-bottom:2px}
 
-/* PAGES */
-.page{display:none;flex:1;overflow-y:auto;padding:16px 16px 0;flex-direction:column;gap:14px}
+.page{display:none;flex:1;overflow-y:auto;padding:14px 14px 0;flex-direction:column;gap:12px}
 .page.active{display:flex}
 
-/* CARDS */
-.card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px}
+.card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:14px 15px}
 .card-label{font-size:9px;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-bottom:8px}
-.greeting-text{font-size:18px;font-weight:500;color:var(--text);line-height:1.35;min-height:26px;position:relative;padding-left:8px}
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.section-title{font-size:9px;letter-spacing:2.5px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;text-transform:uppercase}
+
+.greeting-text{font-size:17px;font-weight:500;color:var(--text);line-height:1.35;min-height:26px;position:relative;padding-left:8px}
 .greeting-text::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:linear-gradient(to bottom,transparent,var(--blue),transparent)}
 .cursor{display:inline-block;width:2px;height:14px;background:var(--blue);margin-left:2px;vertical-align:middle;animation:blink-cur 1s infinite}
 @keyframes blink-cur{0%,100%{opacity:1}50%{opacity:0}}
 
-/* ROUTINE */
-.routine-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);cursor:pointer;-webkit-tap-highlight-color:transparent}
-.routine-item:last-child{border-bottom:none}
-.rcheck{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,180,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:transparent;transition:all 0.2s}
-.routine-item.done .rcheck{background:rgba(0,255,136,0.12);border-color:var(--green);color:var(--green)}
-.routine-name{font-size:14px;color:#c8dff0;font-weight:500}
-.routine-item.done .routine-name{color:rgba(200,223,240,0.3);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.25)}
-.routine-dur{font-size:10px;color:var(--text-dim);font-family:'Share Tech Mono',monospace}
+/* FIRE HABITS */
+.habit-item{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);-webkit-tap-highlight-color:transparent}
+.habit-item:last-child{border-bottom:none}
+.habit-check{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(0,180,255,0.25);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.25s;background:rgba(0,180,255,0.04)}
+.habit-check:active{transform:scale(0.9)}
+.habit-item.done-today .habit-check{background:rgba(0,255,136,0.12);border-color:var(--green)}
+.habit-check-icon{font-size:16px;color:rgba(0,180,255,0.3);transition:all 0.2s}
+.habit-item.done-today .habit-check-icon{color:var(--green)}
+.habit-info{flex:1;min-width:0}
+.habit-name{font-size:14px;color:#c8dff0;font-weight:500;line-height:1.2}
+.habit-item.done-today .habit-name{color:rgba(200,223,240,0.45);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.3)}
+.habit-meta{display:flex;align-items:center;gap:6px;margin-top:3px}
+.streak-badge{font-family:'Share Tech Mono',monospace;font-size:11px;font-weight:600;color:var(--orange)}
+.streak-days{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:1px}
+.lock-badge{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,180,255,0.3);letter-spacing:1px;display:flex;align-items:center;gap:3px}
+.habit-actions{display:flex;gap:4px;flex-shrink:0}
+.habit-edit-btn{background:none;border:0.5px solid rgba(0,180,255,0.2);border-radius:4px;padding:4px 8px;font-size:10px;color:rgba(0,180,255,0.4);cursor:pointer;font-family:'Share Tech Mono',monospace;-webkit-tap-highlight-color:transparent}
+.habit-edit-btn:active{background:rgba(0,180,255,0.1)}
+.habit-del-btn{background:none;border:0.5px solid rgba(255,107,107,0.2);border-radius:4px;padding:4px 8px;font-size:10px;color:rgba(255,107,107,0.35);cursor:pointer;font-family:'Share Tech Mono',monospace;-webkit-tap-highlight-color:transparent}
 
-/* TASK ITEMS */
-.task-item{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);position:relative}
+.unlock-bar{height:3px;border-radius:2px;background:rgba(0,180,255,0.08);margin-top:4px;overflow:hidden;width:100%;max-width:80px}
+.unlock-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--orange),var(--amber));transition:width 0.4s}
+
+.add-habit-row{display:flex;gap:8px;margin-top:12px}
+.habit-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:9px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;-webkit-appearance:none}
+.habit-input::placeholder{color:rgba(0,180,255,0.22)}
+.habit-input:focus{border-color:rgba(0,180,255,0.45)}
+.add-btn{background:rgba(255,140,66,0.1);border:0.5px solid rgba(255,140,66,0.3);border-radius:8px;padding:9px 12px;color:rgba(255,140,66,0.8);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.add-btn:active{background:rgba(255,140,66,0.18)}
+
+/* TASKS */
+.task-item{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)}
 .task-item:last-child{border-bottom:none}
-.task-item.done{opacity:0.45}
-.task-item.postponed{opacity:0.6}
 .badge{font-size:8px;letter-spacing:1px;padding:2px 6px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0;margin-top:3px;white-space:nowrap}
 .badge-asap{background:rgba(255,80,80,0.1);color:#ff7070;border:0.5px solid rgba(255,80,80,0.2)}
 .badge-morning{background:rgba(255,200,50,0.08);color:var(--amber);border:0.5px solid rgba(255,200,50,0.18)}
 .badge-afternoon{background:rgba(0,180,255,0.08);color:#7fd4ff;border:0.5px solid rgba(0,180,255,0.18)}
 .badge-new{background:rgba(0,255,136,0.08);color:rgba(0,255,136,0.7);border:0.5px solid rgba(0,255,136,0.18)}
-.badge-done{background:rgba(0,255,136,0.06);color:rgba(0,255,136,0.4);border:0.5px solid rgba(0,255,136,0.12)}
 .badge-postponed{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.2)}
 .task-body{flex:1;min-width:0}
 .task-text{font-size:14px;color:var(--text-mid);line-height:1.3}
-.task-item.done .task-text{text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.3)}
 .task-meta{font-size:10px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:2px}
 .task-actions{display:flex;gap:4px;flex-shrink:0;margin-top:2px}
 .task-btn{background:none;border:0.5px solid var(--border);border-radius:4px;padding:3px 7px;font-size:10px;color:var(--text-dim);cursor:pointer;font-family:'Share Tech Mono',monospace;-webkit-tap-highlight-color:transparent;white-space:nowrap}
-.task-btn:active{background:rgba(0,180,255,0.1)}
 .task-btn.done-btn{border-color:rgba(0,255,136,0.2);color:rgba(0,255,136,0.5)}
 .task-btn.del-btn{border-color:rgba(255,107,107,0.2);color:rgba(255,107,107,0.4)}
-
 .add-row{display:flex;gap:8px;margin-top:12px}
-.task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:10px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;-webkit-appearance:none}
+.task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:9px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;-webkit-appearance:none}
 .task-input::placeholder{color:rgba(0,180,255,0.22)}
 .task-input:focus{border-color:rgba(0,180,255,0.45)}
-.add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:10px 12px;color:rgba(0,180,255,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.task-add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:9px 12px;color:rgba(0,180,255,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 
 /* HISTORY */
-.history-day{margin-bottom:16px}
-.history-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:2px;margin-bottom:8px;padding-bottom:4px;border-bottom:0.5px solid var(--border)}
-.history-item{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:0.5px solid rgba(0,180,255,0.04)}
+.history-day{margin-bottom:14px}
+.history-date{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--blue);letter-spacing:2px;margin-bottom:6px;padding-bottom:4px;border-bottom:0.5px solid var(--border)}
+.history-item{display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(0,180,255,0.04)}
 .history-item:last-child{border-bottom:none}
 .h-status{font-size:8px;font-family:'Share Tech Mono',monospace;padding:2px 6px;border-radius:3px;flex-shrink:0;margin-top:2px}
 .h-done{background:rgba(0,255,136,0.08);color:rgba(0,255,136,0.6);border:0.5px solid rgba(0,255,136,0.15)}
 .h-postponed{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.15)}
 .h-added{background:rgba(0,180,255,0.06);color:rgba(0,180,255,0.5);border:0.5px solid rgba(0,180,255,0.15)}
+.h-habit{background:rgba(255,140,66,0.08);color:var(--orange);border:0.5px solid rgba(255,140,66,0.2)}
 .h-text{font-size:13px;color:var(--text-mid);flex:1}
-.h-time{font-size:9px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:2px}
-.empty-state{text-align:center;padding:40px 20px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;line-height:2}
+.h-time{font-size:9px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:1px}
+.empty-state{text-align:center;padding:32px 16px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;line-height:2.2}
 
-/* LANG */
 .lang-toggle{display:flex;gap:5px}
 .lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 8px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .lang-btn.active{background:rgba(0,180,255,0.1);border-color:rgba(0,180,255,0.45);color:#7fd4ff}
 
-/* VOICE */
-.voice-bar{padding:16px 16px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0;border-top:0.5px solid var(--border);background:rgba(8,12,20,0.95)}
-#response-box{width:100%;background:var(--blue-faint);border:0.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--text-mid);line-height:1.6;display:none;max-height:80px;overflow-y:auto}
-.voice-row{display:flex;align-items:center;gap:16px}
-.voice-btn{width:64px;height:64px;border-radius:50%;border:1.5px solid rgba(0,180,255,0.4);background:rgba(8,20,36,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;font-size:26px;color:rgba(0,180,255,0.65);flex-shrink:0}
+/* VOICE BAR */
+.voice-bar{padding:14px 16px 20px;display:flex;flex-direction:column;align-items:center;gap:10px;flex-shrink:0;border-top:0.5px solid var(--border);background:rgba(8,12,20,0.97)}
+#response-box{width:100%;background:var(--blue-faint);border:0.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--text-mid);line-height:1.6;display:none;max-height:70px;overflow-y:auto}
+.voice-btn{width:60px;height:60px;border-radius:50%;border:1.5px solid rgba(0,180,255,0.4);background:rgba(8,20,36,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;font-size:24px;color:rgba(0,180,255,0.65)}
 .voice-btn:active{transform:scale(0.93)}
 .voice-btn.listening{border-color:var(--red);color:var(--red);animation:pulse-red 1.4s infinite}
 .voice-btn.speaking{border-color:var(--green);color:var(--green);animation:pulse-green 1.4s infinite}
@@ -140,20 +153,16 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
 @keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.35)}50%{box-shadow:0 0 0 12px rgba(255,107,107,0)}}
 @keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.3)}50%{box-shadow:0 0 0 12px rgba(0,255,136,0)}}
 @keyframes pulse-amber{0%,100%{box-shadow:0 0 0 0 rgba(255,200,50,0.3)}50%{box-shadow:0 0 0 12px rgba(255,200,50,0)}}
-.voice-hint{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;text-align:center}
+.voice-hint{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px}
 .reset-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,107,107,0.2);letter-spacing:1px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 
-/* CORNERS */
-.ca{position:fixed;width:40px;height:40px;pointer-events:none;opacity:0.25;z-index:0}
-.ca-tl{top:8px;left:8px;border-top:1px solid var(--blue);border-left:1px solid var(--blue)}
-.ca-tr{top:8px;right:8px;border-top:1px solid var(--blue);border-right:1px solid var(--blue)}
-.ca-bl{bottom:8px;left:8px;border-bottom:1px solid var(--blue);border-left:1px solid var(--blue)}
-.ca-br{bottom:8px;right:8px;border-bottom:1px solid var(--blue);border-right:1px solid var(--blue)}
+.ca{position:fixed;width:36px;height:36px;pointer-events:none;opacity:0.2;z-index:0}
+.ca-tl{top:6px;left:6px;border-top:1px solid var(--blue);border-left:1px solid var(--blue)}
+.ca-tr{top:6px;right:6px;border-top:1px solid var(--blue);border-right:1px solid var(--blue)}
+.ca-bl{bottom:6px;left:6px;border-bottom:1px solid var(--blue);border-left:1px solid var(--blue)}
+.ca-br{bottom:6px;right:6px;border-bottom:1px solid var(--blue);border-right:1px solid var(--blue)}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:rgba(0,180,255,0.15);border-radius:2px}
-
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.section-title{font-size:9px;letter-spacing:2.5px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -170,7 +179,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
     <div class="setup-section">
       <div class="setup-label">// ELEVENLABS API KEY</div>
       <input class="setup-input" id="eleven-key" type="password" placeholder="your elevenlabs key..." autocomplete="off" spellcheck="false"/>
-      <div class="setup-note">Powers Claudia's voice (leave empty to use device voice)</div>
+      <div class="setup-note">Powers Claudia's voice (leave empty for device voice)</div>
     </div>
     <div class="setup-error" id="setup-error">Check your Anthropic key and try again.</div>
     <button class="setup-btn" onclick="saveKeys()">ACTIVATE CLAUDIA</button>
@@ -186,89 +195,74 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
       <div class="avatar-ring"><div class="avatar-dot">CL</div></div>
       <div class="name-block">
         <div class="name">Claudia</div>
-        <div class="sub">personal assistant v2</div>
+        <div class="sub">personal assistant v3</div>
       </div>
     </div>
     <div class="header-right">
       <div id="clock">--:--</div>
       <div class="status-row">
         <div class="status-dot"></div>
-        <div class="status-txt" id="status-txt">ONLINE</div>
+        <div class="status-txt">ONLINE</div>
       </div>
     </div>
   </header>
 
   <div class="tabs">
     <div class="tab active" onclick="showTab('home')" id="tab-home"><i class="ti ti-home"></i>HOME</div>
+    <div class="tab" onclick="showTab('habits')" id="tab-habits"><i class="ti ti-flame"></i>FIRE</div>
     <div class="tab" onclick="showTab('tasks')" id="tab-tasks"><i class="ti ti-checklist"></i>TASKS</div>
-    <div class="tab" onclick="showTab('history')" id="tab-history"><i class="ti ti-history"></i>HISTORY</div>
+    <div class="tab" onclick="showTab('history')" id="tab-history"><i class="ti ti-history"></i>LOG</div>
   </div>
 
-  <!-- HOME TAB -->
+  <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="card">
       <div class="card-label">// MORNING BRIEF</div>
       <div class="greeting-text" id="greeting-text"><span class="cursor"></span></div>
     </div>
-
     <div class="card">
       <div class="section-head">
-        <div class="section-title">morning routine</div>
+        <div class="section-title">fire habits today</div>
         <div class="lang-toggle">
           <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
           <button class="lang-btn" id="btn-ru" onclick="setLang('ru')">RU</button>
         </div>
       </div>
-      <div id="routine-list">
-        <div class="routine-item" onclick="toggleRoutine(this)">
-          <div class="rcheck">✓</div>
-          <div style="flex:1">
-            <div class="routine-name" data-en="Drink a glass of water" data-ru="Выпить стакан воды">Drink a glass of water</div>
-            <div class="routine-dur">2 min</div>
-          </div>
-        </div>
-        <div class="routine-item" onclick="toggleRoutine(this)">
-          <div class="rcheck">✓</div>
-          <div style="flex:1">
-            <div class="routine-name" data-en="Bathroom & freshen up" data-ru="Ванная и умыться">Bathroom & freshen up</div>
-            <div class="routine-dur">15 min</div>
-          </div>
-        </div>
-        <div class="routine-item" onclick="toggleRoutine(this)">
-          <div class="rcheck">✓</div>
-          <div style="flex:1">
-            <div class="routine-name" data-en="Put the kettle on" data-ru="Поставить чайник">Put the kettle on</div>
-            <div class="routine-dur">5 min</div>
-          </div>
-        </div>
-        <div class="routine-item" onclick="toggleRoutine(this)">
-          <div class="rcheck">✓</div>
-          <div style="flex:1">
-            <div class="routine-name" data-en="Morning music on" data-ru="Включить утреннюю музыку">Morning music on</div>
-            <div class="routine-dur">ongoing</div>
-          </div>
-        </div>
-        <div class="routine-item" onclick="toggleRoutine(this)">
-          <div class="rcheck">✓</div>
-          <div style="flex:1">
-            <div class="routine-name" data-en="Review today's tasks" data-ru="Просмотреть задачи дня">Review today's tasks</div>
-            <div class="routine-dur">5 min</div>
-          </div>
-        </div>
-      </div>
+      <div id="home-habits-preview"></div>
     </div>
-
-    <!-- today's tasks preview on home -->
     <div class="card">
-      <div class="section-head">
-        <div class="section-title">today at a glance</div>
-      </div>
+      <div class="section-head"><div class="section-title">today at a glance</div></div>
       <div id="home-tasks-preview"></div>
     </div>
-    <div style="height:16px;flex-shrink:0"></div>
+    <div style="height:14px;flex-shrink:0"></div>
   </div>
 
-  <!-- TASKS TAB -->
+  <!-- FIRE HABITS -->
+  <div class="page" id="page-habits">
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">fire habits</div>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--orange)" id="habits-done-count"></span>
+      </div>
+      <div id="habits-list"></div>
+      <div class="add-habit-row">
+        <input class="habit-input" id="habit-input" placeholder="new habit..." onkeydown="if(event.key==='Enter')addHabitFromInput()"/>
+        <button class="add-btn" onclick="addHabitFromInput()">+ HABIT</button>
+      </div>
+    </div>
+    <div class="card" style="background:rgba(255,140,66,0.03);border-color:rgba(255,140,66,0.1)">
+      <div class="card-label">// HOW IT WORKS</div>
+      <div style="font-size:12px;color:var(--text-dim);line-height:1.8;font-family:'Share Tech Mono',monospace">
+        Mark a habit done each day.<br>
+        Streak counts consecutive days.<br>
+        Edit or delete unlocks at 7 days.<br>
+        Miss a day — streak resets to 0.
+      </div>
+    </div>
+    <div style="height:14px;flex-shrink:0"></div>
+  </div>
+
+  <!-- TASKS -->
   <div class="page" id="page-tasks">
     <div class="card">
       <div class="section-head">
@@ -277,521 +271,533 @@ header{display:flex;align-items:center;justify-content:space-between;padding:16p
       </div>
       <div id="task-list"></div>
       <div class="add-row">
-        <input class="task-input" id="task-input" placeholder="type a task and press enter..." onkeydown="if(event.key==='Enter')addTaskFromInput()"/>
-        <button class="add-btn" onclick="addTaskFromInput()">+ ADD</button>
+        <input class="task-input" id="task-input" placeholder="type a task..." onkeydown="if(event.key==='Enter')addTaskFromInput()"/>
+        <button class="task-add-btn" onclick="addTaskFromInput()">+ ADD</button>
       </div>
     </div>
-
     <div class="card" id="postponed-card" style="display:none">
-      <div class="section-head">
-        <div class="section-title">postponed</div>
-      </div>
+      <div class="section-head"><div class="section-title">postponed</div></div>
       <div id="postponed-list"></div>
     </div>
-    <div style="height:16px;flex-shrink:0"></div>
+    <div style="height:14px;flex-shrink:0"></div>
   </div>
 
-  <!-- HISTORY TAB -->
+  <!-- HISTORY LOG -->
   <div class="page" id="page-history">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-      <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px">TASK HISTORY</span>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px">ACTIVITY LOG</span>
       <button onclick="clearHistory()" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,107,107,0.3);background:none;border:none;cursor:pointer;letter-spacing:1px">CLEAR</button>
     </div>
     <div id="history-list"></div>
-    <div style="height:16px;flex-shrink:0"></div>
+    <div style="height:14px;flex-shrink:0"></div>
   </div>
 
   <div class="voice-bar">
     <div id="response-box"></div>
-    <div class="voice-row">
-      <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Tap to speak">
-        <i class="ti ti-microphone" aria-hidden="true"></i>
-      </button>
-    </div>
+    <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Tap to speak">
+      <i class="ti ti-microphone" aria-hidden="true"></i>
+    </button>
     <div class="voice-hint" id="voice-hint">TAP TO SPEAK — EN / RU</div>
     <button class="reset-btn" onclick="resetKeys()">reset keys</button>
   </div>
 </div>
 
 <script>
-// ─── STATE ───────────────────────────────────────────────
-let anthropicKey = '', elevenKey = '';
-let currentLang = 'en';
-let isListening = false;
-let recognition = null;
-let apiMessages = [];
+let anthropicKey='', elevenKey='';
+let currentLang='en';
+let isListening=false;
+let recognition=null;
+let apiMessages=[];
+const ELEVEN_VOICE='cgSgspJ2msm6clMCkdW9';
 
-const ELEVEN_VOICE = 'cgSgspJ2msm6clMCkdW9';
+const greetingsEN=["Good morning, friend. Ready to own the day?","Rise and shine, friend. Let's shake it up.","Morning, friend. Here's what's ahead of you today."];
+const greetingsRU=["Доброе утро, друг. Готов завоевать день?","Просыпайся, друг. Начнём с огня.","Утро, друг. Вот что тебя ждёт сегодня."];
 
-const greetingsEN = [
-  "Good morning, friend. Ready to own the day?",
-  "Rise and shine, friend. Let's shake it up.",
-  "Morning, friend. Here's what's ahead of you today."
-];
-const greetingsRU = [
-  "Доброе утро, друг. Готов завоевать день?",
-  "Просыпайся, друг. Начнём с огня.",
-  "Утро, друг. Вот что тебя ждёт сегодня."
-];
+// ── STORAGE ──
+function loadHabits(){try{return JSON.parse(localStorage.getItem('claudia_habits')||'[]')}catch{return[]}}
+function saveHabits(h){localStorage.setItem('claudia_habits',JSON.stringify(h))}
+function loadTasks(){try{return JSON.parse(localStorage.getItem('claudia_tasks')||'[]')}catch{return[]}}
+function saveTasks(t){localStorage.setItem('claudia_tasks',JSON.stringify(t))}
+function loadHistory(){try{return JSON.parse(localStorage.getItem('claudia_history')||'[]')}catch{return[]}}
+function saveHistory(h){localStorage.setItem('claudia_history',JSON.stringify(h))}
 
-// ─── STORAGE ─────────────────────────────────────────────
-function loadTasks() {
-  try { return JSON.parse(localStorage.getItem('claudia_tasks') || '[]'); } catch { return []; }
-}
-function saveTasks(tasks) {
-  localStorage.setItem('claudia_tasks', JSON.stringify(tasks));
-}
-function loadHistory() {
-  try { return JSON.parse(localStorage.getItem('claudia_history') || '[]'); } catch { return []; }
-}
-function saveHistory(h) {
-  localStorage.setItem('claudia_history', JSON.stringify(h));
-}
-function addToHistory(task, action, extra) {
-  const h = loadHistory();
-  h.unshift({ text: task, action, extra: extra || '', ts: Date.now() });
-  if (h.length > 200) h.splice(200);
+function addToHistory(text,action,extra){
+  const h=loadHistory();
+  h.unshift({text,action,extra:extra||'',ts:Date.now()});
+  if(h.length>300)h.splice(300);
   saveHistory(h);
   renderHistory();
 }
 
-// ─── SETUP ───────────────────────────────────────────────
-function init() {
-  const ak = localStorage.getItem('claudia_anthropic');
-  const ek = localStorage.getItem('claudia_eleven') || '';
-  if (ak) { anthropicKey = ak; elevenKey = ek; showMain(); }
+// ── SETUP ──
+function init(){
+  const ak=localStorage.getItem('claudia_anthropic');
+  const ek=localStorage.getItem('claudia_eleven')||'';
+  if(ak){anthropicKey=ak;elevenKey=ek;showMain();}
 }
-function saveKeys() {
-  const ak = document.getElementById('anthropic-key').value.trim();
-  const ek = document.getElementById('eleven-key').value.trim();
-  if (!ak.startsWith('sk-ant-')) { document.getElementById('setup-error').style.display = 'block'; return; }
-  anthropicKey = ak; elevenKey = ek;
-  localStorage.setItem('claudia_anthropic', ak);
-  if (ek) localStorage.setItem('claudia_eleven', ek);
+function saveKeys(){
+  const ak=document.getElementById('anthropic-key').value.trim();
+  const ek=document.getElementById('eleven-key').value.trim();
+  if(!ak.startsWith('sk-ant-')){document.getElementById('setup-error').style.display='block';return;}
+  anthropicKey=ak;elevenKey=ek;
+  localStorage.setItem('claudia_anthropic',ak);
+  if(ek)localStorage.setItem('claudia_eleven',ek);
   showMain();
 }
-function showMain() {
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('main-app').style.display = 'flex';
-  updateClock(); setInterval(updateClock, 15000);
-  renderTasks(); renderHistory();
-  setTimeout(typeGreeting, 500);
-  if (loadTasks().length === 0) {
-    setTimeout(() => askClaudia('__onboard__'), 2000);
+function showMain(){
+  document.getElementById('setup-screen').style.display='none';
+  document.getElementById('main-app').style.display='flex';
+  updateClock();setInterval(updateClock,15000);
+  checkHabitReset();
+  renderHabits();renderTasks();renderHistory();
+  setTimeout(typeGreeting,500);
+  if(loadTasks().length===0&&loadHabits().length===0){
+    setTimeout(()=>askClaudia('__onboard__'),2000);
   }
 }
-function resetKeys() {
-  if (confirm('Reset all keys and data?')) { localStorage.clear(); location.reload(); }
+function resetKeys(){if(confirm('Reset all keys and data?')){localStorage.clear();location.reload();}}
+
+// ── CLOCK ──
+function updateClock(){
+  const now=new Date();
+  document.getElementById('clock').textContent=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
 }
 
-// ─── CLOCK ───────────────────────────────────────────────
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clock').textContent =
-    String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-}
-
-// ─── TABS ─────────────────────────────────────────────────
-function showTab(name) {
-  ['home','tasks','history'].forEach(t => {
-    document.getElementById('page-'+t).classList.toggle('active', t === name);
-    document.getElementById('tab-'+t).classList.toggle('active', t === name);
+// ── TABS ──
+function showTab(name){
+  ['home','habits','tasks','history'].forEach(t=>{
+    document.getElementById('page-'+t).classList.toggle('active',t===name);
+    document.getElementById('tab-'+t).classList.toggle('active',t===name);
   });
-  if (name === 'history') renderHistory();
+  if(name==='history')renderHistory();
 }
 
-// ─── GREETING ────────────────────────────────────────────
-function typeGreeting() {
-  const list = currentLang === 'ru' ? greetingsRU : greetingsEN;
-  const text = list[Math.floor(Math.random() * list.length)];
-  const el = document.getElementById('greeting-text');
-  el.innerHTML = '<span class="cursor"></span>';
-  let i = 0;
-  const t = setInterval(() => {
-    if (i < text.length) el.innerHTML = text.substring(0,++i) + '<span class="cursor"></span>';
+// ── GREETING ──
+function typeGreeting(){
+  const list=currentLang==='ru'?greetingsRU:greetingsEN;
+  const text=list[Math.floor(Math.random()*list.length)];
+  const el=document.getElementById('greeting-text');
+  el.innerHTML='<span class="cursor"></span>';
+  let i=0;
+  const t=setInterval(()=>{
+    if(i<text.length)el.innerHTML=text.substring(0,++i)+'<span class="cursor"></span>';
     else clearInterval(t);
-  }, 40);
+  },40);
 }
 
-// ─── LANG ─────────────────────────────────────────────────
-function setLang(lang) {
-  currentLang = lang;
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  document.getElementById('btn-ru').classList.toggle('active', lang === 'ru');
-  document.querySelectorAll('.routine-name').forEach(el => {
-    el.textContent = el.dataset[lang] || el.textContent;
-  });
+// ── LANG ──
+function setLang(lang){
+  currentLang=lang;
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-ru').classList.toggle('active',lang==='ru');
   typeGreeting();
 }
 
-// ─── ROUTINE ──────────────────────────────────────────────
-function toggleRoutine(el) {
-  el.classList.toggle('done');
-  const all = document.querySelectorAll('.routine-item').length;
-  const done = document.querySelectorAll('.routine-item.done').length;
-  if (done === all) askClaudia(currentLang === 'ru' ? 'Я завершил утреннюю рутину' : 'I just completed my full morning routine');
+// ── HABIT RESET (daily) ──
+function todayStr(){return new Date().toISOString().split('T')[0]}
+function checkHabitReset(){
+  const habits=loadHabits();
+  const today=todayStr();
+  let changed=false;
+  habits.forEach(h=>{
+    if(h.lastDoneDate && h.lastDoneDate!==today){
+      // check if yesterday
+      const last=new Date(h.lastDoneDate);
+      const now=new Date(today);
+      const diff=(now-last)/(1000*60*60*24);
+      if(diff>1){h.streak=0;} // missed a day — reset streak
+      h.doneToday=false;
+      changed=true;
+    }
+  });
+  if(changed)saveHabits(habits);
 }
 
-// ─── TASKS ────────────────────────────────────────────────
-function formatDate(ts) {
-  const d = new Date(ts);
-  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
-}
-function formatDateShort(ts) {
-  const d = new Date(ts);
-  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
-}
+// ── HABITS ──
+function renderHabits(){
+  const habits=loadHabits();
+  const today=todayStr();
+  const doneCount=habits.filter(h=>h.doneToday).length;
+  const countEl=document.getElementById('habits-done-count');
+  if(countEl)countEl.textContent=doneCount+'/'+habits.length+' done';
 
-function renderTasks() {
-  const tasks = loadTasks();
-  const today = new Date(); today.setHours(0,0,0,0);
-
-  const active = tasks.filter(t => t.status === 'active');
-  const postponed = tasks.filter(t => t.status === 'postponed');
-
-  const list = document.getElementById('task-list');
-  const count = document.getElementById('task-count');
-  count.textContent = active.length + ' task' + (active.length !== 1 ? 's' : '');
-
-  if (active.length === 0) {
-    list.innerHTML = '<div class="empty-state">No active tasks.<br>Tell Claudia what\'s on your plate.</div>';
+  const list=document.getElementById('habits-list');
+  if(!list)return;
+  if(habits.length===0){
+    list.innerHTML='<div class="empty-state">No fire habits yet.<br>Add one below or tell Claudia.</div>';
   } else {
-    list.innerHTML = active.map((t,i) => `
+    list.innerHTML=habits.map((h,i)=>{
+      const unlocked=h.streak>=7;
+      const pct=Math.min(100,Math.round((h.streak/7)*100));
+      const streakDisplay=h.streak>0?`<span class="streak-badge">${h.streak}</span><span class="streak-days">day${h.streak!==1?'s':''}</span>`:'<span class="streak-days">start today</span>';
+      const lockInfo=unlocked
+        ?`<span class="streak-days" style="color:rgba(0,255,136,0.4)">unlocked</span>`
+        :`<div class="lock-badge"><i class="ti ti-lock" style="font-size:9px"></i>${7-h.streak} to edit</div>`;
+      const progressBar=!unlocked?`<div class="unlock-bar"><div class="unlock-fill" style="width:${pct}%"></div></div>`:'';
+      const editBtn=unlocked?`<button class="habit-edit-btn" onclick="editHabit(${i})">EDIT</button>`:'';
+      const delBtn=unlocked?`<button class="habit-del-btn" onclick="deleteHabit(${i})">DEL</button>`:'';
+      return `<div class="habit-item${h.doneToday?' done-today':''}" id="habit-${i}">
+        <div class="habit-check" onclick="toggleHabit(${i})">
+          <i class="ti ti-${h.doneToday?'check':'flame'} habit-check-icon"></i>
+        </div>
+        <div class="habit-info">
+          <div class="habit-name">${h.name}</div>
+          <div class="habit-meta">${streakDisplay}${lockInfo}</div>
+          ${progressBar}
+        </div>
+        <div class="habit-actions">${editBtn}${delBtn}</div>
+      </div>`;
+    }).join('');
+  }
+  renderHomeHabitsPreview(habits);
+}
+
+function renderHomeHabitsPreview(habits){
+  const el=document.getElementById('home-habits-preview');
+  if(!el)return;
+  if(!habits||habits.length===0){
+    el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No fire habits yet.</div>';
+    return;
+  }
+  el.innerHTML=habits.slice(0,4).map(h=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
+      <i class="ti ti-${h.doneToday?'check':'flame'}" style="font-size:14px;color:${h.doneToday?'var(--green)':'var(--orange)'}"></i>
+      <span style="font-size:13px;color:${h.doneToday?'rgba(200,223,240,0.4)':'#c8dff0'};${h.doneToday?'text-decoration:line-through':''}">${h.name}</span>
+      ${h.streak>0?`<span style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--orange);margin-left:auto">${h.streak}d</span>`:''}
+    </div>`).join('');
+}
+
+function toggleHabit(i){
+  const habits=loadHabits();
+  const h=habits[i];
+  const today=todayStr();
+  if(h.doneToday){
+    h.doneToday=false;
+    if(h.streak>0)h.streak--;
+    h.lastDoneDate=null;
+  } else {
+    h.doneToday=true;
+    h.streak=(h.streak||0)+1;
+    h.lastDoneDate=today;
+    addToHistory(h.name,'habit',`streak: ${h.streak}`);
+    if(h.streak===7){
+      setTimeout(()=>askClaudia(currentLang==='ru'
+        ?`Я выполнил привычку "${h.name}" 7 дней подряд. Скажи что-нибудь мотивирующее и что теперь она разблокирована.`
+        :`I just hit 7 days in a row on my habit "${h.name}". Say something motivating and mention it's now unlocked.`),300);
+    }
+  }
+  saveHabits(habits);
+  renderHabits();
+}
+
+function addHabit(name){
+  const habits=loadHabits();
+  habits.push({name,streak:0,doneToday:false,lastDoneDate:null,createdAt:Date.now()});
+  saveHabits(habits);
+  addToHistory(name,'added','habit');
+  renderHabits();
+}
+
+function addHabitFromInput(){
+  const input=document.getElementById('habit-input');
+  const text=input.value.trim();
+  if(!text)return;
+  addHabit(text);
+  input.value='';
+  askClaudia(currentLang==='ru'
+    ?`Я добавил новую привычку: ${text}. Скажи что-нибудь короткое и мотивирующее. Без эмодзи.`
+    :`I added a new fire habit: ${text}. Short encouraging response. No emoji.`);
+}
+
+function editHabit(i){
+  const habits=loadHabits();
+  const h=habits[i];
+  if(h.streak<7){showResponse(currentLang==='ru'?`Ещё ${7-h.streak} дней до разблокировки, друг.`:`${7-h.streak} more days to unlock editing, friend.`);return;}
+  const newName=prompt('Rename habit:',h.name);
+  if(newName&&newName.trim()){
+    addToHistory(h.name,'habit','renamed to: '+newName.trim());
+    h.name=newName.trim();
+    saveHabits(habits);
+    renderHabits();
+  }
+}
+
+function deleteHabit(i){
+  const habits=loadHabits();
+  const h=habits[i];
+  if(h.streak<7){showResponse(currentLang==='ru'?`Ещё ${7-h.streak} дней до разблокировки, друг.`:`${7-h.streak} more days to unlock, friend.`);return;}
+  if(confirm(`Delete habit "${h.name}"?`)){
+    addToHistory(h.name,'habit','deleted');
+    habits.splice(i,1);
+    saveHabits(habits);
+    renderHabits();
+  }
+}
+
+// ── TASKS ──
+function formatDateShort(ts){return new Date(ts).toLocaleDateString('en-GB',{day:'2-digit',month:'short'})}
+function formatDate(ts){return new Date(ts).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}
+
+function renderTasks(){
+  const tasks=loadTasks();
+  const active=tasks.filter(t=>t.status==='active');
+  const postponed=tasks.filter(t=>t.status==='postponed');
+  const count=document.getElementById('task-count');
+  if(count)count.textContent=active.length+' task'+(active.length!==1?'s':'');
+  const list=document.getElementById('task-list');
+  if(!list)return;
+  if(active.length===0){
+    list.innerHTML='<div class="empty-state">No active tasks.<br>Tell Claudia what\'s on your plate.</div>';
+  } else {
+    list.innerHTML=active.map(t=>`
       <div class="task-item">
-        <span class="badge badge-${t.priority || 'new'}">${(t.priority || 'new').toUpperCase()}</span>
+        <span class="badge badge-${t.priority||'new'}">${(t.priority||'new').toUpperCase()}</span>
         <div class="task-body">
           <div class="task-text">${t.text}</div>
           <div class="task-meta">Added ${formatDateShort(t.created)}</div>
         </div>
         <div class="task-actions">
-          <button class="task-btn done-btn" onclick="completeTask(${t.id})">✓</button>
-          <button class="task-btn" onclick="showPostponeUI(${t.id})">⏱</button>
-          <button class="task-btn del-btn" onclick="deleteTask(${t.id})">✕</button>
+          <button class="task-btn done-btn" onclick="completeTask(${t.id})">DONE</button>
+          <button class="task-btn" onclick="showPostponeUI(${t.id})">DELAY</button>
+          <button class="task-btn del-btn" onclick="deleteTask(${t.id})">DEL</button>
         </div>
       </div>`).join('');
   }
-
-  const pCard = document.getElementById('postponed-card');
-  const pList = document.getElementById('postponed-list');
-  if (postponed.length > 0) {
-    pCard.style.display = 'block';
-    pList.innerHTML = postponed.map(t => `
-      <div class="task-item postponed">
-        <span class="badge badge-postponed">POSTPONED</span>
-        <div class="task-body">
-          <div class="task-text">${t.text}</div>
-          <div class="task-meta">Until ${formatDateShort(t.postponedTo)}</div>
-        </div>
-        <div class="task-actions">
-          <button class="task-btn done-btn" onclick="completeTask(${t.id})">✓</button>
-          <button class="task-btn del-btn" onclick="deleteTask(${t.id})">✕</button>
-        </div>
-      </div>`).join('');
-  } else { pCard.style.display = 'none'; }
-
-  renderHomePreview(active);
+  const pCard=document.getElementById('postponed-card');
+  const pList=document.getElementById('postponed-list');
+  if(pCard&&pList){
+    if(postponed.length>0){
+      pCard.style.display='block';
+      pList.innerHTML=postponed.map(t=>`
+        <div class="task-item">
+          <span class="badge badge-postponed">DELAYED</span>
+          <div class="task-body">
+            <div class="task-text">${t.text}</div>
+            <div class="task-meta">Until ${formatDateShort(t.postponedTo)}</div>
+          </div>
+          <div class="task-actions">
+            <button class="task-btn done-btn" onclick="completeTask(${t.id})">DONE</button>
+            <button class="task-btn del-btn" onclick="deleteTask(${t.id})">DEL</button>
+          </div>
+        </div>`).join('');
+    } else pCard.style.display='none';
+  }
+  renderHomeTasksPreview(active);
 }
 
-function renderHomePreview(active) {
-  const el = document.getElementById('home-tasks-preview');
-  if (!active || active.length === 0) {
-    el.innerHTML = '<div style="font-size:13px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No tasks yet — tell Claudia</div>';
+function renderHomeTasksPreview(active){
+  const el=document.getElementById('home-tasks-preview');
+  if(!el)return;
+  if(!active||active.length===0){
+    el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No tasks — tell Claudia</div>';
     return;
   }
-  el.innerHTML = active.slice(0,3).map(t => `
-    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
-      <span class="badge badge-${t.priority || 'new'}">${(t.priority || 'new').toUpperCase()}</span>
+  el.innerHTML=active.slice(0,3).map(t=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
+      <span class="badge badge-${t.priority||'new'}">${(t.priority||'new').toUpperCase()}</span>
       <span style="font-size:13px;color:var(--text-mid)">${t.text}</span>
-    </div>`).join('') + (active.length > 3 ? `<div style="font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;padding-top:8px">+${active.length-3} more in Tasks tab</div>` : '');
+    </div>`).join('')+(active.length>3?`<div style="font-size:10px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;padding-top:6px">+${active.length-3} more in Tasks tab</div>`:'');
 }
 
-function addTask(text, priority) {
-  const tasks = loadTasks();
-  const task = { id: Date.now(), text, priority: priority || 'new', status: 'active', created: Date.now() };
-  tasks.push(task);
-  saveTasks(tasks);
-  addToHistory(text, 'added', priority);
-  renderTasks();
-  return task;
+function addTask(text,priority){
+  const tasks=loadTasks();
+  const task={id:Date.now(),text,priority:priority||'new',status:'active',created:Date.now()};
+  tasks.push(task);saveTasks(tasks);
+  addToHistory(text,'added',priority||'new');
+  renderTasks();return task;
+}
+function completeTask(id){
+  const tasks=loadTasks();
+  const t=tasks.find(t=>t.id===id);
+  if(t){addToHistory(t.text,'done','');}
+  saveTasks(tasks.filter(t=>t.id!==id));renderTasks();
+}
+function postponeTask(id,toDate){
+  const tasks=loadTasks();
+  const t=tasks.find(t=>t.id===id);
+  if(t){t.status='postponed';t.postponedTo=toDate;addToHistory(t.text,'postponed',formatDate(toDate));}
+  saveTasks(tasks);renderTasks();
+}
+function deleteTask(id){saveTasks(loadTasks().filter(t=>t.id!==id));renderTasks();}
+function showPostponeUI(id){
+  const date=prompt('Postpone to (e.g. tomorrow, Friday, 12 Jun):');
+  if(!date)return;
+  const parsed=parseDate(date);
+  if(parsed)postponeTask(id,parsed);
+  else alert('Could not understand that date. Try "tomorrow", "Friday", or "12 Jun".');
+}
+function addTaskFromInput(){
+  const input=document.getElementById('task-input');
+  const text=input.value.trim();
+  if(!text)return;
+  addTask(text,'new');input.value='';
+  askClaudia(currentLang==='ru'?`Добавил задачу: ${text}. Коротко, без эмодзи.`:`Added task: ${text}. Short, no emoji.`);
 }
 
-function completeTask(id) {
-  const tasks = loadTasks();
-  const t = tasks.find(t => t.id === id);
-  if (t) { t.status = 'done'; t.completedAt = Date.now(); addToHistory(t.text, 'done', ''); }
-  saveTasks(tasks.filter(t => t.id !== id || t.status !== 'done').filter(t => t.status !== 'done'));
-  saveTasks(tasks.filter(t => t.id !== id));
-  renderTasks();
-}
-
-function postponeTask(id, toDate) {
-  const tasks = loadTasks();
-  const t = tasks.find(t => t.id === id);
-  if (t) { t.status = 'postponed'; t.postponedTo = toDate; addToHistory(t.text, 'postponed', formatDate(toDate)); }
-  saveTasks(tasks);
-  renderTasks();
-}
-
-function deleteTask(id) {
-  const tasks = loadTasks().filter(t => t.id !== id);
-  saveTasks(tasks);
-  renderTasks();
-}
-
-function showPostponeUI(id) {
-  const date = prompt('Postpone to date (e.g. 12 Jun, tomorrow, Friday):');
-  if (!date) return;
-  const parsed = parseDate(date);
-  if (parsed) { postponeTask(id, parsed); }
-  else { alert('Could not understand that date. Try "tomorrow", "Friday", or "12 Jun".'); }
-}
-
-function parseDate(str) {
-  const s = str.toLowerCase().trim();
-  const now = new Date(); now.setHours(0,0,0,0);
-  if (s === 'tomorrow') { const d = new Date(now); d.setDate(d.getDate()+1); return d.getTime(); }
-  if (s === 'monday'||s === 'пн') return nextWeekday(1);
-  if (s === 'tuesday'||s === 'вт') return nextWeekday(2);
-  if (s === 'wednesday'||s === 'ср') return nextWeekday(3);
-  if (s === 'thursday'||s === 'чт') return nextWeekday(4);
-  if (s === 'friday'||s === 'пт') return nextWeekday(5);
-  if (s === 'saturday'||s === 'сб') return nextWeekday(6);
-  if (s === 'sunday'||s === 'вс') return nextWeekday(0);
-  const months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,
-    янв:0,фев:1,мар:2,апр:3,май:4,июн:5,июл:6,авг:7,сен:8,окт:9,ноя:10,дек:11};
-  const m = s.match(/(\d{1,2})\s+([a-zа-я]+)/);
-  if (m) {
-    const mon = months[m[2].substring(0,3).toLowerCase()];
-    if (mon !== undefined) {
-      const d = new Date(now.getFullYear(), mon, parseInt(m[1]));
-      if (d < now) d.setFullYear(d.getFullYear()+1);
-      return d.getTime();
-    }
-  }
-  const direct = new Date(str);
-  if (!isNaN(direct)) return direct.getTime();
+function parseDate(str){
+  const s=str.toLowerCase().trim();
+  const now=new Date();now.setHours(0,0,0,0);
+  if(s==='tomorrow'||s==='завтра'){const d=new Date(now);d.setDate(d.getDate()+1);return d.getTime();}
+  const days={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6,sunday:0,пн:1,вт:2,ср:3,чт:4,пт:5,сб:6,вс:0};
+  if(days[s]!==undefined)return nextWeekday(days[s]);
+  const months={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,янв:0,фев:1,мар:2,апр:3,май:4,июн:5,июл:6,авг:7,сен:8,окт:9,ноя:10,дек:11};
+  const m=s.match(/(\d{1,2})\s+([a-zа-я]+)/);
+  if(m){const mon=months[m[2].substring(0,3).toLowerCase()];if(mon!==undefined){const d=new Date(now.getFullYear(),mon,parseInt(m[1]));if(d<now)d.setFullYear(d.getFullYear()+1);return d.getTime();}}
+  const direct=new Date(str);if(!isNaN(direct))return direct.getTime();
   return null;
 }
-function nextWeekday(day) {
-  const now = new Date(); now.setHours(0,0,0,0);
-  const d = new Date(now);
-  d.setDate(d.getDate() + ((day + 7 - d.getDay()) % 7 || 7));
-  return d.getTime();
-}
+function nextWeekday(day){const now=new Date();now.setHours(0,0,0,0);const d=new Date(now);d.setDate(d.getDate()+((day+7-d.getDay())%7||7));return d.getTime();}
 
-function addTaskFromInput() {
-  const input = document.getElementById('task-input');
-  const text = input.value.trim();
-  if (!text) return;
-  addTask(text, 'new');
-  input.value = '';
-  askClaudia(currentLang === 'ru'
-    ? `Я добавил задачу: ${text}. Скажи коротко, без эмодзи.`
-    : `I added a task: ${text}. Short response, no emoji.`);
-}
-
-// ─── HISTORY ──────────────────────────────────────────────
-function renderHistory() {
-  const h = loadHistory();
-  const el = document.getElementById('history-list');
-  if (h.length === 0) {
-    el.innerHTML = '<div class="empty-state">No history yet.<br>Completed tasks will appear here.</div>';
-    return;
-  }
-  const byDay = {};
-  h.forEach(item => {
-    const day = new Date(item.ts).toLocaleDateString('en-GB', {weekday:'short',day:'2-digit',month:'short',year:'numeric'});
-    if (!byDay[day]) byDay[day] = [];
+// ── HISTORY ──
+function renderHistory(){
+  const h=loadHistory();
+  const el=document.getElementById('history-list');
+  if(!el)return;
+  if(h.length===0){el.innerHTML='<div class="empty-state">No activity yet.<br>Completed tasks and habits will appear here.</div>';return;}
+  const byDay={};
+  h.forEach(item=>{
+    const day=new Date(item.ts).toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+    if(!byDay[day])byDay[day]=[];
     byDay[day].push(item);
   });
-  el.innerHTML = Object.entries(byDay).map(([day, items]) => `
+  el.innerHTML=Object.entries(byDay).map(([day,items])=>`
     <div class="history-day">
       <div class="history-date">${day}</div>
-      ${items.map(item => `
+      ${items.map(item=>`
         <div class="history-item">
-          <span class="h-status h-${item.action}">${item.action.toUpperCase()}</span>
+          <span class="h-status h-${item.action==='habit'?'habit':item.action}">${item.action.toUpperCase()}</span>
           <div style="flex:1">
             <div class="h-text">${item.text}</div>
-            <div class="h-time">${new Date(item.ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}${item.extra ? ' · ' + item.extra : ''}</div>
+            <div class="h-time">${new Date(item.ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}${item.extra?' · '+item.extra:''}</div>
           </div>
         </div>`).join('')}
     </div>`).join('');
 }
+function clearHistory(){if(confirm('Clear all history?')){localStorage.removeItem('claudia_history');renderHistory();}}
 
-function clearHistory() {
-  if (confirm('Clear all history?')) { localStorage.removeItem('claudia_history'); renderHistory(); }
-}
+// ── VOICE OUTPUT ──
+function stripEmoji(text){return text.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27FF}|\u{2300}-\u{23FF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}]/gu,'').trim();}
 
-// ─── VOICE OUTPUT ─────────────────────────────────────────
-function stripEmoji(text) {
-  return text.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27FF}|\u{2300}-\u{23FF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}]/gu,'').trim();
-}
-
-async function speakWithEleven(text) {
-  if (!elevenKey) { speakFallback(text); return; }
-  const btn = document.getElementById('voice-btn');
-  const icon = btn.querySelector('i');
-  try {
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVEN_VOICE}`, {
+async function speakWithEleven(text){
+  if(!elevenKey){speakFallback(text);return;}
+  const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');
+  try{
+    const res=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVEN_VOICE}`,{
       method:'POST',
       headers:{'Content-Type':'application/json','xi-api-key':elevenKey},
-      body: JSON.stringify({
-        text, model_id:'eleven_multilingual_v2',
-        voice_settings:{stability:0.5,similarity_boost:0.75,style:0.3,use_speaker_boost:true}
-      })
+      body:JSON.stringify({text,model_id:'eleven_multilingual_v2',voice_settings:{stability:0.5,similarity_boost:0.75,style:0.3,use_speaker_boost:true}})
     });
-    if (!res.ok) { speakFallback(text); return; }
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const audio = new Audio(url);
-    btn.classList.remove('thinking'); btn.classList.add('speaking');
-    icon.className = 'ti ti-volume';
-    audio.onended = () => { btn.classList.remove('speaking'); icon.className='ti ti-microphone'; URL.revokeObjectURL(url); };
-    audio.onerror = () => { btn.classList.remove('speaking'); icon.className='ti ti-microphone'; };
+    if(!res.ok){speakFallback(text);return;}
+    const blob=await res.blob();const url=URL.createObjectURL(blob);const audio=new Audio(url);
+    btn.classList.remove('thinking');btn.classList.add('speaking');icon.className='ti ti-volume';
+    audio.onended=()=>{btn.classList.remove('speaking');icon.className='ti ti-microphone';URL.revokeObjectURL(url);};
+    audio.onerror=()=>{btn.classList.remove('speaking');icon.className='ti ti-microphone';};
     await audio.play();
-  } catch { speakFallback(text); }
+  }catch{speakFallback(text);}
 }
-
-function speakFallback(text) {
-  const synth = window.speechSynthesis;
-  if (!synth) return;
-  synth.cancel();
-  const utt = new SpeechSynthesisUtterance(text);
-  utt.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
-  utt.rate = 0.92; utt.pitch = 1.1;
-  const voices = synth.getVoices();
-  const femaleKw = ['female','samantha','victoria','fiona','karen','milena','svetlana'];
-  const lc = currentLang === 'ru' ? 'ru' : 'en';
-  let v = voices.find(v => v.lang.toLowerCase().startsWith(lc) && femaleKw.some(k => v.name.toLowerCase().includes(k)));
-  if (!v) v = voices.find(v => v.lang.toLowerCase().startsWith(lc));
-  if (v) utt.voice = v;
-  const btn = document.getElementById('voice-btn');
-  const icon = btn.querySelector('i');
-  btn.classList.remove('thinking'); btn.classList.add('speaking');
-  icon.className = 'ti ti-volume';
-  utt.onend = () => { btn.classList.remove('speaking'); icon.className='ti ti-microphone'; };
+function speakFallback(text){
+  const synth=window.speechSynthesis;if(!synth)return;synth.cancel();
+  const utt=new SpeechSynthesisUtterance(text);
+  utt.lang=currentLang==='ru'?'ru-RU':'en-US';utt.rate=0.92;utt.pitch=1.1;
+  const voices=synth.getVoices();
+  const fkw=['female','samantha','victoria','fiona','karen','milena','svetlana'];
+  const lc=currentLang==='ru'?'ru':'en';
+  let v=voices.find(v=>v.lang.toLowerCase().startsWith(lc)&&fkw.some(k=>v.name.toLowerCase().includes(k)));
+  if(!v)v=voices.find(v=>v.lang.toLowerCase().startsWith(lc));
+  if(v)utt.voice=v;
+  const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');
+  btn.classList.remove('thinking');btn.classList.add('speaking');icon.className='ti ti-volume';
+  utt.onend=()=>{btn.classList.remove('speaking');icon.className='ti ti-microphone';};
   synth.speak(utt);
 }
+function showResponse(text){const box=document.getElementById('response-box');box.style.display='block';box.textContent=text;}
 
-function showResponse(text) {
-  const box = document.getElementById('response-box');
-  box.style.display = 'block';
-  box.textContent = text;
+// ── AI ──
+function getContext(){
+  const tasks=loadTasks();
+  const habits=loadHabits();
+  const active=tasks.filter(t=>t.status==='active').map(t=>`[${t.id}] ${t.text} (${t.priority})`).join(', ')||'none';
+  const postponed=tasks.filter(t=>t.status==='postponed').map(t=>`[${t.id}] ${t.text} until ${formatDate(t.postponedTo)}`).join(', ')||'none';
+  const habitsList=habits.map(h=>`${h.name} (streak:${h.streak}, done today:${h.doneToday}, unlocked:${h.streak>=7})`).join(', ')||'none';
+  return `Tasks active: ${active}. Postponed: ${postponed}. Fire habits: ${habitsList}.`;
 }
 
-// ─── AI BRAIN ─────────────────────────────────────────────
-function getContext() {
-  const tasks = loadTasks();
-  const active = tasks.filter(t=>t.status==='active').map(t=>`[${t.id}] ${t.text} (${t.priority})`).join(', ') || 'none';
-  const postponed = tasks.filter(t=>t.status==='postponed').map(t=>`[${t.id}] ${t.text} until ${formatDate(t.postponedTo)}`).join(', ') || 'none';
-  return `Active tasks: ${active}. Postponed: ${postponed}.`;
-}
+async function askClaudia(userText){
+  const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');const hint=document.getElementById('voice-hint');
+  btn.classList.add('thinking');icon.className='ti ti-loader';
+  hint.textContent=currentLang==='ru'?'ДУМАЮ...':'THINKING...';
+  const isOnboard=userText==='__onboard__';
+  let prompt=isOnboard?(currentLang==='ru'?'Первый запуск. Поприветствуй тепло и спроси что сегодня на повестке — задачи и привычки. Коротко, без эмодзи.':'First launch. Greet warmly as friend and ask what tasks and habits they want to start with. Short, no emoji.'):userText;
 
-async function askClaudia(userText) {
-  const btn = document.getElementById('voice-btn');
-  const icon = btn.querySelector('i');
-  const hint = document.getElementById('voice-hint');
-
-  btn.classList.add('thinking'); icon.className = 'ti ti-loader';
-  hint.textContent = currentLang === 'ru' ? 'ДУМАЮ...' : 'THINKING...';
-
-  let prompt = userText;
-  const isOnboard = userText === '__onboard__';
-  if (isOnboard) {
-    prompt = currentLang === 'ru'
-      ? 'Это первый запуск. Поприветствуй меня тепло и спроси, какие задачи у меня есть на сегодня. Коротко, без эмодзи.'
-      : "This is the first launch. Greet me warmly as friend and ask what tasks I have today. Short, no emoji.";
-  }
-
-  const systemPrompt = `You are Claudia, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-3 sentences. No emoji. No special symbols. Plain text only — your response is spoken aloud.
+  const systemPrompt=`You are Claudia, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-3 sentences max. No emoji. No special symbols. Plain text only — spoken aloud.
 
 Current context: ${getContext()}
 
-You can manage tasks. When user wants to add a task, reply naturally AND include a JSON action block at the end of your response like this:
-ACTION:{"type":"add","text":"task description","priority":"asap|morning|afternoon|new"}
+You can manage tasks and fire habits. When performing an operation, reply naturally AND append one ACTION block:
 
-When user wants to mark done:
-ACTION:{"type":"done","id":TASK_ID}
+Add task: ACTION:{"type":"add_task","text":"description","priority":"asap|morning|afternoon|new"}
+Complete task: ACTION:{"type":"done_task","id":TASK_ID}
+Postpone task: ACTION:{"type":"postpone_task","id":TASK_ID,"date":"tomorrow|friday|12 jun"}
+Add habit: ACTION:{"type":"add_habit","name":"habit name"}
+Toggle habit done: ACTION:{"type":"toggle_habit","name":"partial habit name"}
 
-When user wants to postpone:
-ACTION:{"type":"postpone","id":TASK_ID,"date":"tomorrow|friday|12 jun|etc"}
+If user tries to edit/delete a habit with streak under 7, tell them it's locked and how many days remain.
+Only include ACTION when performing an operation. For questions, just answer naturally.`;
 
-When user asks about tasks, just describe them naturally from context. Only include ACTION block when performing a task operation.`;
-
-  if (!isOnboard) {
-    apiMessages.push({role:'user', content: prompt});
-    if (apiMessages.length > 20) apiMessages = apiMessages.slice(-20);
+  if(!isOnboard){
+    apiMessages.push({role:'user',content:prompt});
+    if(apiMessages.length>20)apiMessages=apiMessages.slice(-20);
   }
+  const messages=isOnboard?[{role:'user',content:prompt}]:apiMessages;
 
-  const messages = isOnboard ? [{role:'user',content:prompt}] : apiMessages;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'x-api-key': anthropicKey,
-        'anthropic-version':'2023-06-01',
-        'anthropic-dangerous-direct-browser-access':'true'
-      },
-      body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1000, system:systemPrompt, messages })
+      headers:{'Content-Type':'application/json','x-api-key':anthropicKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:1000,system:systemPrompt,messages})
     });
-    const data = await res.json();
-    if (data.error) {
-      showResponse('Error: ' + data.error.message);
-      btn.classList.remove('thinking'); icon.className='ti ti-microphone';
-      hint.textContent = 'TAP TO SPEAK — EN / RU'; return;
-    }
-    let reply = data.content && data.content[0] ? data.content[0].text : 'Something went wrong.';
-
-    // parse action
-    const actionMatch = reply.match(/ACTION:(\{.*?\})/s);
-    if (actionMatch) {
-      try {
-        const action = JSON.parse(actionMatch[1]);
-        reply = reply.replace(/ACTION:\{.*?\}/s, '').trim();
-        if (action.type === 'add') { addTask(action.text, action.priority || 'new'); }
-        else if (action.type === 'done') { completeTask(Number(action.id)); }
-        else if (action.type === 'postpone') {
-          const parsed = parseDate(action.date);
-          if (parsed) postponeTask(Number(action.id), parsed);
+    const data=await res.json();
+    if(data.error){showResponse('Error: '+data.error.message);btn.classList.remove('thinking');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';return;}
+    let reply=data.content&&data.content[0]?data.content[0].text:'Something went wrong.';
+    const actionMatch=reply.match(/ACTION:(\{.*?\})/s);
+    if(actionMatch){
+      try{
+        const action=JSON.parse(actionMatch[1]);
+        reply=reply.replace(/ACTION:\{.*?\}/s,'').trim();
+        if(action.type==='add_task')addTask(action.text,action.priority||'new');
+        else if(action.type==='done_task')completeTask(Number(action.id));
+        else if(action.type==='postpone_task'){const p=parseDate(action.date);if(p)postponeTask(Number(action.id),p);}
+        else if(action.type==='add_habit')addHabit(action.name);
+        else if(action.type==='toggle_habit'){
+          const habits=loadHabits();
+          const idx=habits.findIndex(h=>h.name.toLowerCase().includes(action.name.toLowerCase()));
+          if(idx>=0)toggleHabit(idx);
         }
-      } catch(e) {}
+      }catch(e){}
     }
-
-    reply = stripEmoji(reply);
-    if (!isOnboard) apiMessages.push({role:'assistant', content: reply});
+    reply=stripEmoji(reply);
+    if(!isOnboard)apiMessages.push({role:'assistant',content:reply});
     showResponse(reply);
     await speakWithEleven(reply);
-  } catch(e) {
-    showResponse(currentLang === 'ru' ? 'Нет соединения, друг.' : 'No connection, friend.');
-    btn.classList.remove('thinking'); icon.className='ti ti-microphone';
+  }catch(e){
+    showResponse(currentLang==='ru'?'Нет соединения, друг.':'No connection, friend.');
+    btn.classList.remove('thinking');icon.className='ti ti-microphone';
   }
-  hint.textContent = 'TAP TO SPEAK — EN / RU';
+  hint.textContent='TAP TO SPEAK — EN / RU';
 }
 
-// ─── VOICE INPUT ──────────────────────────────────────────
-function toggleVoice() {
-  if (isListening) { if (recognition) recognition.stop(); return; }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { askClaudia('Voice input not supported — please use Chrome'); return; }
-
-  recognition = new SR();
-  recognition.continuous = false; recognition.interimResults = false;
-  recognition.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
-
-  const btn = document.getElementById('voice-btn');
-  const icon = btn.querySelector('i');
-  const hint = document.getElementById('voice-hint');
-
-  recognition.onstart = () => { isListening=true; btn.classList.add('listening'); hint.textContent = currentLang==='ru'?'СЛУШАЮ...':'LISTENING...'; };
-  recognition.onresult = e => {
-    const heard = e.results[0][0].transcript;
-    showResponse((currentLang==='ru'?'Ты: ':'You: ') + heard);
-    askClaudia(heard);
-  };
-  recognition.onerror = () => { isListening=false; btn.classList.remove('listening'); icon.className='ti ti-microphone'; hint.textContent='TAP TO SPEAK — EN / RU'; };
-  recognition.onend = () => { isListening=false; btn.classList.remove('listening'); if(!btn.classList.contains('thinking')) icon.className='ti ti-microphone'; hint.textContent='TAP TO SPEAK — EN / RU'; };
+// ── VOICE INPUT ──
+function toggleVoice(){
+  if(isListening){if(recognition)recognition.stop();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){askClaudia('Voice input not supported — please use Chrome');return;}
+  recognition=new SR();recognition.continuous=false;recognition.interimResults=false;
+  recognition.lang=currentLang==='ru'?'ru-RU':'en-US';
+  const btn=document.getElementById('voice-btn');const icon=btn.querySelector('i');const hint=document.getElementById('voice-hint');
+  recognition.onstart=()=>{isListening=true;btn.classList.add('listening');hint.textContent=currentLang==='ru'?'СЛУШАЮ...':'LISTENING...';};
+  recognition.onresult=e=>{const heard=e.results[0][0].transcript;showResponse((currentLang==='ru'?'Ты: ':'You: ')+heard);askClaudia(heard);};
+  recognition.onerror=()=>{isListening=false;btn.classList.remove('listening');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';};
+  recognition.onend=()=>{isListening=false;btn.classList.remove('listening');if(!btn.classList.contains('thinking'))icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';};
   recognition.start();
 }
 
