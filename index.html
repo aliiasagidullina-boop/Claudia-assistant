@@ -15,22 +15,22 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --blue:#00b4ff;--blue-faint:rgba(0,180,255,0.06);--blue-glow:rgba(0,180,255,0.35);
-  --green:#00ff88;--red:#ff6b6b;--amber:#ffc83d;
+  --green:#00ff88;--red:#ff6b6b;--amber:#ffc83d;--purple:#b388ff;
   --text:#e8f4ff;--text-mid:#a0c4d8;--text-dim:rgba(0,180,255,0.4);
   --bg:#080c14;--border:rgba(0,180,255,0.12);
 }
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden}
 body{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,180,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,180,255,0.025) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
-.app{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;max-width:480px;margin:0 auto;width:100%;padding:0 0 env(safe-area-inset-bottom)}
 
+/* SETUP */
 #setup-screen{position:fixed;inset:0;background:var(--bg);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;overflow-y:auto}
 .setup-card{background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.2);border-radius:16px;padding:32px 28px;width:100%;max-width:400px}
 .setup-logo{font-size:22px;font-weight:600;letter-spacing:4px;color:var(--text);text-transform:uppercase;margin-bottom:4px}
 .setup-sub{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:28px}
-.setup-section{margin-bottom:22px}
+.setup-section{margin-bottom:20px}
 .setup-label{font-size:11px;font-family:'Share Tech Mono',monospace;color:var(--text-dim);letter-spacing:2px;margin-bottom:8px}
-.setup-input{width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:12px 16px;font-family:'Share Tech Mono',monospace;font-size:13px;color:#c8dff0;outline:none;letter-spacing:1px;-webkit-appearance:none;margin-bottom:4px}
+.setup-input{width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:12px 16px;font-family:'Share Tech Mono',monospace;font-size:13px;color:#c8dff0;outline:none;-webkit-appearance:none;margin-bottom:4px}
 .setup-input::placeholder{color:rgba(0,180,255,0.2)}
 .setup-input:focus{border-color:rgba(0,180,255,0.5)}
 .setup-note{font-size:11px;color:rgba(0,180,255,0.3);line-height:1.5;font-family:'Share Tech Mono',monospace}
@@ -38,83 +38,122 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .setup-btn:active{background:rgba(0,180,255,0.18)}
 .setup-error{font-size:11px;color:#ff7070;margin-top:10px;font-family:'Share Tech Mono',monospace;display:none}
 
-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(8,12,20,0.92);backdrop-filter:blur(12px);z-index:10}
-.id-block{display:flex;align-items:center;gap:12px}
-.avatar-ring{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--blue-glow);display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
-.avatar-ring::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:0.5px solid rgba(0,180,255,0.15)}
-.avatar-dot{width:30px;height:30px;border-radius:50%;background:#0a2a45;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:11px;color:#7fd4ff;letter-spacing:1px}
-.name-block .name{font-size:18px;font-weight:600;color:var(--text);letter-spacing:3px;text-transform:uppercase;line-height:1}
-.name-block .sub{font-size:10px;color:var(--text-dim);letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-top:2px}
-.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px}
-#clock{font-family:'Share Tech Mono',monospace;font-size:14px;color:var(--text-dim);letter-spacing:1px}
-.status-row{display:flex;align-items:center;gap:6px}
-.status-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink-dot 2.5s infinite}
+/* APP SHELL */
+.app{position:relative;z-index:1;display:flex;flex-direction:column;flex:1;max-width:480px;margin:0 auto;width:100%}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:rgba(8,12,20,0.95);backdrop-filter:blur(12px);z-index:10;flex-shrink:0}
+.id-block{display:flex;align-items:center;gap:10px}
+.avatar-ring{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--blue-glow);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.avatar-dot{width:28px;height:28px;border-radius:50%;background:#0a2a45;display:flex;align-items:center;justify-content:center;font-family:'Share Tech Mono',monospace;font-size:10px;color:#7fd4ff;letter-spacing:1px}
+.name-block .name{font-size:16px;font-weight:600;color:var(--text);letter-spacing:3px;text-transform:uppercase;line-height:1}
+.name-block .sub{font-size:9px;color:var(--text-dim);letter-spacing:2px;font-family:'Share Tech Mono',monospace;margin-top:2px}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+#clock{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--text-dim);letter-spacing:1px}
+.status-row{display:flex;align-items:center;gap:5px}
+.status-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink-dot 2.5s infinite}
 @keyframes blink-dot{0%,100%{opacity:1}50%{opacity:0.3}}
-.status-txt{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(0,255,136,0.55);letter-spacing:1.5px}
+.status-txt{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(0,255,136,0.55);letter-spacing:1.5px}
 
-.scroll-area{flex:1;overflow-y:auto;padding:20px 20px 0;display:flex;flex-direction:column;gap:16px}
+/* TABS */
+.tabs{display:flex;border-bottom:0.5px solid var(--border);flex-shrink:0;background:rgba(8,12,20,0.95)}
+.tab{flex:1;padding:12px 8px;text-align:center;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;-webkit-tap-highlight-color:transparent}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.tab i{display:block;font-size:16px;margin-bottom:3px}
 
-.greeting-card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:18px 20px;position:relative;overflow:hidden}
-.greeting-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--blue),transparent)}
-.card-label{font-size:10px;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-bottom:8px}
-.greeting-text{font-size:19px;font-weight:500;color:var(--text);line-height:1.35;min-height:28px}
-.cursor{display:inline-block;width:2px;height:16px;background:var(--blue);margin-left:2px;vertical-align:middle;animation:blink-cur 1s infinite}
+/* PAGES */
+.page{display:none;flex:1;overflow-y:auto;padding:16px 16px 0;flex-direction:column;gap:14px}
+.page.active{display:flex}
+
+/* CARDS */
+.card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:14px 16px}
+.card-label{font-size:9px;letter-spacing:3px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-bottom:8px}
+.greeting-text{font-size:18px;font-weight:500;color:var(--text);line-height:1.35;min-height:26px;position:relative;padding-left:8px}
+.greeting-text::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:2px;background:linear-gradient(to bottom,transparent,var(--blue),transparent)}
+.cursor{display:inline-block;width:2px;height:14px;background:var(--blue);margin-left:2px;vertical-align:middle;animation:blink-cur 1s infinite}
 @keyframes blink-cur{0%,100%{opacity:1}50%{opacity:0}}
 
-.section-card{background:var(--blue-faint);border:0.5px solid var(--border);border-radius:12px;padding:16px 18px}
-.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.section-title{font-size:10px;letter-spacing:2.5px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;text-transform:uppercase}
-
-.routine-item{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);cursor:pointer;transition:padding-left 0.2s;-webkit-tap-highlight-color:transparent}
+/* ROUTINE */
+.routine-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .routine-item:last-child{border-bottom:none}
-.routine-item:active{padding-left:4px}
-.rcheck{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,180,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;font-size:11px;color:transparent}
+.rcheck{width:20px;height:20px;border-radius:50%;border:1px solid rgba(0,180,255,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;color:transparent;transition:all 0.2s}
 .routine-item.done .rcheck{background:rgba(0,255,136,0.12);border-color:var(--green);color:var(--green)}
-.routine-info{flex:1}
-.routine-name{font-size:15px;color:#c8dff0;font-weight:500;line-height:1.2}
+.routine-name{font-size:14px;color:#c8dff0;font-weight:500}
 .routine-item.done .routine-name{color:rgba(200,223,240,0.3);text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.25)}
-.routine-dur{font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:1px}
+.routine-dur{font-size:10px;color:var(--text-dim);font-family:'Share Tech Mono',monospace}
 
-.task-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)}
+/* TASK ITEMS */
+.task-item{display:flex;align-items:flex-start;gap:8px;padding:10px 0;border-bottom:0.5px solid rgba(0,180,255,0.06);position:relative}
 .task-item:last-child{border-bottom:none}
-.badge{font-size:9px;letter-spacing:1px;padding:2px 7px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0;margin-top:2px;white-space:nowrap}
+.task-item.done{opacity:0.45}
+.task-item.postponed{opacity:0.6}
+.badge{font-size:8px;letter-spacing:1px;padding:2px 6px;border-radius:3px;font-family:'Share Tech Mono',monospace;flex-shrink:0;margin-top:3px;white-space:nowrap}
 .badge-asap{background:rgba(255,80,80,0.1);color:#ff7070;border:0.5px solid rgba(255,80,80,0.2)}
 .badge-morning{background:rgba(255,200,50,0.08);color:var(--amber);border:0.5px solid rgba(255,200,50,0.18)}
 .badge-afternoon{background:rgba(0,180,255,0.08);color:#7fd4ff;border:0.5px solid rgba(0,180,255,0.18)}
 .badge-new{background:rgba(0,255,136,0.08);color:rgba(0,255,136,0.7);border:0.5px solid rgba(0,255,136,0.18)}
-.task-text{font-size:14px;color:var(--text-mid);line-height:1.4;flex:1}
+.badge-done{background:rgba(0,255,136,0.06);color:rgba(0,255,136,0.4);border:0.5px solid rgba(0,255,136,0.12)}
+.badge-postponed{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.2)}
+.task-body{flex:1;min-width:0}
+.task-text{font-size:14px;color:var(--text-mid);line-height:1.3}
+.task-item.done .task-text{text-decoration:line-through;text-decoration-color:rgba(0,255,136,0.3)}
+.task-meta{font-size:10px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:2px}
+.task-actions{display:flex;gap:4px;flex-shrink:0;margin-top:2px}
+.task-btn{background:none;border:0.5px solid var(--border);border-radius:4px;padding:3px 7px;font-size:10px;color:var(--text-dim);cursor:pointer;font-family:'Share Tech Mono',monospace;-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.task-btn:active{background:rgba(0,180,255,0.1)}
+.task-btn.done-btn{border-color:rgba(0,255,136,0.2);color:rgba(0,255,136,0.5)}
+.task-btn.del-btn{border-color:rgba(255,107,107,0.2);color:rgba(255,107,107,0.4)}
+
 .add-row{display:flex;gap:8px;margin-top:12px}
-.task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:10px 14px;font-family:'Rajdhani',sans-serif;font-size:15px;color:#c8dff0;outline:none;-webkit-appearance:none}
+.task-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:10px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;-webkit-appearance:none}
 .task-input::placeholder{color:rgba(0,180,255,0.22)}
 .task-input:focus{border-color:rgba(0,180,255,0.45)}
-.add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:10px 14px;color:rgba(0,180,255,0.7);font-family:'Share Tech Mono',monospace;font-size:11px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
-.add-btn:active{background:rgba(0,180,255,0.16)}
+.add-btn{background:rgba(0,180,255,0.08);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:10px 12px;color:rgba(0,180,255,0.7);font-family:'Share Tech Mono',monospace;font-size:10px;cursor:pointer;letter-spacing:1px;-webkit-tap-highlight-color:transparent;white-space:nowrap}
 
+/* HISTORY */
+.history-day{margin-bottom:16px}
+.history-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--blue);letter-spacing:2px;margin-bottom:8px;padding-bottom:4px;border-bottom:0.5px solid var(--border)}
+.history-item{display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:0.5px solid rgba(0,180,255,0.04)}
+.history-item:last-child{border-bottom:none}
+.h-status{font-size:8px;font-family:'Share Tech Mono',monospace;padding:2px 6px;border-radius:3px;flex-shrink:0;margin-top:2px}
+.h-done{background:rgba(0,255,136,0.08);color:rgba(0,255,136,0.6);border:0.5px solid rgba(0,255,136,0.15)}
+.h-postponed{background:rgba(179,136,255,0.08);color:var(--purple);border:0.5px solid rgba(179,136,255,0.15)}
+.h-added{background:rgba(0,180,255,0.06);color:rgba(0,180,255,0.5);border:0.5px solid rgba(0,180,255,0.15)}
+.h-text{font-size:13px;color:var(--text-mid);flex:1}
+.h-time{font-size:9px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;margin-top:2px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:1px;line-height:2}
+
+/* LANG */
 .lang-toggle{display:flex;gap:5px}
-.lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 9px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
+.lang-btn{background:transparent;border:0.5px solid rgba(0,180,255,0.15);border-radius:4px;padding:3px 8px;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;color:rgba(0,180,255,0.35);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .lang-btn.active{background:rgba(0,180,255,0.1);border-color:rgba(0,180,255,0.45);color:#7fd4ff}
 
-.voice-section{padding:24px 20px 28px;display:flex;flex-direction:column;align-items:center;gap:16px}
-#response-box{width:100%;background:var(--blue-faint);border:0.5px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;color:var(--text-mid);line-height:1.6;display:none;min-height:52px;white-space:pre-wrap}
-.voice-btn{width:72px;height:72px;border-radius:50%;border:1.5px solid rgba(0,180,255,0.4);background:rgba(8,20,36,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.25s;outline:none;-webkit-tap-highlight-color:transparent;font-size:28px;color:rgba(0,180,255,0.65)}
-.voice-btn:active{transform:scale(0.94)}
+/* VOICE */
+.voice-bar{padding:16px 16px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;flex-shrink:0;border-top:0.5px solid var(--border);background:rgba(8,12,20,0.95)}
+#response-box{width:100%;background:var(--blue-faint);border:0.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:14px;color:var(--text-mid);line-height:1.6;display:none;max-height:80px;overflow-y:auto}
+.voice-row{display:flex;align-items:center;gap:16px}
+.voice-btn{width:64px;height:64px;border-radius:50%;border:1.5px solid rgba(0,180,255,0.4);background:rgba(8,20,36,0.9);display:flex;align-items:center;justify-content:center;cursor:pointer;outline:none;-webkit-tap-highlight-color:transparent;font-size:26px;color:rgba(0,180,255,0.65);flex-shrink:0}
+.voice-btn:active{transform:scale(0.93)}
 .voice-btn.listening{border-color:var(--red);color:var(--red);animation:pulse-red 1.4s infinite}
 .voice-btn.speaking{border-color:var(--green);color:var(--green);animation:pulse-green 1.4s infinite}
 .voice-btn.thinking{border-color:var(--amber);color:var(--amber);animation:pulse-amber 1.4s infinite}
-@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.35)}50%{box-shadow:0 0 0 14px rgba(255,107,107,0)}}
-@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.3)}50%{box-shadow:0 0 0 14px rgba(0,255,136,0)}}
-@keyframes pulse-amber{0%,100%{box-shadow:0 0 0 0 rgba(255,200,50,0.3)}50%{box-shadow:0 0 0 14px rgba(255,200,50,0)}}
-.voice-hint{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--text-dim);letter-spacing:2px;text-align:center}
-.reset-btn{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(255,107,107,0.25);letter-spacing:1px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.reset-btn:active{color:rgba(255,107,107,0.6)}
+@keyframes pulse-red{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.35)}50%{box-shadow:0 0 0 12px rgba(255,107,107,0)}}
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,0.3)}50%{box-shadow:0 0 0 12px rgba(0,255,136,0)}}
+@keyframes pulse-amber{0%,100%{box-shadow:0 0 0 0 rgba(255,200,50,0.3)}50%{box-shadow:0 0 0 12px rgba(255,200,50,0)}}
+.voice-hint{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--text-dim);letter-spacing:2px;text-align:center}
+.reset-btn{font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,107,107,0.2);letter-spacing:1px;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
 
-.ca{position:fixed;width:50px;height:50px;pointer-events:none;opacity:0.3;z-index:0}
-.ca-tl{top:10px;left:10px;border-top:1px solid var(--blue);border-left:1px solid var(--blue)}
-.ca-tr{top:10px;right:10px;border-top:1px solid var(--blue);border-right:1px solid var(--blue)}
-.ca-bl{bottom:10px;left:10px;border-bottom:1px solid var(--blue);border-left:1px solid var(--blue)}
-.ca-br{bottom:10px;right:10px;border-bottom:1px solid var(--blue);border-right:1px solid var(--blue)}
+/* CORNERS */
+.ca{position:fixed;width:40px;height:40px;pointer-events:none;opacity:0.25;z-index:0}
+.ca-tl{top:8px;left:8px;border-top:1px solid var(--blue);border-left:1px solid var(--blue)}
+.ca-tr{top:8px;right:8px;border-top:1px solid var(--blue);border-right:1px solid var(--blue)}
+.ca-bl{bottom:8px;left:8px;border-bottom:1px solid var(--blue);border-left:1px solid var(--blue)}
+.ca-br{bottom:8px;right:8px;border-bottom:1px solid var(--blue);border-right:1px solid var(--blue)}
 ::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-thumb{background:rgba(0,180,255,0.2);border-radius:2px}
+::-webkit-scrollbar-thumb{background:rgba(0,180,255,0.15);border-radius:2px}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.section-title{font-size:9px;letter-spacing:2.5px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -122,29 +161,24 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
 <div id="setup-screen">
   <div class="setup-card">
     <div class="setup-logo">Claudia</div>
-    <div class="setup-sub">first time setup — keys stay on your device only</div>
-
+    <div class="setup-sub">first time setup — keys saved on device only</div>
     <div class="setup-section">
       <div class="setup-label">// ANTHROPIC API KEY</div>
-      <input class="setup-input" id="anthropic-key" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false" />
+      <input class="setup-input" id="anthropic-key" type="password" placeholder="sk-ant-api03-..." autocomplete="off" spellcheck="false"/>
       <div class="setup-note">Powers Claudia's brain</div>
     </div>
-
     <div class="setup-section">
       <div class="setup-label">// ELEVENLABS API KEY</div>
-      <input class="setup-input" id="eleven-key" type="password" placeholder="your elevenlabs key..." autocomplete="off" spellcheck="false" />
-      <div class="setup-note">Powers Claudia's real human voice</div>
+      <input class="setup-input" id="eleven-key" type="password" placeholder="your elevenlabs key..." autocomplete="off" spellcheck="false"/>
+      <div class="setup-note">Powers Claudia's voice (leave empty to use device voice)</div>
     </div>
-
-    <div class="setup-error" id="setup-error">Check your keys and try again.</div>
+    <div class="setup-error" id="setup-error">Check your Anthropic key and try again.</div>
     <button class="setup-btn" onclick="saveKeys()">ACTIVATE CLAUDIA</button>
   </div>
 </div>
 
-<div class="ca ca-tl"></div>
-<div class="ca ca-tr"></div>
-<div class="ca ca-bl"></div>
-<div class="ca ca-br"></div>
+<div class="ca ca-tl"></div><div class="ca ca-tr"></div>
+<div class="ca ca-bl"></div><div class="ca ca-br"></div>
 
 <div class="app" id="main-app" style="display:none">
   <header>
@@ -152,25 +186,32 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
       <div class="avatar-ring"><div class="avatar-dot">CL</div></div>
       <div class="name-block">
         <div class="name">Claudia</div>
-        <div class="sub">personal assistant v1</div>
+        <div class="sub">personal assistant v2</div>
       </div>
     </div>
     <div class="header-right">
       <div id="clock">--:--</div>
       <div class="status-row">
         <div class="status-dot"></div>
-        <div class="status-txt">ONLINE</div>
+        <div class="status-txt" id="status-txt">ONLINE</div>
       </div>
     </div>
   </header>
 
-  <div class="scroll-area">
-    <div class="greeting-card">
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('home')" id="tab-home"><i class="ti ti-home"></i>HOME</div>
+    <div class="tab" onclick="showTab('tasks')" id="tab-tasks"><i class="ti ti-checklist"></i>TASKS</div>
+    <div class="tab" onclick="showTab('history')" id="tab-history"><i class="ti ti-history"></i>HISTORY</div>
+  </div>
+
+  <!-- HOME TAB -->
+  <div class="page active" id="page-home">
+    <div class="card">
       <div class="card-label">// MORNING BRIEF</div>
       <div class="greeting-text" id="greeting-text"><span class="cursor"></span></div>
     </div>
 
-    <div class="section-card">
+    <div class="card">
       <div class="section-head">
         <div class="section-title">morning routine</div>
         <div class="lang-toggle">
@@ -181,35 +222,35 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
       <div id="routine-list">
         <div class="routine-item" onclick="toggleRoutine(this)">
           <div class="rcheck">✓</div>
-          <div class="routine-info">
+          <div style="flex:1">
             <div class="routine-name" data-en="Drink a glass of water" data-ru="Выпить стакан воды">Drink a glass of water</div>
             <div class="routine-dur">2 min</div>
           </div>
         </div>
         <div class="routine-item" onclick="toggleRoutine(this)">
           <div class="rcheck">✓</div>
-          <div class="routine-info">
+          <div style="flex:1">
             <div class="routine-name" data-en="Bathroom & freshen up" data-ru="Ванная и умыться">Bathroom & freshen up</div>
             <div class="routine-dur">15 min</div>
           </div>
         </div>
         <div class="routine-item" onclick="toggleRoutine(this)">
           <div class="rcheck">✓</div>
-          <div class="routine-info">
+          <div style="flex:1">
             <div class="routine-name" data-en="Put the kettle on" data-ru="Поставить чайник">Put the kettle on</div>
             <div class="routine-dur">5 min</div>
           </div>
         </div>
         <div class="routine-item" onclick="toggleRoutine(this)">
           <div class="rcheck">✓</div>
-          <div class="routine-info">
+          <div style="flex:1">
             <div class="routine-name" data-en="Morning music on" data-ru="Включить утреннюю музыку">Morning music on</div>
             <div class="routine-dur">ongoing</div>
           </div>
         </div>
         <div class="routine-item" onclick="toggleRoutine(this)">
           <div class="rcheck">✓</div>
-          <div class="routine-info">
+          <div style="flex:1">
             <div class="routine-name" data-en="Review today's tasks" data-ru="Просмотреть задачи дня">Review today's tasks</div>
             <div class="routine-dur">5 min</div>
           </div>
@@ -217,40 +258,71 @@ header{display:flex;align-items:center;justify-content:space-between;padding:20p
       </div>
     </div>
 
-    <div class="section-card">
-      <div class="section-head"><div class="section-title">today's tasks</div></div>
-      <div id="task-list">
-        <div class="task-item">
-          <span class="badge badge-asap">ASAP</span>
-          <span class="task-text">Update CV for IT/QA roles</span>
-        </div>
-        <div class="task-item">
-          <span class="badge badge-morning">MORNING</span>
-          <span class="task-text">Research junior tester job boards</span>
-        </div>
-        <div class="task-item">
-          <span class="badge badge-afternoon">AFTERNOON</span>
-          <span class="task-text">Look into Home Assistant setup</span>
-        </div>
+    <!-- today's tasks preview on home -->
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">today at a glance</div>
       </div>
-      <div class="add-row">
-        <input class="task-input" id="task-input" placeholder="add a task..." onkeydown="if(event.key==='Enter')addTask()" />
-        <button class="add-btn" onclick="addTask()">+ ADD</button>
-      </div>
+      <div id="home-tasks-preview"></div>
     </div>
+    <div style="height:16px;flex-shrink:0"></div>
   </div>
 
-  <div class="voice-section">
+  <!-- TASKS TAB -->
+  <div class="page" id="page-tasks">
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">active tasks</div>
+        <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim)" id="task-count">0 tasks</span>
+      </div>
+      <div id="task-list"></div>
+      <div class="add-row">
+        <input class="task-input" id="task-input" placeholder="type a task and press enter..." onkeydown="if(event.key==='Enter')addTaskFromInput()"/>
+        <button class="add-btn" onclick="addTaskFromInput()">+ ADD</button>
+      </div>
+    </div>
+
+    <div class="card" id="postponed-card" style="display:none">
+      <div class="section-head">
+        <div class="section-title">postponed</div>
+      </div>
+      <div id="postponed-list"></div>
+    </div>
+    <div style="height:16px;flex-shrink:0"></div>
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div class="page" id="page-history">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <span style="font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--text-dim);letter-spacing:2px">TASK HISTORY</span>
+      <button onclick="clearHistory()" style="font-family:'Share Tech Mono',monospace;font-size:9px;color:rgba(255,107,107,0.3);background:none;border:none;cursor:pointer;letter-spacing:1px">CLEAR</button>
+    </div>
+    <div id="history-list"></div>
+    <div style="height:16px;flex-shrink:0"></div>
+  </div>
+
+  <div class="voice-bar">
     <div id="response-box"></div>
-    <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Tap to speak with Claudia">
-      <i class="ti ti-microphone" aria-hidden="true"></i>
-    </button>
+    <div class="voice-row">
+      <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Tap to speak">
+        <i class="ti ti-microphone" aria-hidden="true"></i>
+      </button>
+    </div>
     <div class="voice-hint" id="voice-hint">TAP TO SPEAK — EN / RU</div>
     <button class="reset-btn" onclick="resetKeys()">reset keys</button>
   </div>
 </div>
 
 <script>
+// ─── STATE ───────────────────────────────────────────────
+let anthropicKey = '', elevenKey = '';
+let currentLang = 'en';
+let isListening = false;
+let recognition = null;
+let apiMessages = [];
+
+const ELEVEN_VOICE = 'cgSgspJ2msm6clMCkdW9';
+
 const greetingsEN = [
   "Good morning, friend. Ready to own the day?",
   "Rise and shine, friend. Let's shake it up.",
@@ -262,61 +334,73 @@ const greetingsRU = [
   "Утро, друг. Вот что тебя ждёт сегодня."
 ];
 
-let currentLang = 'en';
-let isListening = false;
-let recognition = null;
-let apiMessages = [];
-let anthropicKey = '';
-let elevenKey = '';
-
-const ELEVEN_VOICE_EN = 'cgSgspJ2msm6clMCkdW9';
-const ELEVEN_VOICE_RU = 'cgSgspJ2msm6clMCkdW9';
-
-function init() {
-  const ak = localStorage.getItem('claudia_anthropic');
-  const ek = localStorage.getItem('claudia_eleven');
-  if (ak && ek) {
-    anthropicKey = ak;
-    elevenKey = ek;
-    showMain();
-  }
+// ─── STORAGE ─────────────────────────────────────────────
+function loadTasks() {
+  try { return JSON.parse(localStorage.getItem('claudia_tasks') || '[]'); } catch { return []; }
+}
+function saveTasks(tasks) {
+  localStorage.setItem('claudia_tasks', JSON.stringify(tasks));
+}
+function loadHistory() {
+  try { return JSON.parse(localStorage.getItem('claudia_history') || '[]'); } catch { return []; }
+}
+function saveHistory(h) {
+  localStorage.setItem('claudia_history', JSON.stringify(h));
+}
+function addToHistory(task, action, extra) {
+  const h = loadHistory();
+  h.unshift({ text: task, action, extra: extra || '', ts: Date.now() });
+  if (h.length > 200) h.splice(200);
+  saveHistory(h);
+  renderHistory();
 }
 
+// ─── SETUP ───────────────────────────────────────────────
+function init() {
+  const ak = localStorage.getItem('claudia_anthropic');
+  const ek = localStorage.getItem('claudia_eleven') || '';
+  if (ak) { anthropicKey = ak; elevenKey = ek; showMain(); }
+}
 function saveKeys() {
   const ak = document.getElementById('anthropic-key').value.trim();
   const ek = document.getElementById('eleven-key').value.trim();
-  if (!ak.startsWith('sk-ant-') || ek.length < 10) {
-    document.getElementById('setup-error').style.display = 'block';
-    return;
-  }
-  anthropicKey = ak;
-  elevenKey = ek;
+  if (!ak.startsWith('sk-ant-')) { document.getElementById('setup-error').style.display = 'block'; return; }
+  anthropicKey = ak; elevenKey = ek;
   localStorage.setItem('claudia_anthropic', ak);
-  localStorage.setItem('claudia_eleven', ek);
+  if (ek) localStorage.setItem('claudia_eleven', ek);
   showMain();
 }
-
 function showMain() {
   document.getElementById('setup-screen').style.display = 'none';
   document.getElementById('main-app').style.display = 'flex';
-  updateClock();
+  updateClock(); setInterval(updateClock, 15000);
+  renderTasks(); renderHistory();
   setTimeout(typeGreeting, 500);
-}
-
-function resetKeys() {
-  if (confirm('Reset all keys?')) {
-    localStorage.clear();
-    location.reload();
+  if (loadTasks().length === 0) {
+    setTimeout(() => askClaudia('__onboard__'), 2000);
   }
 }
+function resetKeys() {
+  if (confirm('Reset all keys and data?')) { localStorage.clear(); location.reload(); }
+}
 
+// ─── CLOCK ───────────────────────────────────────────────
 function updateClock() {
   const now = new Date();
   document.getElementById('clock').textContent =
     String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
 }
-setInterval(updateClock, 15000);
 
+// ─── TABS ─────────────────────────────────────────────────
+function showTab(name) {
+  ['home','tasks','history'].forEach(t => {
+    document.getElementById('page-'+t).classList.toggle('active', t === name);
+    document.getElementById('tab-'+t).classList.toggle('active', t === name);
+  });
+  if (name === 'history') renderHistory();
+}
+
+// ─── GREETING ────────────────────────────────────────────
 function typeGreeting() {
   const list = currentLang === 'ru' ? greetingsRU : greetingsEN;
   const text = list[Math.floor(Math.random() * list.length)];
@@ -324,11 +408,12 @@ function typeGreeting() {
   el.innerHTML = '<span class="cursor"></span>';
   let i = 0;
   const t = setInterval(() => {
-    if (i < text.length) el.innerHTML = text.substring(0, ++i) + '<span class="cursor"></span>';
+    if (i < text.length) el.innerHTML = text.substring(0,++i) + '<span class="cursor"></span>';
     else clearInterval(t);
   }, 40);
 }
 
+// ─── LANG ─────────────────────────────────────────────────
 function setLang(lang) {
   currentLang = lang;
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
@@ -339,26 +424,253 @@ function setLang(lang) {
   typeGreeting();
 }
 
+// ─── ROUTINE ──────────────────────────────────────────────
 function toggleRoutine(el) {
   el.classList.toggle('done');
   const all = document.querySelectorAll('.routine-item').length;
   const done = document.querySelectorAll('.routine-item.done').length;
-  if (done === all) askClaudia(currentLang === 'ru' ? 'Я завершил утреннюю рутину полностью' : 'I just completed my full morning routine');
+  if (done === all) askClaudia(currentLang === 'ru' ? 'Я завершил утреннюю рутину' : 'I just completed my full morning routine');
 }
 
-function addTask() {
+// ─── TASKS ────────────────────────────────────────────────
+function formatDate(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' });
+}
+function formatDateShort(ts) {
+  const d = new Date(ts);
+  return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
+}
+
+function renderTasks() {
+  const tasks = loadTasks();
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  const active = tasks.filter(t => t.status === 'active');
+  const postponed = tasks.filter(t => t.status === 'postponed');
+
+  const list = document.getElementById('task-list');
+  const count = document.getElementById('task-count');
+  count.textContent = active.length + ' task' + (active.length !== 1 ? 's' : '');
+
+  if (active.length === 0) {
+    list.innerHTML = '<div class="empty-state">No active tasks.<br>Tell Claudia what\'s on your plate.</div>';
+  } else {
+    list.innerHTML = active.map((t,i) => `
+      <div class="task-item">
+        <span class="badge badge-${t.priority || 'new'}">${(t.priority || 'new').toUpperCase()}</span>
+        <div class="task-body">
+          <div class="task-text">${t.text}</div>
+          <div class="task-meta">Added ${formatDateShort(t.created)}</div>
+        </div>
+        <div class="task-actions">
+          <button class="task-btn done-btn" onclick="completeTask(${t.id})">✓</button>
+          <button class="task-btn" onclick="showPostponeUI(${t.id})">⏱</button>
+          <button class="task-btn del-btn" onclick="deleteTask(${t.id})">✕</button>
+        </div>
+      </div>`).join('');
+  }
+
+  const pCard = document.getElementById('postponed-card');
+  const pList = document.getElementById('postponed-list');
+  if (postponed.length > 0) {
+    pCard.style.display = 'block';
+    pList.innerHTML = postponed.map(t => `
+      <div class="task-item postponed">
+        <span class="badge badge-postponed">POSTPONED</span>
+        <div class="task-body">
+          <div class="task-text">${t.text}</div>
+          <div class="task-meta">Until ${formatDateShort(t.postponedTo)}</div>
+        </div>
+        <div class="task-actions">
+          <button class="task-btn done-btn" onclick="completeTask(${t.id})">✓</button>
+          <button class="task-btn del-btn" onclick="deleteTask(${t.id})">✕</button>
+        </div>
+      </div>`).join('');
+  } else { pCard.style.display = 'none'; }
+
+  renderHomePreview(active);
+}
+
+function renderHomePreview(active) {
+  const el = document.getElementById('home-tasks-preview');
+  if (!active || active.length === 0) {
+    el.innerHTML = '<div style="font-size:13px;color:var(--text-dim);font-family:\'Share Tech Mono\',monospace;letter-spacing:1px">No tasks yet — tell Claudia</div>';
+    return;
+  }
+  el.innerHTML = active.slice(0,3).map(t => `
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
+      <span class="badge badge-${t.priority || 'new'}">${(t.priority || 'new').toUpperCase()}</span>
+      <span style="font-size:13px;color:var(--text-mid)">${t.text}</span>
+    </div>`).join('') + (active.length > 3 ? `<div style="font-size:11px;color:var(--text-dim);font-family:'Share Tech Mono',monospace;padding-top:8px">+${active.length-3} more in Tasks tab</div>` : '');
+}
+
+function addTask(text, priority) {
+  const tasks = loadTasks();
+  const task = { id: Date.now(), text, priority: priority || 'new', status: 'active', created: Date.now() };
+  tasks.push(task);
+  saveTasks(tasks);
+  addToHistory(text, 'added', priority);
+  renderTasks();
+  return task;
+}
+
+function completeTask(id) {
+  const tasks = loadTasks();
+  const t = tasks.find(t => t.id === id);
+  if (t) { t.status = 'done'; t.completedAt = Date.now(); addToHistory(t.text, 'done', ''); }
+  saveTasks(tasks.filter(t => t.id !== id || t.status !== 'done').filter(t => t.status !== 'done'));
+  saveTasks(tasks.filter(t => t.id !== id));
+  renderTasks();
+}
+
+function postponeTask(id, toDate) {
+  const tasks = loadTasks();
+  const t = tasks.find(t => t.id === id);
+  if (t) { t.status = 'postponed'; t.postponedTo = toDate; addToHistory(t.text, 'postponed', formatDate(toDate)); }
+  saveTasks(tasks);
+  renderTasks();
+}
+
+function deleteTask(id) {
+  const tasks = loadTasks().filter(t => t.id !== id);
+  saveTasks(tasks);
+  renderTasks();
+}
+
+function showPostponeUI(id) {
+  const date = prompt('Postpone to date (e.g. 12 Jun, tomorrow, Friday):');
+  if (!date) return;
+  const parsed = parseDate(date);
+  if (parsed) { postponeTask(id, parsed); }
+  else { alert('Could not understand that date. Try "tomorrow", "Friday", or "12 Jun".'); }
+}
+
+function parseDate(str) {
+  const s = str.toLowerCase().trim();
+  const now = new Date(); now.setHours(0,0,0,0);
+  if (s === 'tomorrow') { const d = new Date(now); d.setDate(d.getDate()+1); return d.getTime(); }
+  if (s === 'monday'||s === 'пн') return nextWeekday(1);
+  if (s === 'tuesday'||s === 'вт') return nextWeekday(2);
+  if (s === 'wednesday'||s === 'ср') return nextWeekday(3);
+  if (s === 'thursday'||s === 'чт') return nextWeekday(4);
+  if (s === 'friday'||s === 'пт') return nextWeekday(5);
+  if (s === 'saturday'||s === 'сб') return nextWeekday(6);
+  if (s === 'sunday'||s === 'вс') return nextWeekday(0);
+  const months = {jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,
+    янв:0,фев:1,мар:2,апр:3,май:4,июн:5,июл:6,авг:7,сен:8,окт:9,ноя:10,дек:11};
+  const m = s.match(/(\d{1,2})\s+([a-zа-я]+)/);
+  if (m) {
+    const mon = months[m[2].substring(0,3).toLowerCase()];
+    if (mon !== undefined) {
+      const d = new Date(now.getFullYear(), mon, parseInt(m[1]));
+      if (d < now) d.setFullYear(d.getFullYear()+1);
+      return d.getTime();
+    }
+  }
+  const direct = new Date(str);
+  if (!isNaN(direct)) return direct.getTime();
+  return null;
+}
+function nextWeekday(day) {
+  const now = new Date(); now.setHours(0,0,0,0);
+  const d = new Date(now);
+  d.setDate(d.getDate() + ((day + 7 - d.getDay()) % 7 || 7));
+  return d.getTime();
+}
+
+function addTaskFromInput() {
   const input = document.getElementById('task-input');
   const text = input.value.trim();
   if (!text) return;
-  const list = document.getElementById('task-list');
-  const item = document.createElement('div');
-  item.className = 'task-item';
-  item.innerHTML = `<span class="badge badge-new">NEW</span><span class="task-text">${text}</span>`;
-  list.appendChild(item);
+  addTask(text, 'new');
   input.value = '';
   askClaudia(currentLang === 'ru'
-    ? `Я только что добавил задачу: ${text}. Скажи коротко что-нибудь мотивирующее. Без эмодзи.`
-    : `I just added a task: ${text}. Say something short and encouraging. No emoji.`);
+    ? `Я добавил задачу: ${text}. Скажи коротко, без эмодзи.`
+    : `I added a task: ${text}. Short response, no emoji.`);
+}
+
+// ─── HISTORY ──────────────────────────────────────────────
+function renderHistory() {
+  const h = loadHistory();
+  const el = document.getElementById('history-list');
+  if (h.length === 0) {
+    el.innerHTML = '<div class="empty-state">No history yet.<br>Completed tasks will appear here.</div>';
+    return;
+  }
+  const byDay = {};
+  h.forEach(item => {
+    const day = new Date(item.ts).toLocaleDateString('en-GB', {weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+    if (!byDay[day]) byDay[day] = [];
+    byDay[day].push(item);
+  });
+  el.innerHTML = Object.entries(byDay).map(([day, items]) => `
+    <div class="history-day">
+      <div class="history-date">${day}</div>
+      ${items.map(item => `
+        <div class="history-item">
+          <span class="h-status h-${item.action}">${item.action.toUpperCase()}</span>
+          <div style="flex:1">
+            <div class="h-text">${item.text}</div>
+            <div class="h-time">${new Date(item.ts).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}${item.extra ? ' · ' + item.extra : ''}</div>
+          </div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+function clearHistory() {
+  if (confirm('Clear all history?')) { localStorage.removeItem('claudia_history'); renderHistory(); }
+}
+
+// ─── VOICE OUTPUT ─────────────────────────────────────────
+function stripEmoji(text) {
+  return text.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27FF}|\u{2300}-\u{23FF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}]/gu,'').trim();
+}
+
+async function speakWithEleven(text) {
+  if (!elevenKey) { speakFallback(text); return; }
+  const btn = document.getElementById('voice-btn');
+  const icon = btn.querySelector('i');
+  try {
+    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${ELEVEN_VOICE}`, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','xi-api-key':elevenKey},
+      body: JSON.stringify({
+        text, model_id:'eleven_multilingual_v2',
+        voice_settings:{stability:0.5,similarity_boost:0.75,style:0.3,use_speaker_boost:true}
+      })
+    });
+    if (!res.ok) { speakFallback(text); return; }
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const audio = new Audio(url);
+    btn.classList.remove('thinking'); btn.classList.add('speaking');
+    icon.className = 'ti ti-volume';
+    audio.onended = () => { btn.classList.remove('speaking'); icon.className='ti ti-microphone'; URL.revokeObjectURL(url); };
+    audio.onerror = () => { btn.classList.remove('speaking'); icon.className='ti ti-microphone'; };
+    await audio.play();
+  } catch { speakFallback(text); }
+}
+
+function speakFallback(text) {
+  const synth = window.speechSynthesis;
+  if (!synth) return;
+  synth.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
+  utt.rate = 0.92; utt.pitch = 1.1;
+  const voices = synth.getVoices();
+  const femaleKw = ['female','samantha','victoria','fiona','karen','milena','svetlana'];
+  const lc = currentLang === 'ru' ? 'ru' : 'en';
+  let v = voices.find(v => v.lang.toLowerCase().startsWith(lc) && femaleKw.some(k => v.name.toLowerCase().includes(k)));
+  if (!v) v = voices.find(v => v.lang.toLowerCase().startsWith(lc));
+  if (v) utt.voice = v;
+  const btn = document.getElementById('voice-btn');
+  const icon = btn.querySelector('i');
+  btn.classList.remove('thinking'); btn.classList.add('speaking');
+  icon.className = 'ti ti-volume';
+  utt.onend = () => { btn.classList.remove('speaking'); icon.className='ti ti-microphone'; };
+  synth.speak(utt);
 }
 
 function showResponse(text) {
@@ -367,73 +679,12 @@ function showResponse(text) {
   box.textContent = text;
 }
 
-function stripEmoji(text) {
-  return text.replace(/[\u{1F000}-\u{1FFFF}|\u{2600}-\u{27FF}|\u{2300}-\u{23FF}|\u{FE00}-\u{FEFF}|\u{1F900}-\u{1F9FF}]/gu, '').trim();
-}
-
-async function speakWithEleven(text) {
-  const btn = document.getElementById('voice-btn');
-  const icon = btn.querySelector('i');
-  const voiceId = ELEVEN_VOICE_EN;
-
-  try {
-    const res = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'xi-api-key': elevenKey
-      },
-      body: JSON.stringify({
-        text: text,
-        model_id: 'eleven_multilingual_v2',
-        voice_settings: { stability: 0.5, similarity_boost: 0.75, style: 0.3, use_speaker_boost: true }
-      })
-    });
-
-    if (!res.ok) {
-      showResponse(text);
-      return;
-    }
-
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    const audio = new Audio(url);
-
-    btn.classList.remove('thinking');
-    btn.classList.add('speaking');
-    icon.className = 'ti ti-volume';
-
-    audio.onended = () => {
-      btn.classList.remove('speaking');
-      icon.className = 'ti ti-microphone';
-      URL.revokeObjectURL(url);
-    };
-    audio.onerror = () => {
-      btn.classList.remove('speaking');
-      icon.className = 'ti ti-microphone';
-    };
-    await audio.play();
-  } catch(e) {
-    btn.classList.remove('thinking', 'speaking');
-    icon.className = 'ti ti-microphone';
-    showResponse(text);
-  }
-}
-
-function getTaskContext() {
-  const tasks = [];
-  document.querySelectorAll('#task-list .task-item').forEach(item => {
-    const badge = item.querySelector('.badge') ? item.querySelector('.badge').textContent : 'TASK';
-    const text = item.querySelector('.task-text') ? item.querySelector('.task-text').textContent : '';
-    if (text) tasks.push(`[${badge}] ${text}`);
-  });
-  return tasks.join(', ') || 'none';
-}
-
-function getRoutineContext() {
-  const done = document.querySelectorAll('.routine-item.done').length;
-  const total = document.querySelectorAll('.routine-item').length;
-  return `${done}/${total} completed`;
+// ─── AI BRAIN ─────────────────────────────────────────────
+function getContext() {
+  const tasks = loadTasks();
+  const active = tasks.filter(t=>t.status==='active').map(t=>`[${t.id}] ${t.text} (${t.priority})`).join(', ') || 'none';
+  const postponed = tasks.filter(t=>t.status==='postponed').map(t=>`[${t.id}] ${t.text} until ${formatDate(t.postponedTo)}`).join(', ') || 'none';
+  return `Active tasks: ${active}. Postponed: ${postponed}.`;
 }
 
 async function askClaudia(userText) {
@@ -441,93 +692,106 @@ async function askClaudia(userText) {
   const icon = btn.querySelector('i');
   const hint = document.getElementById('voice-hint');
 
-  btn.classList.add('thinking');
-  icon.className = 'ti ti-loader';
+  btn.classList.add('thinking'); icon.className = 'ti ti-loader';
   hint.textContent = currentLang === 'ru' ? 'ДУМАЮ...' : 'THINKING...';
-  showResponse('...');
 
-  const systemPrompt = `You are Claudia, a warm personal assistant — like a clever, caring younger sister. You call the user "friend". You are fully bilingual: understand and respond in both English and Russian naturally. Always respond in the same language the user spoke. Keep responses short and natural — 1-3 sentences max. Be warm, direct, practical. Never robotic. Never use emoji or special symbols — plain text only, because your response will be spoken aloud. Current context: Tasks today: ${getTaskContext()}. Morning routine: ${getRoutineContext()}.`;
+  let prompt = userText;
+  const isOnboard = userText === '__onboard__';
+  if (isOnboard) {
+    prompt = currentLang === 'ru'
+      ? 'Это первый запуск. Поприветствуй меня тепло и спроси, какие задачи у меня есть на сегодня. Коротко, без эмодзи.'
+      : "This is the first launch. Greet me warmly as friend and ask what tasks I have today. Short, no emoji.";
+  }
 
-  apiMessages.push({ role: 'user', content: userText });
-  if (apiMessages.length > 20) apiMessages = apiMessages.slice(-20);
+  const systemPrompt = `You are Claudia, a warm personal assistant like a caring younger sister. Call the user "friend". Respond in same language as user. Keep replies to 1-3 sentences. No emoji. No special symbols. Plain text only — your response is spoken aloud.
+
+Current context: ${getContext()}
+
+You can manage tasks. When user wants to add a task, reply naturally AND include a JSON action block at the end of your response like this:
+ACTION:{"type":"add","text":"task description","priority":"asap|morning|afternoon|new"}
+
+When user wants to mark done:
+ACTION:{"type":"done","id":TASK_ID}
+
+When user wants to postpone:
+ACTION:{"type":"postpone","id":TASK_ID,"date":"tomorrow|friday|12 jun|etc"}
+
+When user asks about tasks, just describe them naturally from context. Only include ACTION block when performing a task operation.`;
+
+  if (!isOnboard) {
+    apiMessages.push({role:'user', content: prompt});
+    if (apiMessages.length > 20) apiMessages = apiMessages.slice(-20);
+  }
+
+  const messages = isOnboard ? [{role:'user',content:prompt}] : apiMessages;
 
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
         'x-api-key': anthropicKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
       },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 1000,
-        system: systemPrompt,
-        messages: apiMessages
-      })
+      body: JSON.stringify({ model:'claude-sonnet-4-5', max_tokens:1000, system:systemPrompt, messages })
     });
-
     const data = await res.json();
     if (data.error) {
       showResponse('Error: ' + data.error.message);
-      btn.classList.remove('thinking');
-      icon.className = 'ti ti-microphone';
-      hint.textContent = 'TAP TO SPEAK — EN / RU';
-      return;
+      btn.classList.remove('thinking'); icon.className='ti ti-microphone';
+      hint.textContent = 'TAP TO SPEAK — EN / RU'; return;
+    }
+    let reply = data.content && data.content[0] ? data.content[0].text : 'Something went wrong.';
+
+    // parse action
+    const actionMatch = reply.match(/ACTION:(\{.*?\})/s);
+    if (actionMatch) {
+      try {
+        const action = JSON.parse(actionMatch[1]);
+        reply = reply.replace(/ACTION:\{.*?\}/s, '').trim();
+        if (action.type === 'add') { addTask(action.text, action.priority || 'new'); }
+        else if (action.type === 'done') { completeTask(Number(action.id)); }
+        else if (action.type === 'postpone') {
+          const parsed = parseDate(action.date);
+          if (parsed) postponeTask(Number(action.id), parsed);
+        }
+      } catch(e) {}
     }
 
-    const reply = data.content && data.content[0] ? stripEmoji(data.content[0].text) : 'Something went wrong, friend.';
-    apiMessages.push({ role: 'assistant', content: reply });
+    reply = stripEmoji(reply);
+    if (!isOnboard) apiMessages.push({role:'assistant', content: reply});
     showResponse(reply);
     await speakWithEleven(reply);
   } catch(e) {
-    showResponse(currentLang === 'ru' ? 'Нет соединения, друг.' : 'No connection, friend. Try again.');
-    btn.classList.remove('thinking');
-    icon.className = 'ti ti-microphone';
+    showResponse(currentLang === 'ru' ? 'Нет соединения, друг.' : 'No connection, friend.');
+    btn.classList.remove('thinking'); icon.className='ti ti-microphone';
   }
   hint.textContent = 'TAP TO SPEAK — EN / RU';
 }
 
+// ─── VOICE INPUT ──────────────────────────────────────────
 function toggleVoice() {
   if (isListening) { if (recognition) recognition.stop(); return; }
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) {
-    askClaudia(currentLang === 'ru' ? 'Голосовой ввод не поддерживается, используй Chrome' : 'Voice input not supported, please use Chrome');
-    return;
-  }
+  if (!SR) { askClaudia('Voice input not supported — please use Chrome'); return; }
 
   recognition = new SR();
-  recognition.continuous = false;
-  recognition.interimResults = false;
+  recognition.continuous = false; recognition.interimResults = false;
   recognition.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
 
   const btn = document.getElementById('voice-btn');
   const icon = btn.querySelector('i');
   const hint = document.getElementById('voice-hint');
 
-  recognition.onstart = () => {
-    isListening = true;
-    btn.classList.add('listening');
-    hint.textContent = currentLang === 'ru' ? 'СЛУШАЮ...' : 'LISTENING...';
-  };
+  recognition.onstart = () => { isListening=true; btn.classList.add('listening'); hint.textContent = currentLang==='ru'?'СЛУШАЮ...':'LISTENING...'; };
   recognition.onresult = e => {
     const heard = e.results[0][0].transcript;
-    showResponse((currentLang === 'ru' ? 'Ты: ' : 'You: ') + heard);
+    showResponse((currentLang==='ru'?'Ты: ':'You: ') + heard);
     askClaudia(heard);
   };
-  recognition.onerror = () => {
-    isListening = false;
-    btn.classList.remove('listening');
-    icon.className = 'ti ti-microphone';
-    hint.textContent = 'TAP TO SPEAK — EN / RU';
-  };
-  recognition.onend = () => {
-    isListening = false;
-    btn.classList.remove('listening');
-    if (!btn.classList.contains('thinking')) icon.className = 'ti ti-microphone';
-    hint.textContent = 'TAP TO SPEAK — EN / RU';
-  };
+  recognition.onerror = () => { isListening=false; btn.classList.remove('listening'); icon.className='ti ti-microphone'; hint.textContent='TAP TO SPEAK — EN / RU'; };
+  recognition.onend = () => { isListening=false; btn.classList.remove('listening'); if(!btn.classList.contains('thinking')) icon.className='ti ti-microphone'; hint.textContent='TAP TO SPEAK — EN / RU'; };
   recognition.start();
 }
 
