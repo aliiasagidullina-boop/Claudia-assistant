@@ -473,7 +473,13 @@ function showMain(){
   setTimeout(typeGreeting,500);
 
 }
-function resetKeys(){if(confirm('Reset all keys and data?')){localStorage.clear();location.reload();}}
+async function resetKeys(){
+  if(confirm('Reset all keys and data?')){
+    localStorage.clear();
+    try{const db=await openKeysDB();if(db){const tx=db.transaction('keys','readwrite');tx.objectStore('keys').clear();}}catch{}
+    location.reload();
+  }
+}
 
 // ── CLOCK ──
 function updateClock(){
@@ -673,13 +679,13 @@ function showSmartPanel(originalText,score,feedback,suggestion){
 }
 function acceptSuggestion(suggestion,score,feedback){
   addHabit(suggestion,score,feedback);
-  const msg=currentLang==='ru'?`Отлично, друг. Добавила улучшенную версию. SMART: ${score} из 5.`:`Great choice, friend. Added the improved version. SMART score: ${score} out of 5.`;
-  showResponse(msg);speakWithEleven(msg);
+  const msg=currentLang==='ru'?`Отлично. SMART: ${score} из 5.`:`Done. SMART score: ${score} out of 5.`;
+  showResponse(msg);
 }
 function acceptOriginal(text,score,feedback){
   addHabit(text,score,feedback);
-  const msg=score>=4?(currentLang==='ru'?`Сильная привычка, друг. SMART: ${score} из 5.`:`Strong habit, friend. SMART score: ${score} out of 5.`):(currentLang==='ru'?`Хорошо, друг. Оставляю твою версию. SMART: ${score} из 5.`:`Got it, friend. Keeping your version. SMART score: ${score} out of 5.`);
-  showResponse(msg);speakWithEleven(msg);
+  const msg=score>=4?(currentLang==='ru'?`SMART: ${score}/5.`:`SMART score: ${score}/5.`):(currentLang==='ru'?`Ок. SMART: ${score}/5.`:`Ok. SMART: ${score}/5.`);
+  showResponse(msg);
 }
 function editHabit(i){
   const habits=loadHabits();const h=habits[i];
@@ -791,7 +797,7 @@ function showPostponeUI(id){
 function addTaskFromInput(){
   const input=document.getElementById('task-input');const text=input.value.trim();if(!text)return;
   addTask(text,'new');input.value='';
-  askNika(currentLang==='ru'?`Добавил задачу: ${text}. Коротко. Без эмодзи.`:`Added task: ${text}. Short. No emoji.`);
+
 }
 function parseDate(str){
   if(!str)return null;
@@ -1205,7 +1211,7 @@ function finishOnboard(){
   const msg=currentLang==='ru'
     ?`Готово. Твоя цель: ${calories} ккал, белок ${protein}г, углеводы ${carbs}г, жиры ${fats}г в день.`
     :`Done. Your targets: ${calories} kcal, protein ${protein}g, carbs ${carbs}g, fats ${fats}g per day.`;
-  showResponse(msg);speakWithEleven(msg);
+  showResponse(msg);
 }
 
 function getTodayFood(){
@@ -1716,7 +1722,7 @@ async function generateWeeklySummary() {
     });
     const data = await res.json();
     const reply = stripEmoji(data.content && data.content[0] ? data.content[0].text : '');
-    if (reply) { showResponse(reply); speakWithEleven(reply); }
+    if (reply) { showResponse(reply); }
   } catch(e) {}
 }
 
