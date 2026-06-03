@@ -1129,8 +1129,11 @@ const onboardQs={
 
 function startDietOnboard(){
   onboardStep=0;onboardAnswers={};
-  document.getElementById('diet-onboard-card').style.display='block';
-  document.getElementById('diet-main-view').style.display='none';
+  const oc=document.getElementById('diet-onboard-card');
+  const mv=document.getElementById('diet-main-view');
+  if(!oc||!mv)return;
+  oc.style.display='block';
+  mv.style.display='none';
   renderOnboardStep();
 }
 
@@ -1138,6 +1141,7 @@ function renderOnboardStep(){
   const qs=onboardQs[currentLang]||onboardQs.en;
   const q=qs[onboardStep];
   const el=document.getElementById('diet-onboard-content');
+  if(!el)return;
   const progress=`<div style="display:flex;gap:4px;margin-bottom:14px">${qs.map((_,i)=>`<div style="flex:1;height:2px;border-radius:1px;background:${i<=onboardStep?'var(--blue)':'rgba(0,180,255,0.12)'}"></div>`).join('')}</div>`;
   let html=progress+`<div style="font-size:16px;color:#c8dff0;font-weight:500;margin-bottom:14px;line-height:1.4">${q.q}</div>`;
   if(q.opts){
@@ -1752,21 +1756,31 @@ function initUserId() {
   }
 }
 
-function sbEnabled() { return sbUrl && sbKey; }
+function sbEnabled() { 
+  const u = sbUrl || localStorage.getItem('nika_sb_url') || '';
+  const k = sbKey || localStorage.getItem('nika_sb_key') || '';
+  if (u && k) { sbUrl = u; sbKey = k; return true; }
+  return false;
+}
 
 async function sbSave(dataType, data) {
   if (!sbEnabled()) return;
   try {
-    await fetch(`${sbUrl}/rest/v1/nika_data`, {
+    const res = await fetch(`${sbUrl}/rest/v1/nika_data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'apikey': sbKey,
         'Authorization': 'Bearer ' + sbKey,
-        'Prefer': 'resolution=merge-duplicates'
+        'Prefer': 'return=minimal,resolution=merge-duplicates',
+        'x-upsert': 'true'
       },
-      body: JSON.stringify({ user_id: userId, data_type: dataType, data, updated_at: new Date().toISOString() })
+      body: JSON.stringify({ user_id: userId, data_type: dataType, data: data, updated_at: new Date().toISOString() })
     });
+    if (!res.ok) {
+      const err = await res.text();
+      console.log('Sync error:', res.status, err);
+    }
   } catch(e) { console.log('Sync save failed:', e); }
 }
 
