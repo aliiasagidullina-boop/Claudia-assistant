@@ -1756,11 +1756,10 @@ function initUserId() {
   }
 }
 
-function sbEnabled() { 
-  const u = sbUrl || localStorage.getItem('nika_sb_url') || '';
-  const k = sbKey || localStorage.getItem('nika_sb_key') || '';
-  if (u && k) { sbUrl = u; sbKey = k; return true; }
-  return false;
+function sbEnabled() {
+  if (!sbUrl) sbUrl = localStorage.getItem('nika_sb_url') || '';
+  if (!sbKey) sbKey = localStorage.getItem('nika_sb_key') || '';
+  return !!(sbUrl && sbKey);
 }
 
 async function sbSave(dataType, data) {
@@ -1780,6 +1779,8 @@ async function sbSave(dataType, data) {
     if (!res.ok) {
       const err = await res.text();
       console.log('Sync error:', res.status, err);
+    } else {
+      console.log('Sync OK:', dataType);
     }
   } catch(e) { console.log('Sync save failed:', e); }
 }
@@ -1890,7 +1891,7 @@ function toggleVoice(){
   recognition.start();
 }
 
-init();
+(async()=>{ await init(); })();
 </script>
 </body>
 </html>
