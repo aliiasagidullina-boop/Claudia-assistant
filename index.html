@@ -471,9 +471,7 @@ function showMain(){
   const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();
   renderCalendar();
   setTimeout(typeGreeting,500);
-  if(loadTasks().length===0&&loadHabits().length===0){
-    setTimeout(()=>askNika('__onboard__'),2200);
-  }
+
 }
 function resetKeys(){if(confirm('Reset all keys and data?')){localStorage.clear();location.reload();}}
 
