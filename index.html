@@ -457,13 +457,12 @@ function showMain(){
   checkHabitReset();
   renderHabits();renderTasks();renderDiet();
   initWeather();renderJournalQuote();checkWeeklySummary();
+  startAutoSync();
   const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();
   renderCalendar();
   setTimeout(typeGreeting,500);
   if(loadTasks().length===0&&loadHabits().length===0){
     setTimeout(()=>askNika('__onboard__'),2200);
-  } else {
-    setTimeout(()=>triggerMorningBrief(),1800);
   }
 }
 function resetKeys(){if(confirm('Reset all keys and data?')){localStorage.clear();location.reload();}}
@@ -506,9 +505,9 @@ function triggerMorningBrief(){
   const asap=tasks.filter(t=>t.priority==='asap').map(t=>t.text);
   let prompt;
   if(currentLang==='ru'){
-    prompt=`Краткий утренний брифинг. У меня ${doneTasks} задач${doneTasks===1?'а':doneTasks>4?'':' '}. ${asap.length?'Срочные: '+asap.join(', ')+'.':''} Привычки: ${habitsDone} из ${habits.length} выполнено сегодня. Дай короткий мотивирующий брифинг на день. Без эмодзи. 2-3 предложения.`;
+    prompt=`Дай утренний брифинг в ОДНОМ предложении. Задачи: ${doneTasks} активных. ${asap.length?'Срочные: '+asap.join(', ')+'.':''} Привычки: ${habitsDone}/${habits.length}. Без эмодзи.`;
   } else {
-    prompt=`Give me a short morning brief. I have ${doneTasks} active task${doneTasks!==1?'s':''}. ${asap.length?'ASAP: '+asap.join(', ')+'.':''} Fire habits: ${habitsDone} of ${habits.length} done today. Short motivating brief. No emoji. 2-3 sentences.`;
+    prompt=`Give me a morning brief in ONE sentence. Tasks: ${doneTasks} active. ${asap.length?'ASAP: '+asap.join(', ')+'.':''} Habits: ${habitsDone}/${habits.length} done. No emoji.`;
   }
   askNika(prompt);
 }
@@ -1028,7 +1027,7 @@ async function askNika(userText){
   const isOnboard=userText==='__onboard__';
   let prompt=isOnboard?(currentLang==='ru'?'Первый запуск. Поприветствуй тепло и спроси что сегодня на повестке. Коротко, без эмодзи.':'First launch. Greet warmly and ask what tasks and habits to start with. Short, no emoji.'):userText;
 
-  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. You sometimes call the user "friend" but not in every message. In normal conversation never reference journal emotions or sensitive personal content — only reference ideas, plans, and aspirations from journal. In journal context you can be fully open about feelings — use it naturally, like a real person would, not as a reflex. Respond in same language as user. Keep replies to 1-2 short sentences maximum. Be direct and concise. No emoji. No lists. No special symbols. Plain text only — spoken aloud.
+  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. You sometimes call the user "friend" but not in every message. In normal conversation never reference journal emotions or sensitive personal content — only reference ideas, plans, and aspirations from journal. In journal context you can be fully open about feelings — use it naturally, like a real person would, not as a reflex. Respond in same language as user. Keep replies to ONE short sentence maximum. Be extremely concise. No emoji. No lists. No special symbols. Plain text only — spoken aloud.
 
 Current context: ${getContext()}
 
@@ -1725,6 +1724,118 @@ function startVoiceJournal() {
   };
   r.start();
 }
+
+
+// ── SUPABASE SYNC ──
+let sbUrl = localStorage.getItem('nika_sb_url') || '';
+let sbKey = localStorage.getItem('nika_sb_key') || '';
+let userId = localStorage.getItem('nika_user_id') || '';
+
+function initUserId() {
+  if (!userId) {
+    userId = 'user_' + Math.random().toString(36).substring(2, 15);
+    localStorage.setItem('nika_user_id', userId);
+  }
+}
+
+function sbEnabled() { return sbUrl && sbKey; }
+
+async function sbSave(dataType, data) {
+  if (!sbEnabled()) return;
+  try {
+    await fetch(`${sbUrl}/rest/v1/nika_data`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': sbKey,
+        'Authorization': 'Bearer ' + sbKey,
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify({ user_id: userId, data_type: dataType, data, updated_at: new Date().toISOString() })
+    });
+  } catch(e) { console.log('Sync save failed:', e); }
+}
+
+async function sbLoad(dataType) {
+  if (!sbEnabled()) return null;
+  try {
+    const res = await fetch(`${sbUrl}/rest/v1/nika_data?user_id=eq.${userId}&data_type=eq.${dataType}&select=data`, {
+      headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
+    });
+    const rows = await res.json();
+    return rows && rows.length > 0 ? rows[0].data : null;
+  } catch(e) { return null; }
+}
+
+async function syncAll() {
+  if (!sbEnabled()) return;
+  const statusEl = document.getElementById('status-txt');
+  if (statusEl) statusEl.textContent = 'SYNCING...';
+  try {
+    // push all local data to Supabase
+    await Promise.all([
+      sbSave('tasks', loadTasks()),
+      sbSave('habits', loadHabits()),
+      sbSave('history', loadHistory()),
+      sbSave('food', loadFood()),
+      sbSave('journal', loadJournalEntries()),
+      sbSave('aspirations', loadAspirations()),
+      sbSave('macro_goals', loadMacroGoals()),
+    ]);
+    localStorage.setItem('nika_last_sync', Date.now());
+    if (statusEl) statusEl.textContent = 'SYNCED';
+    setTimeout(() => { if (statusEl) statusEl.textContent = 'ONLINE'; }, 2000);
+  } catch(e) {
+    if (statusEl) statusEl.textContent = 'ONLINE';
+  }
+}
+
+async function syncFromCloud() {
+  if (!sbEnabled()) return;
+  const statusEl = document.getElementById('status-txt');
+  if (statusEl) statusEl.textContent = 'LOADING...';
+  try {
+    const [tasks, habits, history, food, journal, aspirations, macroGoals] = await Promise.all([
+      sbLoad('tasks'), sbLoad('habits'), sbLoad('history'),
+      sbLoad('food'), sbLoad('journal'), sbLoad('aspirations'), sbLoad('macro_goals')
+    ]);
+    if (tasks) saveTasks(tasks);
+    if (habits) saveHabits(habits);
+    if (history) saveHistory(history);
+    if (food) saveFood(food);
+    if (journal) saveJournalEntries(journal);
+    if (aspirations) saveAspirations(aspirations);
+    if (macroGoals) saveMacroGoals(macroGoals);
+    renderHabits(); renderTasks(); renderDiet(); renderJournal(); renderCalendar();
+    if (statusEl) statusEl.textContent = 'SYNCED';
+    setTimeout(() => { if (statusEl) statusEl.textContent = 'ONLINE'; }, 2000);
+  } catch(e) {
+    if (statusEl) statusEl.textContent = 'ONLINE';
+  }
+}
+
+// Auto sync every 5 minutes
+function startAutoSync() {
+  if (!sbEnabled()) return;
+  syncFromCloud(); // pull on start
+  setInterval(() => syncAll(), 5 * 60 * 1000);
+}
+
+// Patch storage functions to auto-push on save
+const _saveTasks = saveTasks;
+saveTasks = (t) => { _saveTasks(t); if(sbEnabled()) sbSave('tasks', t); };
+const _saveHabits = saveHabits;
+saveHabits = (h) => { _saveHabits(h); if(sbEnabled()) sbSave('habits', h); };
+const _saveHistory = saveHistory;
+saveHistory = (h) => { _saveHistory(h); if(sbEnabled()) sbSave('history', h); };
+const _saveFood = saveFood;
+saveFood = (f) => { _saveFood(f); if(sbEnabled()) sbSave('food', f); };
+const _saveJournalEntries = saveJournalEntries;
+saveJournalEntries = (e) => { _saveJournalEntries(e); if(sbEnabled()) sbSave('journal', e); };
+const _saveAspirations = saveAspirations;
+saveAspirations = (a) => { _saveAspirations(a); if(sbEnabled()) sbSave('aspirations', a); };
+const _saveMacroGoals = saveMacroGoals;
+saveMacroGoals = (g) => { _saveMacroGoals(g); if(sbEnabled()) sbSave('macro_goals', g); };
 
 // ── VOICE INPUT ──
 function stopSpeaking(){
