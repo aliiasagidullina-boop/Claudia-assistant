@@ -1302,14 +1302,14 @@ async function estimateCalories(foodText){
   showResponse(currentLang==='ru'?'Nika считает калории...':'Nika is estimating calories...');
 
   const prompt=currentLang==='ru'
-    ?`Оцени калории для: "${foodText}". Ответь ТОЛЬКО в JSON: {"calories":ЧИСЛО,"food":"краткое описание еды на русском"}`
-    :`Estimate calories for: "${foodText}". Reply ONLY in JSON: {"calories":NUMBER,"food":"brief food description"}`;
+    ?`Оцени КБЖУ для: "${foodText}". Ответь ТОЛЬКО JSON без текста: {"calories":ЧИСЛО,"protein":ЧИСЛО,"carbs":ЧИСЛО,"fats":ЧИСЛО,"food":"краткое описание"}`
+    :`Estimate macros for: "${foodText}". Reply ONLY JSON, no text: {"calories":NUMBER,"protein":NUMBER,"carbs":NUMBER,"fats":NUMBER,"food":"brief description"}`;
 
   try{
     const res=await fetch('https://api.anthropic.com/v1/messages',{
       method:'POST',
       headers:{'Content-Type':'application/json','x-api-key':anthropicKey,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:150,system:'You are a nutrition expert. Respond with valid JSON only. Be realistic with calorie estimates.',messages:[{role:'user',content:prompt}]})
+      body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:150,system:'You are a nutrition expert. Always respond with ONLY a valid JSON object containing calories, protein, carbs, fats (all in numbers), and food (string). No markdown, no explanation, just the JSON object.',messages:[{role:'user',content:prompt}]})
     });
     const data=await res.json();
     const raw=data.content&&data.content[0]?data.content[0].text:'{}';
@@ -1844,20 +1844,7 @@ function startAutoSync() {
 }
 
 // Patch storage functions to auto-push on save
-const _saveTasks = saveTasks;
-saveTasks = function(t) { _saveTasks(t); if(sbEnabled()) sbSave('tasks', t); };
-const _saveHabits = saveHabits;
-saveHabits = (h) => { _saveHabits(h); if(sbEnabled()) sbSave('habits', h); };
-const _saveHistory = saveHistory;
-saveHistory = (h) => { _saveHistory(h); if(sbEnabled()) sbSave('history', h); };
-const _saveFood = saveFood;
-saveFood = (f) => { _saveFood(f); if(sbEnabled()) sbSave('food', f); };
-const _saveJournalEntries = saveJournalEntries;
-saveJournalEntries = (e) => { _saveJournalEntries(e); if(sbEnabled()) sbSave('journal', e); };
-const _saveAspirations = saveAspirations;
-saveAspirations = (a) => { _saveAspirations(a); if(sbEnabled()) sbSave('aspirations', a); };
-const _saveMacroGoals = saveMacroGoals;
-saveMacroGoals = (g) => { _saveMacroGoals(g); if(sbEnabled()) sbSave('macro_goals', g); };
+// Supabase sync disabled
 
 // ── VOICE INPUT ──
 function stopSpeaking(){
