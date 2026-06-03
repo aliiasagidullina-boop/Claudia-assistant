@@ -203,16 +203,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
       <input class="setup-input" id="eleven-key" type="password" placeholder="your elevenlabs key..." autocomplete="off" spellcheck="false"/>
       <div class="setup-note">Powers Nika's voice (leave empty for device voice)</div>
     </div>
-    <div class="setup-section">
-      <div class="setup-label">// SUPABASE URL</div>
-      <input class="setup-input" id="supabase-url" type="text" placeholder="https://xxxxxx.supabase.co" autocomplete="off" spellcheck="false"/>
-      <div class="setup-note">Syncs data between phone and laptop (optional)</div>
-    </div>
-    <div class="setup-section">
-      <div class="setup-label">// SUPABASE ANON KEY</div>
-      <input class="setup-input" id="supabase-key" type="password" placeholder="eyJ..." autocomplete="off" spellcheck="false"/>
-      <div class="setup-note">Found in Supabase → Settings → API Keys (optional)</div>
-    </div>
+
     <div class="setup-error" id="setup-error">Check your Anthropic key and try again.</div>
     <button class="setup-btn" onclick="saveKeys()">ACTIVATE NIKA</button>
   </div>
@@ -422,7 +413,7 @@ let currentLang='en';
 let isListening=false;
 let recognition=null;
 let apiMessages=[];
-let calYear,calMonth,selectedDay=null;
+const _now=new Date();let calYear=_now.getFullYear(),calMonth=_now.getMonth(),selectedDay=null;
 const ELEVEN_VOICE='cgSgspJ2msm6clMCkdW9';
 const MONTHS_EN=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const WEEKDAYS=['Mo','Tu','We','Th','Fr','Sa','Su'];
@@ -555,7 +546,7 @@ function renderHabits(){
   const habits=loadHabits();
   const doneCount=habits.filter(h=>h.doneToday).length;
   const countEl=document.getElementById('habits-done-count');
-  if(countEl)countEl.textContent=doneCount+'/'+habits.length+' done';
+  if(countEl)countEl.textContent=habits.length>0?(doneCount+'/'+habits.length+' done'):'';
   const list=document.getElementById('habits-list');
   if(!list)return;
   if(habits.length===0){
@@ -1756,11 +1747,7 @@ function initUserId() {
   }
 }
 
-function sbEnabled() {
-  if (!sbUrl) sbUrl = localStorage.getItem('nika_sb_url') || '';
-  if (!sbKey) sbKey = localStorage.getItem('nika_sb_key') || '';
-  return !!(sbUrl && sbKey);
-}
+function sbEnabled() { return false; } // disabled until stable
 
 async function sbSave(dataType, data) {
   if (!sbEnabled()) return;
@@ -1846,13 +1833,19 @@ async function syncFromCloud() {
 // Auto sync every 5 minutes
 function startAutoSync() {
   if (!sbEnabled()) return;
-  syncFromCloud(); // pull on start
+  // Only pull from cloud if local storage is empty
+  const hasLocalData = loadTasks().length > 0 || loadHabits().length > 0;
+  if (!hasLocalData) {
+    syncFromCloud();
+  } else {
+    syncAll(); // push local to cloud
+  }
   setInterval(() => syncAll(), 5 * 60 * 1000);
 }
 
 // Patch storage functions to auto-push on save
 const _saveTasks = saveTasks;
-saveTasks = (t) => { _saveTasks(t); if(sbEnabled()) sbSave('tasks', t); };
+saveTasks = function(t) { _saveTasks(t); if(sbEnabled()) sbSave('tasks', t); };
 const _saveHabits = saveHabits;
 saveHabits = (h) => { _saveHabits(h); if(sbEnabled()) sbSave('habits', h); };
 const _saveHistory = saveHistory;
