@@ -96,6 +96,8 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 .habit-del-btn{background:none;border:0.5px solid rgba(255,107,107,0.2);border-radius:4px;padding:3px 7px;font-size:9px;color:rgba(255,107,107,0.35);cursor:pointer;font-family:monospace;-webkit-tap-highlight-color:transparent}
 .unlock-bar{height:3px;border-radius:2px;background:rgba(0,180,255,0.08);margin-top:4px;overflow:hidden;width:80px}
 .unlock-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--orange),var(--amber));transition:width 0.4s}
+.streak-chart{display:flex;gap:3px;margin-top:4px}
+.streak-day{width:12px;height:12px;border-radius:2px}
 .add-habit-row{display:flex;gap:8px;margin-top:12px}
 .habit-input{flex:1;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.18);border-radius:8px;padding:9px 12px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;-webkit-appearance:none}
 .habit-input::placeholder{color:rgba(0,180,255,0.22)}
@@ -229,10 +231,11 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
 
   <div class="tabs">
     <div class="tab active" onclick="showTab('home')" id="tab-home"><i class="ti ti-home"></i>HOME</div>
-    <div class="tab" onclick="showTab('habits')" id="tab-habits"><i class="ti ti-flame"></i>FIRE</div>
+    <div class="tab" onclick="showTab('habits')" id="tab-habits"><i class="ti ti-flame"></i>HABITS</div>
     <div class="tab" onclick="showTab('tasks')" id="tab-tasks"><i class="ti ti-checklist"></i>TASKS</div>
     <div class="tab" onclick="showTab('calendar')" id="tab-calendar"><i class="ti ti-calendar"></i>LOG</div>
     <div class="tab" onclick="showTab('diet')" id="tab-diet"><i class="ti ti-salad"></i>DIET</div>
+    <div class="tab" onclick="showTab('journal')" id="tab-journal"><i class="ti ti-notebook"></i>JOURNAL</div>
   </div>
 
   <!-- HOME -->
@@ -246,7 +249,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     </div>
     <div class="card">
       <div class="section-head">
-        <div class="section-title">fire habits today</div>
+        <div class="section-title">habits today</div>
         <div class="lang-toggle">
           <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
           <button class="lang-btn" id="btn-ru" onclick="setLang('ru')">RU</button>
@@ -272,7 +275,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
   <div class="page" id="page-habits">
     <div class="card">
       <div class="section-head">
-        <div class="section-title">fire habits</div>
+        <div class="section-title">habits</div>
         <span style="font-family:monospace;font-size:9px;color:var(--orange)" id="habits-done-count"></span>
       </div>
       <div id="habits-list"></div>
@@ -355,6 +358,44 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
     <div style="height:14px;flex-shrink:0"></div>
   </div>
 
+  <!-- JOURNAL -->
+  <div class="page" id="page-journal">
+    <div class="card">
+      <div class="section-head">
+        <div class="section-title">today's journal</div>
+        <span style="font-family:monospace;font-size:9px;color:var(--text-dim)" id="journal-date"></span>
+      </div>
+      <div id="journal-entries-today" style="margin-bottom:10px"></div>
+      <div style="display:flex;gap:8px">
+        <textarea id="journal-textarea" placeholder="What's on your mind? Talk or type freely..." style="flex:1;min-height:80px;background:rgba(179,136,255,0.04);border:0.5px solid rgba(179,136,255,0.2);border-radius:8px;padding:10px;font-family:'Rajdhani',sans-serif;font-size:14px;color:#c8dff0;outline:none;resize:none;line-height:1.5;-webkit-appearance:none"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button onclick="addJournalEntry()" style="flex:1;padding:9px;background:rgba(179,136,255,0.08);border:0.5px solid rgba(179,136,255,0.25);border-radius:8px;color:rgba(179,136,255,0.7);font-family:monospace;font-size:10px;cursor:pointer;letter-spacing:1px">+ ADD ENTRY</button>
+        <button onclick="analyzeJournalDay()" style="flex:1;padding:9px;background:rgba(0,180,255,0.06);border:0.5px solid rgba(0,180,255,0.2);border-radius:8px;color:rgba(0,180,255,0.6);font-family:monospace;font-size:10px;cursor:pointer;letter-spacing:1px">REFLECT</button>
+        <button onclick="showMoodAnalysis()" style="padding:9px 12px;background:none;border:0.5px solid rgba(255,200,50,0.2);border-radius:8px;color:rgba(255,200,50,0.5);font-family:monospace;font-size:10px;cursor:pointer">ANALYZE</button>
+      </div>
+    </div>
+    <div class="card" id="journal-reflection-card" style="display:none;background:rgba(179,136,255,0.04);border-color:rgba(179,136,255,0.15)">
+      <div class="section-head">
+        <div class="section-title">nika's reflection</div>
+        <span id="journal-mood-tag" style="font-family:monospace;font-size:9px;color:var(--purple)"></span>
+      </div>
+      <div id="journal-reflection-text" style="font-size:13px;color:var(--text-mid);line-height:1.7"></div>
+    </div>
+    <div class="card" id="aspirations-card" style="background:rgba(179,136,255,0.03);border-color:rgba(179,136,255,0.1)">
+      <div class="section-head">
+        <div class="section-title">nika remembers</div>
+        <button onclick="clearAspirations()" style="font-family:monospace;font-size:9px;color:rgba(255,107,107,0.25);background:none;border:none;cursor:pointer">CLEAR</button>
+      </div>
+      <div id="aspirations-list"></div>
+    </div>
+    <div class="card">
+      <div class="section-head"><div class="section-title">past entries</div></div>
+      <div id="journal-past-list"></div>
+    </div>
+    <div style="height:14px;flex-shrink:0"></div>
+  </div>
+
   <div class="voice-bar">
     <div id="response-box"></div>
     <button class="voice-btn" id="voice-btn" onclick="toggleVoice()" aria-label="Tap to speak">
@@ -415,6 +456,7 @@ function showMain(){
   updateClock();setInterval(updateClock,15000);
   checkHabitReset();
   renderHabits();renderTasks();renderDiet();
+  initWeather();renderJournalQuote();checkWeeklySummary();
   const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();
   renderCalendar();
   setTimeout(typeGreeting,500);
@@ -434,12 +476,13 @@ function updateClock(){
 
 // ── TABS ──
 function showTab(name){
-  ['home','habits','tasks','calendar','diet'].forEach(t=>{
+  ['home','habits','tasks','calendar','diet','journal'].forEach(t=>{
     document.getElementById('page-'+t).classList.toggle('active',t===name);
     document.getElementById('tab-'+t).classList.toggle('active',t===name);
   });
   if(name==='calendar')renderCalendar();
   if(name==='diet')renderDiet();
+  if(name==='journal'){renderJournal();renderJournalQuote();}
 }
 
 // ── GREETING ──
@@ -503,7 +546,7 @@ function renderHabits(){
   const list=document.getElementById('habits-list');
   if(!list)return;
   if(habits.length===0){
-    list.innerHTML='<div class="empty-state">No fire habits yet.<br>Add one below or tell Nika.</div>';
+    list.innerHTML='<div class="empty-state">No habits yet.<br>Add one below or tell Nika.</div>';
   } else {
     list.innerHTML=habits.map((h,i)=>{
       const unlocked=h.streak>=7;
@@ -519,6 +562,7 @@ function renderHabits(){
         <div class="habit-info">
           <div class="habit-name">${h.name}</div>
           <div class="habit-meta">${streakDisplay}${smartBadge}${lockInfo}</div>
+          ${miniChart}
           ${progressBar}
         </div>
         <div class="habit-actions">${editBtn}${delBtn}</div>
@@ -530,7 +574,7 @@ function renderHabits(){
 
 function renderHomeHabitsPreview(habits){
   const el=document.getElementById('home-habits-preview');if(!el)return;
-  if(!habits||habits.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:monospace;letter-spacing:1px">No fire habits yet.</div>';return;}
+  if(!habits||habits.length===0){el.innerHTML='<div style="font-size:12px;color:var(--text-dim);font-family:monospace;letter-spacing:1px">No habits yet.</div>';return;}
   el.innerHTML=habits.slice(0,4).map(h=>`
     <div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(0,180,255,0.06)">
       <i class="ti ti-${h.doneToday?'check':'flame'}" style="font-size:14px;color:${h.doneToday?'var(--green)':'var(--orange)'}"></i>
@@ -719,7 +763,18 @@ function postponeTask(id,toDate){
   if(t){t.status='postponed';t.postponedTo=toDate;addToHistory(t.text,'postponed',formatDate(toDate),t.plannedTime||null);}
   saveTasks(tasks);renderTasks();
 }
-function deleteTask(id){saveTasks(loadTasks().filter(t=>t.id!==id));renderTasks();}
+function deleteTask(id){
+  const tasks=loadTasks();
+  const t=tasks.find(t=>t.id===id);
+  if(t){
+    // remove from history too — any entry matching this text added on same day
+    const h=loadHistory();
+    const filtered=h.filter(item=>!(item.text===t.text&&item.action==='added'));
+    saveHistory(filtered);
+  }
+  saveTasks(tasks.filter(t=>t.id!==id));
+  renderTasks();
+}
 function showPostponeUI(id){
   const date=prompt('Postpone to (e.g. tomorrow, Friday, 12 Jun):');if(!date)return;
   const parsed=parseDate(date);
@@ -732,14 +787,44 @@ function addTaskFromInput(){
   askNika(currentLang==='ru'?`Добавил задачу: ${text}. Коротко. Без эмодзи.`:`Added task: ${text}. Short. No emoji.`);
 }
 function parseDate(str){
-  const s=str.toLowerCase().trim();const now=new Date();now.setHours(0,0,0,0);
+  if(!str)return null;
+  const s=str.toLowerCase().trim();
+  const now=new Date();now.setHours(0,0,0,0);
+  if(s==='today'||s==='сегодня')return now.getTime();
   if(s==='tomorrow'||s==='завтра'){const d=new Date(now);d.setDate(d.getDate()+1);return d.getTime();}
   const days={monday:1,tuesday:2,wednesday:3,thursday:4,friday:5,saturday:6,sunday:0,пн:1,вт:2,ср:3,чт:4,пт:5,сб:6,вс:0};
-  if(days[s]!==undefined)return nextWeekday(days[s]);
-  const months={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,янв:0,фев:1,мар:2,апр:3,май:4,июн:5,июл:6,авг:7,сен:8,окт:9,ноя:10,дек:11};
-  const m=s.match(/(\d{1,2})\s+([a-zа-я]+)/);
-  if(m){const mon=months[m[2].substring(0,3).toLowerCase()];if(mon!==undefined){const d=new Date(now.getFullYear(),mon,parseInt(m[1]));if(d<now)d.setFullYear(d.getFullYear()+1);return d.getTime();}}
-  const direct=new Date(str);if(!isNaN(direct))return direct.getTime();
+  // handle "this friday", "next friday"
+  const dayMatch=s.match(/(?:this\s+|next\s+)?(monday|tuesday|wednesday|thursday|friday|saturday|sunday|пн|вт|ср|чт|пт|сб|вс)/);
+  if(dayMatch){
+    const isNext=s.includes('next');
+    const day=days[dayMatch[1]];
+    if(day!==undefined){
+      const d=new Date(now);
+      let diff=(day+7-d.getDay())%7;
+      if(diff===0||(isNext&&diff<7))diff+=7;
+      if(diff===0)diff=7;
+      d.setDate(d.getDate()+diff);
+      return d.getTime();
+    }
+  }
+  const months={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11,january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11,янв:0,фев:1,мар:2,апр:3,май:4,июн:5,июл:6,авг:7,сен:8,окт:9,ноя:10,дек:11};
+  // match "5 july", "july 5", "5th july", "july 5th"
+  const m1=s.match(/(\d{1,2})(?:st|nd|rd|th)?\s+([a-zа-я]+)/);
+  const m2=s.match(/([a-zа-я]+)\s+(\d{1,2})(?:st|nd|rd|th)?/);
+  const m=m1||m2;
+  if(m){
+    const dayNum=m1?parseInt(m1[1]):parseInt(m2[2]);
+    const monStr=m1?m1[2]:m2[1];
+    const mon=months[monStr.substring(0,3).toLowerCase()]??months[monStr.toLowerCase()];
+    if(mon!==undefined){
+      const d=new Date(now.getFullYear(),mon,dayNum);
+      if(d<now)d.setFullYear(d.getFullYear()+1);
+      return d.getTime();
+    }
+  }
+  // YYYY-MM-DD from AI
+  const iso=str.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(iso)return new Date(parseInt(iso[1]),parseInt(iso[2])-1,parseInt(iso[3])).getTime();
   return null;
 }
 function nextWeekday(day){const now=new Date();now.setHours(0,0,0,0);const d=new Date(now);d.setDate(d.getDate()+((day+7-d.getDay())%7||7));return d.getTime();}
@@ -864,7 +949,7 @@ function showDayDetail(dateStr){
       html+=`</div>`;
     }
     if(habits.length>0){
-      html+=`<div class="detail-section"><div class="detail-label">// FIRE HABITS</div>`;
+      html+=`<div class="detail-section"><div class="detail-label">// HABITS</div>`;
       html+=habits.map(i=>`<div class="detail-item"><span class="detail-status ds-habit">HABIT</span>${i.text}${i.extra?' · '+i.extra:''}</div>`).join('');
       html+=`</div>`;
     }
@@ -926,9 +1011,14 @@ function getContext(){
   const todayFood=getTodayFood();
   const todayCals=getTodayCalories();
   const calGoal=loadCalGoal();
-  const dietInfo=todayFood.length>0?`Today food: ${todayFood.map(f=>f.food+' ('+f.calories+'kcal)').join(', ')}. Total: ${todayCals}kcal${calGoal?' / goal '+calGoal+'kcal':'.'}`:'No food logged today.';
+  const macroGoals=loadMacroGoals();
+  const todayMacros=todayFood.reduce((s,i)=>({calories:s.calories+(i.calories||0),protein:s.protein+(i.protein||0),carbs:s.carbs+(i.carbs||0),fats:s.fats+(i.fats||0)}),{calories:0,protein:0,carbs:0,fats:0});
+  const dietInfo=todayFood.length>0?`Today: ${todayMacros.calories}kcal P${todayMacros.protein}g C${todayMacros.carbs}g F${todayMacros.fats}g. Goals: ${macroGoals?macroGoals.calories+'kcal P'+macroGoals.protein+'g C'+macroGoals.carbs+'g F'+macroGoals.fats+'g':'not set'}. Foods: ${todayFood.map(f=>f.food).join(', ')}`:'No food logged today.';
   const futurePlanned=tasks.filter(t=>t.status==='active'&&t.plannedDate).map(t=>`${t.text} on ${t.plannedDate}${t.plannedTime?' at '+t.plannedTime:''}`).join(', ')||'none';
-  return`Tasks active: ${active}. Postponed: ${postponed}. Future planned: ${futurePlanned}. Fire habits: ${habitsList}. Diet: ${dietInfo}`;
+  const journalEntries = loadJournalEntries();
+  const todayJournal = journalEntries.filter(e=>e.date===todayStr()).map(e=>e.text).join(' | ') || 'no journal entries today';
+  const aspirations = loadAspirations().slice(0,3).map(a=>a.text).join(', ') || 'none';
+  return`Tasks active: ${active}. Postponed: ${postponed}. Future planned: ${futurePlanned}. Habits: ${habitsList}. Diet: ${dietInfo}. Journal today: ${todayJournal}. Aspirations: ${aspirations}`;
 }
 
 async function askNika(userText){
@@ -938,18 +1028,19 @@ async function askNika(userText){
   const isOnboard=userText==='__onboard__';
   let prompt=isOnboard?(currentLang==='ru'?'Первый запуск. Поприветствуй тепло и спроси что сегодня на повестке. Коротко, без эмодзи.':'First launch. Greet warmly and ask what tasks and habits to start with. Short, no emoji.'):userText;
 
-  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. You sometimes call the user "friend" but not in every message — use it naturally, like a real person would, not as a reflex. Respond in same language as user. Keep replies to 1-2 short sentences maximum. Be direct and concise. No emoji. No lists. No special symbols. Plain text only — spoken aloud.
+  const systemPrompt=`You are Nika, a warm personal assistant like a caring younger sister. You sometimes call the user "friend" but not in every message. In normal conversation never reference journal emotions or sensitive personal content — only reference ideas, plans, and aspirations from journal. In journal context you can be fully open about feelings — use it naturally, like a real person would, not as a reflex. Respond in same language as user. Keep replies to 1-2 short sentences maximum. Be direct and concise. No emoji. No lists. No special symbols. Plain text only — spoken aloud.
 
 Current context: ${getContext()}
 
 When performing operations append ONE ACTION block:
-Add task: ACTION:{"type":"add_task","text":"description","priority":"asap|morning|afternoon|new","plannedTime":"HH:MM or null","plannedDate":"YYYY-MM-DD or null"}
+Add task: ACTION:{"type":"add_task","text":"description","priority":"asap|morning|afternoon|new","plannedTime":"HH:MM or null","plannedDate":"YYYY-MM-DD or null — ALWAYS use YYYY-MM-DD format for dates, never relative words"}
 Complete task: ACTION:{"type":"done_task","id":TASK_ID}
 Postpone task: ACTION:{"type":"postpone_task","id":TASK_ID,"date":"tomorrow|friday|12 jun"}
 Add habit: ACTION:{"type":"add_habit","name":"habit name"}
 Toggle habit: ACTION:{"type":"toggle_habit","name":"partial habit name"}
 Log food: ACTION:{"type":"log_food","food":"food description"}
 Set calorie goal: ACTION:{"type":"set_cal_goal","goal":NUMBER}
+Add journal entry: ACTION:{"type":"add_journal","text":"what user said"}
 
 Only include ACTION when performing an operation. For questions just answer.`;
 
@@ -979,6 +1070,11 @@ Only include ACTION when performing an operation. For questions just answer.`;
         else if(action.type==='toggle_habit'){const habits=loadHabits();const idx=habits.findIndex(h=>h.name.toLowerCase().includes(action.name.toLowerCase()));if(idx>=0)toggleHabit(idx);}
         else if(action.type==='log_food'){estimateCalories(action.food);}
         else if(action.type==='set_cal_goal'){const g=parseInt(action.goal);if(!isNaN(g)&&g>0){saveCalGoal(g);renderDiet();}}
+        else if(action.type==='add_journal'){
+          const ta=document.getElementById('journal-textarea');
+          if(ta){ta.value=action.text;}
+          addJournalEntry();
+        }
       }catch(e){}
     }
     reply=stripEmoji(reply);
@@ -995,8 +1091,115 @@ Only include ACTION when performing an operation. For questions just answer.`;
 // ── DIET ──
 function loadFood(){try{return JSON.parse(localStorage.getItem('nika_food')||'{}')}catch{return{}}}
 function saveFood(f){localStorage.setItem('nika_food',JSON.stringify(f))}
-function loadCalGoal(){return parseInt(localStorage.getItem('nika_cal_goal')||'0')}
-function saveCalGoal(g){localStorage.setItem('nika_cal_goal',String(g))}
+function loadMacroGoals(){try{return JSON.parse(localStorage.getItem('nika_macro_goals')||'null')}catch{return null}}
+function saveMacroGoals(g){localStorage.setItem('nika_macro_goals',JSON.stringify(g))}
+function loadCalGoal(){const g=loadMacroGoals();return g?g.calories:0}
+function saveCalGoal(g){const goals=loadMacroGoals()||{};goals.calories=g;saveMacroGoals(goals);}
+
+// ── DIET ONBOARDING ──
+let onboardStep=0;
+let onboardAnswers={};
+const onboardQs={
+  en:[
+    {key:'goal',q:'What is your main goal?',opts:['Lose weight','Maintain weight','Build muscle']},
+    {key:'activity',q:'How active are you?',opts:['Mostly sitting (office/home)','Lightly active (walks, light exercise)','Very active (gym 4-5x/week)']},
+    {key:'weight',q:'What is your weight in kg?',input:true,placeholder:'e.g. 75'},
+    {key:'age',q:'How old are you?',input:true,placeholder:'e.g. 28'}
+  ],
+  ru:[
+    {key:'goal',q:'Какая твоя основная цель?',opts:['Похудеть','Поддержать вес','Набрать мышцы']},
+    {key:'activity',q:'Насколько ты активен?',opts:['В основном сижу (офис/дом)','Легкая активность (прогулки)','Очень активен (зал 4-5x/нед)']},
+    {key:'weight',q:'Какой твой вес в кг?',input:true,placeholder:'например 75'},
+    {key:'age',q:'Сколько тебе лет?',input:true,placeholder:'например 28'}
+  ]
+};
+
+function startDietOnboard(){
+  onboardStep=0;onboardAnswers={};
+  document.getElementById('diet-onboard-card').style.display='block';
+  document.getElementById('diet-main-view').style.display='none';
+  renderOnboardStep();
+}
+
+function renderOnboardStep(){
+  const qs=onboardQs[currentLang]||onboardQs.en;
+  const q=qs[onboardStep];
+  const el=document.getElementById('diet-onboard-content');
+  const progress=`<div style="display:flex;gap:4px;margin-bottom:14px">${qs.map((_,i)=>`<div style="flex:1;height:2px;border-radius:1px;background:${i<=onboardStep?'var(--blue)':'rgba(0,180,255,0.12)'}"></div>`).join('')}</div>`;
+  let html=progress+`<div style="font-size:16px;color:#c8dff0;font-weight:500;margin-bottom:14px;line-height:1.4">${q.q}</div>`;
+  if(q.opts){
+    html+=q.opts.map((opt,i)=>`<button onclick="onboardAnswer('${opt.replace(/'/g,"\'")}',${i})" style="width:100%;text-align:left;padding:11px 14px;margin-bottom:8px;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.2);border-radius:8px;color:#a0c4d8;font-family:'Rajdhani',sans-serif;font-size:14px;cursor:pointer;-webkit-tap-highlight-color:transparent">${opt}</button>`).join('');
+  } else {
+    html+=`<input id="onboard-input" type="number" placeholder="${q.placeholder}" style="width:100%;background:rgba(0,180,255,0.04);border:0.5px solid rgba(0,180,255,0.25);border-radius:8px;padding:11px 14px;font-size:16px;color:#c8dff0;outline:none;-webkit-appearance:none;margin-bottom:10px"/>
+    <button onclick="onboardInputAnswer()" style="width:100%;padding:11px;background:rgba(0,180,255,0.1);border:0.5px solid rgba(0,180,255,0.35);border-radius:8px;color:#7fd4ff;font-family:monospace;font-size:11px;letter-spacing:2px;cursor:pointer">${currentLang==='ru'?'ДАЛЕЕ':'NEXT'}</button>`;
+  }
+  el.innerHTML=html;
+  if(!q.opts)setTimeout(()=>{const inp=document.getElementById('onboard-input');if(inp)inp.focus();},100);
+}
+
+function onboardAnswer(val){
+  const qs=onboardQs[currentLang]||onboardQs.en;
+  onboardAnswers[qs[onboardStep].key]=val;
+  onboardStep++;
+  if(onboardStep>=qs.length)finishOnboard();
+  else renderOnboardStep();
+}
+function onboardInputAnswer(){
+  const val=document.getElementById('onboard-input')?.value?.trim();
+  if(!val||isNaN(val)){return;}
+  onboardAnswer(val);
+}
+
+function finishOnboard(){
+  // calculate macros using standard formulas
+  const weight=parseFloat(onboardAnswers.weight)||75;
+  const age=parseInt(onboardAnswers.age)||30;
+  const goal=onboardAnswers.goal||'';
+  const activity=onboardAnswers.activity||'';
+
+  // BMR estimate (no gender — use average)
+  const bmr=10*weight+6.25*170-5*age+5; // male estimate as default
+
+  // Activity multiplier
+  let mult=1.4;
+  if(activity.includes('walk')||activity.includes('Легк')||activity.includes('light'))mult=1.55;
+  if(activity.includes('active')||activity.includes('gym')||activity.includes('зал')||activity.includes('актив'))mult=1.725;
+
+  let tdee=Math.round(bmr*mult);
+
+  // Adjust for goal
+  let calories=tdee;
+  if(goal.includes('Lose')||goal.includes('Похуд'))calories=Math.round(tdee*0.82);
+  if(goal.includes('Build')||goal.includes('Набр'))calories=Math.round(tdee*1.1);
+
+  // Macro split
+  let protein,fats,carbs;
+  if(goal.includes('Build')||goal.includes('Набр')){
+    protein=Math.round(weight*2.2);
+    fats=Math.round(calories*0.25/9);
+    carbs=Math.round((calories-protein*4-fats*9)/4);
+  } else if(goal.includes('Lose')||goal.includes('Похуд')){
+    protein=Math.round(weight*2.0);
+    fats=Math.round(calories*0.3/9);
+    carbs=Math.round((calories-protein*4-fats*9)/4);
+  } else {
+    protein=Math.round(weight*1.8);
+    fats=Math.round(calories*0.3/9);
+    carbs=Math.round((calories-protein*4-fats*9)/4);
+  }
+
+  const goals={calories,protein,carbs,fats};
+  saveMacroGoals(goals);
+
+  document.getElementById('diet-onboard-card').style.display='none';
+  document.getElementById('diet-main-view').style.display='block';
+  renderDiet();
+
+  const msg=currentLang==='ru'
+    ?`Готово. Твоя цель: ${calories} ккал, белок ${protein}г, углеводы ${carbs}г, жиры ${fats}г в день.`
+    :`Done. Your targets: ${calories} kcal, protein ${protein}g, carbs ${carbs}g, fats ${fats}g per day.`;
+  showResponse(msg);speakWithEleven(msg);
+}
 
 function getTodayFood(){
   const all=loadFood();const today=todayStr();
@@ -1070,17 +1273,7 @@ function renderHomeCalsPreview(total,goal){
     </div>`;
 }
 
-function changeCalorieGoal(){
-  const current=loadCalGoal();
-  const val=prompt(currentLang==='ru'?`Введи дневную цель калорий (сейчас: ${current||'не задана'}):`:  `Enter your daily calorie goal (current: ${current||'not set'}):`, current||'2000');
-  if(!val)return;
-  const num=parseInt(val);
-  if(isNaN(num)||num<100){alert('Please enter a valid number (e.g. 2000)');return;}
-  saveCalGoal(num);
-  renderDiet();
-  const msg=currentLang==='ru'?`Цель обновлена: ${num} калорий в день, друг.`:`Goal updated to ${num} calories a day, friend.`;
-  showResponse(msg);speakWithEleven(msg);
-}
+function changeCalorieGoal(){startDietOnboard();}
 
 function deleteFoodItem(idx){
   const items=getTodayFood();items.splice(idx,1);saveTodayFood(items);renderDiet();
@@ -1114,28 +1307,423 @@ async function estimateCalories(foodText){
     const raw=data.content&&data.content[0]?data.content[0].text:'{}';
     const clean=raw.replace(/```json|```/g,'').trim();
     const result=JSON.parse(clean);
-    const calories=result.calories||0;
+    const calories=Math.round(result.calories||0);
+    const protein=Math.round(result.protein||0);
+    const carbs=Math.round(result.carbs||0);
+    const fats=Math.round(result.fats||0);
     const food=result.food||foodText;
 
     // save to log
     const items=getTodayFood();
     const now=new Date();
     const time=String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-    items.push({food,calories,time,ts:Date.now()});
+    items.push({food,calories,protein,carbs,fats,time,ts:Date.now()});
     saveTodayFood(items);
 
     // save to history
-    addToHistory(food,'food',calories+' kcal');
+    addToHistory(food,'food',`${calories} kcal | P${protein}g C${carbs}g F${fats}g`);
 
     btn.classList.remove('thinking');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';
     renderDiet();
-    const total=getTodayCalories();const goal=loadCalGoal();
-    const msg=currentLang==='ru'?`${food}: около ${calories} калорий. Итого сегодня: ${total}${goal?' из '+goal:''} kcal.`:`${food}: about ${calories} calories. Today's total: ${total}${goal?' of '+goal:''} kcal.`;
+    const allItems=getTodayFood();
+    const totalCal=allItems.reduce((s,i)=>s+(i.calories||0),0);
+    const goals=loadMacroGoals();
+    const msg=currentLang==='ru'
+      ?`${food}: ${calories} ккал, белок ${protein}г, углеводы ${carbs}г, жиры ${fats}г. Итого за день: ${totalCal}${goals?' из '+goals.calories:''} ккал.`
+      :`${food}: ${calories} kcal, protein ${protein}g, carbs ${carbs}g, fats ${fats}g. Today total: ${totalCal}${goals?' of '+goals.calories:''} kcal.`;
     showResponse(msg);speakWithEleven(msg);
   }catch(e){
     btn.classList.remove('thinking');icon.className='ti ti-microphone';hint.textContent='TAP TO SPEAK — EN / RU';
     showResponse(currentLang==='ru'?'Не смогла оценить калории, друг.':'Could not estimate calories, friend.');
   }
+}
+
+
+// ── WEATHER ──
+const weatherEmojis = {
+  clear: ['☀️','🕶️','🧴'], sunny: ['☀️','🕶️','🧴'],
+  cloudy: ['☁️','🕯️','🧥'], overcast: ['☁️','🕯️','🧥'],
+  rain: ['🌧️','☂️','☕'], drizzle: ['🌧️','☂️','☕'],
+  thunderstorm: ['⛈️','☂️','🏠'], snow: ['❄️','🧤','☕'],
+  mist: ['🌫️','🧥','☕'], fog: ['🌫️','🧥','☕'],
+  hot: ['🌡️','💧','😎'], cold: ['🥶','🧣','🍵'],
+  wind: ['💨','🧥','🎧'], default: ['🌤️','👀','☕']
+};
+const weatherAdvice = {
+  en: {
+    clear: "Good light today. SPF and a short walk would do you well.",
+    cloudy: "Grey skies today. Light a candle if you have one.",
+    rain: "Harry Potter weather. Warm drink approved.",
+    thunderstorm: "Stay in. Good day to focus on tasks.",
+    snow: "Snow out there. Slow morning energy.",
+    hot: "It's going to be warm. Water bottle before you leave.",
+    cold: "Bundle up. Your body uses more energy in the cold.",
+    mist: "Moody morning. Take it slow.",
+    default: "Step outside for a minute. Fresh air resets everything."
+  },
+  ru: {
+    clear: "Хороший свет сегодня. SPF и короткая прогулка не помешают.",
+    cloudy: "Серое небо. Зажги свечу если есть.",
+    rain: "Погода как в Гарри Поттере. Тёплый напиток одобрен.",
+    thunderstorm: "Оставайся дома. Хороший день для задач.",
+    snow: "Снег на улице. Медленное утро.",
+    hot: "Будет тепло. Возьми воду с собой.",
+    cold: "Одевайся теплее. Тело тратит больше энергии на холоде.",
+    mist: "Туманное утро. Не торопись.",
+    default: "Выйди на минуту. Свежий воздух перезагружает."
+  }
+};
+
+function getWeatherType(desc) {
+  const d = (desc || '').toLowerCase();
+  if (d.includes('thunder')) return 'thunderstorm';
+  if (d.includes('snow')) return 'snow';
+  if (d.includes('rain') || d.includes('drizzle')) return 'rain';
+  if (d.includes('mist') || d.includes('fog')) return 'mist';
+  if (d.includes('cloud') || d.includes('overcast')) return 'cloudy';
+  if (d.includes('clear') || d.includes('sun')) return 'clear';
+  return 'default';
+}
+
+async function loadWeather() {
+  const card = document.getElementById('weather-content');
+  if (!card) return;
+  card.innerHTML = '<div style="font-size:11px;color:var(--text-dim);font-family:monospace">loading...</div>';
+  try {
+    const geo = await fetch('https://ipapi.co/json/');
+    const loc = await geo.json();
+    const lat = loc.latitude, lon = loc.longitude, city = loc.city || 'your city';
+    const wx = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weathercode&timezone=auto`);
+    const wxData = await wx.json();
+    const temp = Math.round(wxData.current.temperature_2m);
+    const code = wxData.current.weathercode;
+    let type = 'default';
+    if (code === 0 || code === 1) type = 'clear';
+    else if (code <= 3) type = 'cloudy';
+    else if (code <= 67) type = 'rain';
+    else if (code <= 77) type = 'snow';
+    else if (code <= 82) type = 'rain';
+    else type = 'thunderstorm';
+    if (temp >= 28) type = 'hot';
+    if (temp <= 0) type = 'cold';
+    const emojis = weatherEmojis[type] || weatherEmojis.default;
+    const advice = weatherAdvice[currentLang][type] || weatherAdvice[currentLang].default;
+    localStorage.setItem('nika_weather', JSON.stringify({type, temp, city, emojis, advice, ts: Date.now()}));
+    renderWeatherCard({type, temp, city, emojis, advice});
+  } catch(e) {
+    card.innerHTML = '<div style="font-size:11px;color:var(--text-dim);font-family:monospace">weather unavailable</div>';
+  }
+}
+
+function renderWeatherCard(w) {
+  const card = document.getElementById('weather-content');
+  if (!card || !w) return;
+  card.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div style="font-size:22px;letter-spacing:4px;margin-bottom:4px">${w.emojis.join(' ')}</div>
+        <div style="font-size:11px;color:var(--text-dim);font-family:monospace;letter-spacing:1px">${w.temp}°C · ${w.city}</div>
+      </div>
+      <button onclick="loadWeather()" style="background:none;border:0.5px solid var(--border);border-radius:4px;padding:4px 8px;color:var(--text-dim);font-family:monospace;font-size:9px;cursor:pointer">↻</button>
+    </div>
+    <div style="font-size:13px;color:#c8dff0;margin-top:8px;line-height:1.5;font-style:italic">${w.advice}</div>`;
+}
+
+function initWeather() {
+  try {
+    const cached = JSON.parse(localStorage.getItem('nika_weather') || 'null');
+    if (cached && (Date.now() - cached.ts) < 3600000) { renderWeatherCard(cached); return; }
+  } catch(e) {}
+  loadWeather();
+}
+
+// ── JOURNAL QUOTES ──
+const journalQuotes = {
+  en: [
+    "How are you really doing today?",
+    "What's on your mind right now?",
+    "Five minutes of honesty can change your whole week.",
+    "Your thoughts deserve a place to land.",
+    "What would you tell a close friend about today?",
+    "You don't have to figure it all out. Just write.",
+    "Nika is listening. No judgment here.",
+    "What made you smile today? What made you tired?",
+    "One honest sentence is enough.",
+    "What are you carrying right now that you haven't said out loud?"
+  ],
+  ru: [
+    "Как ты на самом деле сегодня?",
+    "Что сейчас у тебя на уме?",
+    "Пять минут честности могут изменить всю неделю.",
+    "Твои мысли заслуживают места.",
+    "Что бы ты рассказал близкому другу о сегодняшнем дне?",
+    "Не нужно всё понимать. Просто пиши.",
+    "Ника слушает. Без осуждения.",
+    "Что сегодня тебя порадовало? Что утомило?",
+    "Одной честной фразы достаточно.",
+    "Что ты несёшь в себе и ещё не сказал вслух?"
+  ]
+};
+
+function renderJournalQuote() {
+  const el = document.getElementById('journal-quote-text');
+  if (!el) return;
+  const quotes = journalQuotes[currentLang] || journalQuotes.en;
+  const dayIndex = new Date().getDate() % quotes.length;
+  el.textContent = quotes[dayIndex];
+}
+
+// ── JOURNAL STORAGE ──
+function loadJournalEntries() { try { return JSON.parse(localStorage.getItem('nika_journal') || '[]'); } catch { return []; } }
+function saveJournalEntries(e) { localStorage.setItem('nika_journal', JSON.stringify(e)); }
+function loadAspirations() { try { return JSON.parse(localStorage.getItem('nika_aspirations') || '[]'); } catch { return []; } }
+function saveAspirations(a) { localStorage.setItem('nika_aspirations', JSON.stringify(a)); }
+
+function renderJournal() {
+  const today = todayStr();
+  const el = document.getElementById('journal-date');
+  if (el) el.textContent = new Date().toLocaleDateString('en-GB', {weekday:'short',day:'numeric',month:'short'}).toUpperCase();
+  const entries = loadJournalEntries();
+  const todayEntries = entries.filter(e => e.date === today);
+  const todayEl = document.getElementById('journal-entries-today');
+  if (todayEl) {
+    if (todayEntries.length === 0) {
+      todayEl.innerHTML = '<div style="font-size:12px;color:var(--text-dim);font-family:monospace;letter-spacing:1px;padding:8px 0">Nothing yet today. Add your first entry.</div>';
+    } else {
+      todayEl.innerHTML = todayEntries.map((e,i) => `
+        <div style="padding:8px 0;border-bottom:0.5px solid rgba(179,136,255,0.08)">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-family:monospace;font-size:9px;color:rgba(179,136,255,0.4)">${e.time}</span>
+            <button onclick="deleteJournalEntry(${e.id})" style="background:none;border:none;color:rgba(255,107,107,0.3);font-size:11px;cursor:pointer">✕</button>
+          </div>
+          <div style="font-size:13px;color:var(--text-mid);line-height:1.5">${e.text}</div>
+        </div>`).join('');
+    }
+  }
+  renderAspirations();
+  renderPastEntries();
+}
+
+function addJournalEntry() {
+  const ta = document.getElementById('journal-textarea');
+  const text = ta ? ta.value.trim() : '';
+  if (!text) return;
+  const entries = loadJournalEntries();
+  const now = new Date();
+  const entry = {
+    id: Date.now(),
+    date: todayStr(),
+    text,
+    time: String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0'),
+    ts: Date.now()
+  };
+  entries.unshift(entry);
+  saveJournalEntries(entries);
+  if (ta) ta.value = '';
+  addToHistory(text.substring(0,50)+(text.length>50?'...':''), 'journal', '');
+  renderJournal();
+}
+
+function deleteJournalEntry(id) {
+  const entries = loadJournalEntries().filter(e => e.id !== id);
+  saveJournalEntries(entries);
+  renderJournal();
+}
+
+function renderPastEntries() {
+  const el = document.getElementById('journal-past-list');
+  if (!el) return;
+  const today = todayStr();
+  const entries = loadJournalEntries().filter(e => e.date !== today);
+  if (entries.length === 0) {
+    el.innerHTML = '<div class="empty-state">Past entries will appear here.</div>';
+    return;
+  }
+  const byDay = {};
+  entries.forEach(e => { if (!byDay[e.date]) byDay[e.date] = []; byDay[e.date].push(e); });
+  el.innerHTML = Object.entries(byDay).slice(0,7).map(([date, items]) => `
+    <div style="margin-bottom:12px">
+      <div style="font-family:monospace;font-size:9px;color:rgba(179,136,255,0.4);letter-spacing:2px;margin-bottom:6px;padding-bottom:4px;border-bottom:0.5px solid rgba(179,136,255,0.1)">${new Date(date+'T12:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}).toUpperCase()}</div>
+      ${items.map(e => `<div style="font-size:12px;color:var(--text-dim);padding:4px 0;line-height:1.4"><span style="font-family:monospace;font-size:9px;color:rgba(179,136,255,0.3);margin-right:6px">${e.time}</span>${e.text.substring(0,80)}${e.text.length>80?'...':''}</div>`).join('')}
+    </div>`).join('');
+}
+
+function renderAspirations() {
+  const el = document.getElementById('aspirations-list');
+  if (!el) return;
+  const aspirations = loadAspirations();
+  if (aspirations.length === 0) {
+    el.innerHTML = '<div style="font-size:11px;color:var(--text-dim);font-family:monospace;letter-spacing:1px">Ideas and plans from your journal will appear here.</div>';
+    return;
+  }
+  el.innerHTML = aspirations.map((a,i) => `
+    <div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:0.5px solid rgba(179,136,255,0.06)">
+      <span style="font-size:12px">✨</span>
+      <div style="flex:1;font-size:12px;color:rgba(179,136,255,0.7)">${a.text}</div>
+      <button onclick="removeAspiration(${i})" style="background:none;border:none;color:rgba(255,107,107,0.25);font-size:10px;cursor:pointer">✕</button>
+    </div>`).join('');
+}
+
+function removeAspiration(i) {
+  const a = loadAspirations(); a.splice(i,1); saveAspirations(a); renderAspirations();
+}
+function clearAspirations() { if(confirm('Clear all memories?')) { saveAspirations([]); renderAspirations(); } }
+
+async function analyzeJournalDay() {
+  const today = todayStr();
+  const entries = loadJournalEntries().filter(e => e.date === today);
+  if (entries.length === 0) { showResponse(currentLang==='ru'?'Нечего анализировать — добавь хотя бы одну запись.':'Nothing to reflect on yet — add at least one entry.'); return; }
+
+  const btn = document.getElementById('voice-btn'); const icon = btn.querySelector('i'); const hint = document.getElementById('voice-hint');
+  btn.classList.add('thinking'); icon.className = 'ti ti-loader';
+  hint.textContent = currentLang==='ru'?'РАЗМЫШЛЯЮ...':'REFLECTING...';
+
+  const allText = entries.map(e => '['+e.time+'] '+e.text).join('\n');
+  const diet = getTodayFood().map(f=>f.food).join(', ') || 'nothing logged';
+  const habits = loadHabits().map(h=>`${h.name}(${h.doneToday?'done':'not done'})`).join(', ') || 'none';
+
+  const systemPrompt = currentLang==='ru'
+    ? `Ты Ника — тёплый личный ассистент как заботливая младшая сестра. Анализируй дневниковые записи пользователя. Будь тёплой, понимающей, без осуждения. Можешь говорить о чувствах и эмоциях — это личное пространство. Давай короткие реалистичные советы. Ответ на русском. Структура: 1) что ты заметила о настроении/состоянии (2-3 предложения) 2) связь с диетой или привычками если есть (1 предложение) 3) один маленький совет (1 предложение). Без эмодзи. Без заголовков.`
+    : `You are Nika — a warm personal assistant like a caring younger sister. Analyze the user's journal entries. Be warm, understanding, non-judgmental. You can speak about feelings and emotions — this is a private space. Give short realistic advice. Response in English. Structure: 1) what you noticed about their mood/state (2-3 sentences) 2) connection to diet or habits if relevant (1 sentence) 3) one small practical suggestion (1 sentence). No emoji. No headers.`;
+
+  const userMsg = `Journal entries today:
+${allText}
+
+Diet today: ${diet}
+Habits: ${habits}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: systemPrompt, messages: [{ role: 'user', content: userMsg }] })
+    });
+    const data = await res.json();
+    const reply = stripEmoji(data.content && data.content[0] ? data.content[0].text : 'Something went wrong.');
+
+    // Extract aspirations
+    extractAspirations(allText);
+
+    const reflCard = document.getElementById('journal-reflection-card');
+    const reflText = document.getElementById('journal-reflection-text');
+    if (reflCard && reflText) { reflCard.style.display = 'block'; reflText.textContent = reply; }
+
+    btn.classList.remove('thinking'); icon.className = 'ti ti-microphone'; hint.textContent = 'TAP TO SPEAK — EN / RU';
+    showResponse(reply); speakWithEleven(reply);
+  } catch(e) {
+    btn.classList.remove('thinking'); icon.className = 'ti ti-microphone'; hint.textContent = 'TAP TO SPEAK — EN / RU';
+    showResponse(currentLang==='ru'?'Не удалось проанализировать, друг.':'Could not analyze right now, friend.');
+  }
+}
+
+async function extractAspirations(text) {
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5', max_tokens: 300,
+        system: 'Extract ideas, plans, places to visit, things to try, future goals from this journal text. Return ONLY a JSON array of short strings (max 10 words each). Maximum 3 items. If nothing worth remembering, return empty array []. No markdown.',
+        messages: [{ role: 'user', content: text }]
+      })
+    });
+    const data = await res.json();
+    const raw = (data.content && data.content[0] ? data.content[0].text : '[]').replace(/```json|```/g,'').trim();
+    const newItems = JSON.parse(raw);
+    if (newItems.length > 0) {
+      const existing = loadAspirations();
+      newItems.forEach(item => { if (!existing.find(a => a.text === item)) existing.unshift({ text: item, ts: Date.now() }); });
+      if (existing.length > 20) existing.splice(20);
+      saveAspirations(existing);
+      renderAspirations();
+    }
+  } catch(e) {}
+}
+
+async function showMoodAnalysis() {
+  const entries = loadJournalEntries();
+  if (entries.length < 3) { showResponse(currentLang==='ru'?'Нужно больше записей для анализа — хотя бы 3 дня.':'Need more entries for analysis — at least 3 days.'); return; }
+
+  const btn = document.getElementById('voice-btn'); const icon = btn.querySelector('i'); const hint = document.getElementById('voice-hint');
+  btn.classList.add('thinking'); icon.className = 'ti ti-loader';
+  hint.textContent = currentLang==='ru'?'АНАЛИЗИРУЮ...':'ANALYZING...';
+
+  const recent = entries.slice(0, 30);
+  const byDay = {};
+  recent.forEach(e => { if (!byDay[e.date]) byDay[e.date] = []; byDay[e.date].push(e.text); });
+  const summary = Object.entries(byDay).slice(0,14).map(([d,texts]) => d+': '+texts.join(' | ')).join('\n');
+
+  const systemPrompt = currentLang==='ru'
+    ? `Ты Ника. Проанализируй дневниковые записи за последние дни. Будь тёплой, честной, без осуждения. Говори о паттернах настроения, энергии, повторяющихся темах. Упоминай только идеи и планы вслух — глубокие личные вещи остаются в рефлексии. Ответ 4-5 предложений. Без эмодзи.`
+    : `You are Nika. Analyze journal entries over recent days. Be warm, honest, non-judgmental. Talk about mood patterns, energy, recurring themes. Only mention ideas and plans out loud — deep personal things stay in the reflection. 4-5 sentences. No emoji.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 1000, system: systemPrompt, messages: [{ role: 'user', content: `Journal entries:
+${summary}` }] })
+    });
+    const data = await res.json();
+    const reply = stripEmoji(data.content && data.content[0] ? data.content[0].text : 'Something went wrong.');
+    btn.classList.remove('thinking'); icon.className = 'ti ti-microphone'; hint.textContent = 'TAP TO SPEAK — EN / RU';
+    showResponse(reply); speakWithEleven(reply);
+  } catch(e) {
+    btn.classList.remove('thinking'); icon.className = 'ti ti-microphone'; hint.textContent = 'TAP TO SPEAK — EN / RU';
+  }
+}
+
+// ── WEEKLY SUMMARY ──
+function checkWeeklySummary() {
+  const day = new Date().getDay();
+  if (day !== 0) return; // only Sunday
+  const lastSummary = localStorage.getItem('nika_last_summary');
+  const today = todayStr();
+  if (lastSummary === today) return;
+  localStorage.setItem('nika_last_summary', today);
+  setTimeout(() => generateWeeklySummary(), 3000);
+}
+
+async function generateWeeklySummary() {
+  const tasks = loadTasks();
+  const habits = loadHabits();
+  const entries = loadJournalEntries();
+  const food = loadFood();
+
+  const doneTasks = tasks.filter(t => t.status !== 'active').length;
+  const activeTasks = tasks.filter(t => t.status === 'active').length;
+  const habitSummary = habits.map(h => `${h.name}: ${h.streak} day streak`).join(', ');
+  const weekFood = Object.entries(food).slice(-7);
+  const avgCals = weekFood.length > 0 ? Math.round(weekFood.reduce((s,[,items]) => s + items.reduce((ss,i) => ss + (i.calories||0), 0), 0) / weekFood.length) : 0;
+  const recentJournal = entries.slice(0,7).map(e=>e.text.substring(0,50)).join('. ');
+
+  const prompt = currentLang==='ru'
+    ? `Дай короткое воскресное резюме недели. Задачи: выполнено ${doneTasks}, активных ${activeTasks}. Привычки: ${habitSummary || 'нет данных'}. Средние калории: ${avgCals || 'нет данных'} ккал. Из дневника: ${recentJournal || 'нет записей'}. Тёплый тон, без осуждения, 3-4 предложения. Без эмодзи.`
+    : `Give a short Sunday week summary. Tasks: ${doneTasks} done, ${activeTasks} active. Habits: ${habitSummary || 'no data'}. Average calories: ${avgCals || 'no data'} kcal. From journal: ${recentJournal || 'no entries'}. Warm tone, non-judgmental, 3-4 sentences. No emoji.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': anthropicKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-5', max_tokens: 500, system: 'You are Nika, a warm personal assistant. No emoji.', messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const reply = stripEmoji(data.content && data.content[0] ? data.content[0].text : '');
+    if (reply) { showResponse(reply); speakWithEleven(reply); }
+  } catch(e) {}
+}
+
+// ── VOICE JOURNAL ──
+function startVoiceJournal() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { showResponse('Use Chrome for voice journal.'); return; }
+  const r = new SR(); r.lang = currentLang === 'ru' ? 'ru-RU' : 'en-US';
+  r.onresult = e => {
+    const heard = e.results[0][0].transcript;
+    const ta = document.getElementById('journal-textarea');
+    if (ta) { ta.value = (ta.value ? ta.value + ' ' : '') + heard; }
+  };
+  r.start();
 }
 
 // ── VOICE INPUT ──
