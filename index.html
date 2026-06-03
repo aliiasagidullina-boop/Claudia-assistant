@@ -203,6 +203,16 @@ header{display:flex;align-items:center;justify-content:space-between;padding:14p
       <input class="setup-input" id="eleven-key" type="password" placeholder="your elevenlabs key..." autocomplete="off" spellcheck="false"/>
       <div class="setup-note">Powers Nika's voice (leave empty for device voice)</div>
     </div>
+    <div class="setup-section">
+      <div class="setup-label">// SUPABASE URL</div>
+      <input class="setup-input" id="supabase-url" type="text" placeholder="https://xxxxxx.supabase.co" autocomplete="off" spellcheck="false"/>
+      <div class="setup-note">Syncs data between phone and laptop (optional)</div>
+    </div>
+    <div class="setup-section">
+      <div class="setup-label">// SUPABASE ANON KEY</div>
+      <input class="setup-input" id="supabase-key" type="password" placeholder="eyJ..." autocomplete="off" spellcheck="false"/>
+      <div class="setup-note">Found in Supabase → Settings → API Keys (optional)</div>
+    </div>
     <div class="setup-error" id="setup-error">Check your Anthropic key and try again.</div>
     <button class="setup-btn" onclick="saveKeys()">ACTIVATE NIKA</button>
   </div>
