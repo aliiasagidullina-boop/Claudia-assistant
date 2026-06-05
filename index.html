@@ -1278,7 +1278,20 @@ function renderHomeCalsPreview(total,goal){
     </div>`;
 }
 
-function changeCalorieGoal(){startDietOnboard();}
+function changeCalorieGoal(){
+  const goals=loadMacroGoals();
+  const current=goals?goals.calories:'';
+  const val=prompt(currentLang==='ru'?'Введи дневную цель калорий (например 2000):':'Enter your daily calorie goal (e.g. 2000):',current||'2000');
+  if(!val)return;
+  const cals=parseInt(val);
+  if(isNaN(cals)||cals<500)return;
+  // calculate macros from calories
+  const protein=Math.round(cals*0.25/4);
+  const fats=Math.round(cals*0.30/9);
+  const carbs=Math.round((cals-protein*4-fats*9)/4);
+  saveMacroGoals({calories:cals,protein,carbs,fats});
+  renderDiet();
+}
 
 function deleteFoodItem(idx){
   const items=getTodayFood();items.splice(idx,1);saveTodayFood(items);renderDiet();
