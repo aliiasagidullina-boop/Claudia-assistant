@@ -458,18 +458,13 @@ function showMain(){
   checkHabitReset();
   renderHabits();renderTasks();renderDiet();
   initWeather();renderJournalQuote();checkWeeklySummary();
-  startAutoSync();
   const now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();
   renderCalendar();
   setTimeout(typeGreeting,500);
 
 }
-async function resetKeys(){
-  if(confirm('Reset all keys and data?')){
-    localStorage.clear();
-    try{const db=await openKeysDB();if(db){const tx=db.transaction('keys','readwrite');tx.objectStore('keys').clear();}}catch{}
-    location.reload();
-  }
+function resetKeys(){
+  if(confirm('Reset all keys and data?')){localStorage.clear();location.reload();}
 }
 
 // ── CLOCK ──
@@ -561,6 +556,8 @@ function renderHabits(){
       const editBtn=unlocked?`<button class="habit-edit-btn" onclick="editHabit(${i})">EDIT</button>`:'';
       const delBtn=unlocked?`<button class="habit-del-btn" onclick="deleteHabit(${i})">DEL</button>`:'';
       const smartBadge=h.smartScore?`<span style="font-family:monospace;font-size:9px;padding:1px 5px;border-radius:3px;background:${h.smartScore>=4?'rgba(0,255,136,0.08)':h.smartScore===3?'rgba(255,200,50,0.08)':'rgba(255,107,107,0.08)'};color:${h.smartScore>=4?'rgba(0,255,136,0.6)':h.smartScore===3?'var(--amber)':'var(--red)'};border:0.5px solid ${h.smartScore>=4?'rgba(0,255,136,0.15)':h.smartScore===3?'rgba(255,200,50,0.15)':'rgba(255,107,107,0.15)'}">S${h.smartScore}</span>`:'';
+      const streakDays=Math.min(h.streak||0,7);
+      const miniChart=`<div class="streak-chart">${Array(7).fill(0).map((_,si)=>`<div class="streak-day" style="width:10px;height:10px;border-radius:2px;background:${si<streakDays?'var(--green)':'rgba(0,180,255,0.08)'};border:0.5px solid ${si<streakDays?'rgba(0,255,136,0.3)':'rgba(0,180,255,0.12)'}"></div>`).join('')}</div>`;
       return`<div class="habit-item${h.doneToday?' done-today':''}" id="habit-${i}">
         <div class="habit-check" onclick="toggleHabit(${i})"><i class="ti ti-${h.doneToday?'check':'flame'} habit-check-icon"></i></div>
         <div class="habit-info">
@@ -1735,116 +1732,7 @@ function startVoiceJournal() {
 }
 
 
-// ── SUPABASE SYNC ──
-let sbUrl = localStorage.getItem('nika_sb_url') || '';
-let sbKey = localStorage.getItem('nika_sb_key') || '';
-let userId = localStorage.getItem('nika_user_id') || '';
 
-function initUserId() {
-  if (!userId) {
-    userId = 'user_' + Math.random().toString(36).substring(2, 15);
-    localStorage.setItem('nika_user_id', userId);
-  }
-}
-
-function sbEnabled() { return false; } // disabled until stable
-
-async function sbSave(dataType, data) {
-  if (!sbEnabled()) return;
-  try {
-    const res = await fetch(`${sbUrl}/rest/v1/nika_data`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': sbKey,
-        'Authorization': 'Bearer ' + sbKey,
-        'Prefer': 'return=minimal,resolution=merge-duplicates',
-        'x-upsert': 'true'
-      },
-      body: JSON.stringify({ user_id: userId, data_type: dataType, data: data, updated_at: new Date().toISOString() })
-    });
-    if (!res.ok) {
-      const err = await res.text();
-      console.log('Sync error:', res.status, err);
-    } else {
-      console.log('Sync OK:', dataType);
-    }
-  } catch(e) { console.log('Sync save failed:', e); }
-}
-
-async function sbLoad(dataType) {
-  if (!sbEnabled()) return null;
-  try {
-    const res = await fetch(`${sbUrl}/rest/v1/nika_data?user_id=eq.${userId}&data_type=eq.${dataType}&select=data`, {
-      headers: { 'apikey': sbKey, 'Authorization': 'Bearer ' + sbKey }
-    });
-    const rows = await res.json();
-    return rows && rows.length > 0 ? rows[0].data : null;
-  } catch(e) { return null; }
-}
-
-async function syncAll() {
-  if (!sbEnabled()) return;
-  const statusEl = document.getElementById('status-txt');
-  if (statusEl) statusEl.textContent = 'SYNCING...';
-  try {
-    // push all local data to Supabase
-    await Promise.all([
-      sbSave('tasks', loadTasks()),
-      sbSave('habits', loadHabits()),
-      sbSave('history', loadHistory()),
-      sbSave('food', loadFood()),
-      sbSave('journal', loadJournalEntries()),
-      sbSave('aspirations', loadAspirations()),
-      sbSave('macro_goals', loadMacroGoals()),
-    ]);
-    localStorage.setItem('nika_last_sync', Date.now());
-    if (statusEl) statusEl.textContent = 'SYNCED';
-    setTimeout(() => { if (statusEl) statusEl.textContent = 'ONLINE'; }, 2000);
-  } catch(e) {
-    if (statusEl) statusEl.textContent = 'ONLINE';
-  }
-}
-
-async function syncFromCloud() {
-  if (!sbEnabled()) return;
-  const statusEl = document.getElementById('status-txt');
-  if (statusEl) statusEl.textContent = 'LOADING...';
-  try {
-    const [tasks, habits, history, food, journal, aspirations, macroGoals] = await Promise.all([
-      sbLoad('tasks'), sbLoad('habits'), sbLoad('history'),
-      sbLoad('food'), sbLoad('journal'), sbLoad('aspirations'), sbLoad('macro_goals')
-    ]);
-    if (tasks) saveTasks(tasks);
-    if (habits) saveHabits(habits);
-    if (history) saveHistory(history);
-    if (food) saveFood(food);
-    if (journal) saveJournalEntries(journal);
-    if (aspirations) saveAspirations(aspirations);
-    if (macroGoals) saveMacroGoals(macroGoals);
-    renderHabits(); renderTasks(); renderDiet(); renderJournal(); renderCalendar();
-    if (statusEl) statusEl.textContent = 'SYNCED';
-    setTimeout(() => { if (statusEl) statusEl.textContent = 'ONLINE'; }, 2000);
-  } catch(e) {
-    if (statusEl) statusEl.textContent = 'ONLINE';
-  }
-}
-
-// Auto sync every 5 minutes
-function startAutoSync() {
-  if (!sbEnabled()) return;
-  // Only pull from cloud if local storage is empty
-  const hasLocalData = loadTasks().length > 0 || loadHabits().length > 0;
-  if (!hasLocalData) {
-    syncFromCloud();
-  } else {
-    syncAll(); // push local to cloud
-  }
-  setInterval(() => syncAll(), 5 * 60 * 1000);
-}
-
-// Patch storage functions to auto-push on save
-// Supabase sync disabled
 
 // ── VOICE INPUT ──
 function stopSpeaking(){
@@ -1871,7 +1759,7 @@ function toggleVoice(){
   recognition.start();
 }
 
-(async()=>{ await init(); })();
+init();
 </script>
 </body>
 </html>
